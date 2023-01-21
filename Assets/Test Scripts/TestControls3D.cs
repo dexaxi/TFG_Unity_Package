@@ -22,15 +22,31 @@ public class TestControls3D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
+            if (!ScreenShakeFromAnimationCurve3D.Instance.shaking)
+                    AudioManager.Instance.Play("thud");
             ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen();
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen(null, 0.5f, 1f);
+            if (!ScreenShakeFromAnimationCurve3D.Instance.shaking)
+                AudioManager.Instance.Play("pop");
+            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen(AnimationCurveSelector.Instance.GetCurve(AnimationCurveType.Kick), 0.5f, 0.5f);
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(1);
+        }
+        if (Input.GetKeyDown(KeyCode.I)) 
+        {
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
         }
 
         //CameraParent.rotation = Quaternion.Euler(new Vector3(CameraParent.rotation.eulerAngles.x, CameraParent.rotation.eulerAngles.y + 60f * Time.deltaTime, CameraParent.rotation.eulerAngles.z));

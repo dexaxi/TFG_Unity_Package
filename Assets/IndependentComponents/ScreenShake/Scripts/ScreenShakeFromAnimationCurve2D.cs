@@ -27,7 +27,7 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 	[Tooltip("Power with which the screenshake will shake")]
 	private float shakePower;
 
-	private bool shaking;
+	public bool shaking { get; private set; }
 
     private void Awake()
     {

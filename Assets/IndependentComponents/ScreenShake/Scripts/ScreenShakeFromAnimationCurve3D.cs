@@ -26,7 +26,8 @@ public class ScreenShakeFromAnimationCurve3D : MonoBehaviour
 	[Tooltip("Power with which the rotation based screenshake will shake")]
 	private float rotationPower;
 
-	private bool shaking;
+	public bool shaking { get; private set; }
+
 	private void Awake()
     {
 		if (Instance == null)

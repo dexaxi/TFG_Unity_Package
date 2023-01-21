@@ -16,7 +16,7 @@ public class FloaterComponent : MonoBehaviour
     [Header("Randomization Parameters")]
     [SerializeField]
     [Tooltip("Randomize the object's rotation period by .2 seconds (use these when rotating several objects, only usable at start)")]
-    private bool randomizeRotationPeriod;
+    private bool enableRandomRotation;
 
     [SerializeField]
     [Range(0.8f, 1.2f)]
@@ -25,7 +25,7 @@ public class FloaterComponent : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Ranzomize the object's translation period by .2 seconds (use these when translating several objects, only usable at start")]
-    private bool randomizeTranslationFrequency;
+    private bool enableRandomTranslation;
 
     [SerializeField]
     [Range(0f, 0.5f)]
@@ -65,7 +65,7 @@ public class FloaterComponent : MonoBehaviour
     private void Start()
     {
         posOffset = transform.position + offset;
-        if (randomizeRotationPeriod) 
+        if (enableRandomRotation) 
         {
             _degreesPerSecond.x = degreesPerSecond.x * Random.Range(-rotationVariation, rotationVariation);
             _degreesPerSecond.y = degreesPerSecond.y * Random.Range(-rotationVariation, rotationVariation);
@@ -74,7 +74,7 @@ public class FloaterComponent : MonoBehaviour
         else {
             _degreesPerSecond = degreesPerSecond;
         }
-        if (randomizeTranslationFrequency) 
+        if (enableRandomTranslation) 
         {
             _frequency = frequency + new Vector3(Random.Range(-translationVariation, translationVariation),
                 Random.Range(-translationVariation, translationVariation),
