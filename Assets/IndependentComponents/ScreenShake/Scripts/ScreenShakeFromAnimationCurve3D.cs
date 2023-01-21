@@ -6,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class ScreenShakeFromAnimationCurve3D : MonoBehaviour
 {
+	private const float _shakeSpeed = 10f;
+	private const float _angleThreshold = 30f;
+
 	public static ScreenShakeFromAnimationCurve3D Instance { get; private set; }
 
 	[Header("Screen Shake Animation Parameters")]
@@ -47,13 +50,20 @@ public class ScreenShakeFromAnimationCurve3D : MonoBehaviour
 	private IEnumerator IShakeScreen()
 	{
 		Quaternion startRot = transform.rotation;
+		Quaternion newRot = startRot;
 		float elapsed = 0f;
 		while (elapsed < shakeDuration) 
 		{
 			elapsed += Time.deltaTime;
+			//Evaluate Curve to get strength multiplier from it
 			float strength = AnimationCurveSelector.Instance.GetCurve(shakeCurveType).Evaluate(elapsed / shakeDuration);
-			transform.rotation = Quaternion.Euler(startRot.eulerAngles.x + strength * rotationPower * Random.Range(-1, 1),
-				startRot.eulerAngles.y + strength * rotationPower * Random.Range(-1, 1), startRot.eulerAngles.z + strength * rotationPower * Random.Range(-1, 1));
+			//if angle from last rot to current rot <= (strength*power)/threshold, apply new rotation, else, lerp to current destination.
+			if (Quaternion.Angle(newRot, transform.rotation) <= (strength * rotationPower) / _angleThreshold) 
+			{
+				newRot = Quaternion.Euler(startRot.eulerAngles.x + strength * rotationPower * Random.Range(-1, 1),
+					startRot.eulerAngles.y + strength * rotationPower * Random.Range(-1, 1), startRot.eulerAngles.z + strength * rotationPower * Random.Range(-1, 1));
+			}
+			transform.rotation = Quaternion.Lerp(transform.rotation, newRot, elapsed * _shakeSpeed);			
 			yield return null;
 		}
 		shaking = false;
@@ -79,13 +89,18 @@ public class ScreenShakeFromAnimationCurve3D : MonoBehaviour
 		if (curve == null) curve = AnimationCurveSelector.Instance.GetCurve(shakeCurveType);
 
 		Quaternion startRot = transform.rotation;
+		Quaternion newRot = startRot;
 		float elapsed = 0f;
 		while (elapsed < duration)
 		{
 			elapsed += Time.deltaTime;
 			float strength = curve.Evaluate(elapsed / duration);
-			transform.rotation = Quaternion.Euler(startRot.eulerAngles.x + strength * power * Random.Range(-1, 1),
+			if (Quaternion.Angle(newRot, transform.rotation) <= (strength * power) / _angleThreshold) 
+			{
+			newRot = Quaternion.Euler(startRot.eulerAngles.x + strength * power * Random.Range(-1, 1),
 				startRot.eulerAngles.y + strength * power * Random.Range(-1, 1), startRot.eulerAngles.z + strength * power * Random.Range(-1, 1));
+			}
+			transform.rotation = Quaternion.Lerp(transform.rotation, newRot, elapsed * _shakeSpeed);
 			yield return null;
 		}
 		shaking = false;

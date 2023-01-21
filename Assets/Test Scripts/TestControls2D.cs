@@ -20,7 +20,7 @@ public class TestControls2D : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ScreenShakeFromAnimationCurve2D.Instance.ShakeScreen(null, 1f, 2);
+            ScreenShakeFromAnimationCurve2D.Instance.ShakeScreen(null, 0.5f, 0.5f);
         }
         if (Input.GetKeyDown(KeyCode.L))
         {

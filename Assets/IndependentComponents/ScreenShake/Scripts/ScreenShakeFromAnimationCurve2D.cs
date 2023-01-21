@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 {
+	private const float _shakeSpeed = 10f;
+	private const float _distanceThreshold = 30f;
+
 	public static ScreenShakeFromAnimationCurve2D Instance { get; private set; }
 
 	[Header("Screen Shake Animation Parameters")]
@@ -49,14 +52,22 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 	private IEnumerator IShakeScreen()
 	{
 		Vector3 startPos = transform.position;
+		Vector3 newPos = startPos;
 		float elapsed = 0f;
 		while (elapsed < shakeDuration) 
 		{
 			elapsed += Time.deltaTime;
+			//Evaluate Curve to get strength multiplier from it
 			float strength = AnimationCurveSelector.Instance.GetCurve(shakeCurveType).Evaluate(elapsed / shakeDuration);
-			transform.position = startPos + Random.insideUnitSphere * strength * shakePower;
+			//if distance from last pos to current pos <= (strength*power)/ threshold, apply new position, else, lerp to current destination.
+			if (Vector3.Distance(newPos, transform.position) <= (strength * shakePower) / _distanceThreshold) 
+			{ 
+				newPos =  startPos + Random.insideUnitSphere * strength * shakePower;
+			}
+			transform.position = Vector3.Lerp(transform.position, newPos, elapsed * _shakeSpeed);
 			yield return null;
 		}
+
 		shaking = false;
 		transform.position = startPos;
 	}
@@ -81,13 +92,18 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 		if (curve == null) curve = AnimationCurveSelector.Instance.GetCurve(shakeCurveType);
 
 		Vector3 startPos = transform.position;
+		Vector3 newPos = startPos;
 		float elapsed = 0f;
 
 		while (elapsed < duration)
 		{
 			elapsed += Time.deltaTime;
 			float strength = curve.Evaluate(elapsed / duration);
-			transform.position = startPos + UnityEngine.Random.insideUnitSphere * strength * power;
+			if (Vector3.Distance(newPos, transform.position) <= (strength * power) / _distanceThreshold)
+			{
+				newPos = startPos + Random.insideUnitSphere * strength * power;
+			}
+			transform.position = Vector3.Lerp(transform.position, newPos, elapsed * _shakeSpeed);
 			yield return null;
 		}
 

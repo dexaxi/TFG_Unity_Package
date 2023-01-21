@@ -19,7 +19,7 @@ public class TestControls3D : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen(null, 0.5f, 0.5f);
+            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen(null, 0.5f, 1f);
         }
         if(Input.GetKeyDown(KeyCode.L))
         {
