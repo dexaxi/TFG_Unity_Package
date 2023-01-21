@@ -5,10 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class TestControls2D : MonoBehaviour
 {
+
+    public Transform CameraParent;
+    public Vector3 StartPos;
+    public Vector3 EndPos;
+    public bool Reverse;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartPos = CameraParent.position;
+        EndPos = StartPos + new Vector3(5f, 0f, 0f);
+        Reverse = false;
     }
 
     // Update is called once per frame
@@ -25,6 +33,23 @@ public class TestControls2D : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(0);
+        }
+
+        if (!Reverse)
+        {
+            CameraParent.position = Vector3.MoveTowards(CameraParent.position, EndPos, 5f * Time.deltaTime);
+            if (Vector3.Distance(CameraParent.position, EndPos) == 0)
+            {
+                Reverse = true;
+            }
+        }
+        else
+        {
+            CameraParent.position = Vector3.MoveTowards(CameraParent.position, StartPos, 5f * Time.deltaTime);
+            if (Vector3.Distance(CameraParent.position, StartPos) == 0)
+            {
+                Reverse = false;
+            }
         }
     }
 }
