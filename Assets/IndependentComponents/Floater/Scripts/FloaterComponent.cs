@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FloaterComponent : MonoBehaviour
 {
-    [Header("Control Bools")]
+    [Header("Activation Bools")]
     [SerializeField]
     [Tooltip("Activate the object's rotation")]
     private bool activateRotation;
@@ -12,6 +12,25 @@ public class FloaterComponent : MonoBehaviour
     [SerializeField]
     [Tooltip("Activate the object's translation")]
     private bool activateTranslation;
+
+    [Header("Randomization Parameters")]
+    [SerializeField]
+    [Tooltip("Randomize the object's rotation period by .2 seconds (use these when rotating several objects, only usable at start)")]
+    private bool randomizeRotationPeriod;
+
+    [SerializeField]
+    [Range(0.8f, 1.2f)]
+    [Tooltip("Interval -x to x in which the rotation will be randomized")]
+    private float rotationVariation;
+
+    [SerializeField]
+    [Tooltip("Ranzomize the object's translation period by .2 seconds (use these when translating several objects, only usable at start")]
+    private bool randomizeTranslationFrequency;
+
+    [SerializeField]
+    [Range(0f, 0.5f)]
+    [Tooltip("Interval -x to x in which the frequency of the translation will be randomized")]
+    private float translationVariation;
 
     [Header("Rotation Parameters")]
     [SerializeField]
@@ -41,16 +60,39 @@ public class FloaterComponent : MonoBehaviour
     private Vector3 posOffset;
     private Vector3 tempPos;
 
+    private Vector3 _degreesPerSecond;
+    private Vector3 _frequency;
     private void Start()
     {
         posOffset = transform.position + offset;
+        if (randomizeRotationPeriod) 
+        {
+            _degreesPerSecond.x = degreesPerSecond.x * Random.Range(-rotationVariation, rotationVariation);
+            _degreesPerSecond.y = degreesPerSecond.y * Random.Range(-rotationVariation, rotationVariation);
+            _degreesPerSecond.z = degreesPerSecond.z * Random.Range(-rotationVariation, rotationVariation);
+        }
+        else {
+            _degreesPerSecond = degreesPerSecond;
+        }
+        if (randomizeTranslationFrequency) 
+        {
+            _frequency = frequency + new Vector3(Random.Range(-translationVariation, translationVariation),
+                Random.Range(-translationVariation, translationVariation),
+                Random.Range(-translationVariation, translationVariation));
+        }
+        else
+        {
+            _frequency = frequency;
+        }
     }
 
     void Update()
     {
+        
+
         if (activateRotation)
         {
-            transform.Rotate(new Vector3(Time.deltaTime * degreesPerSecond.x, Time.deltaTime * degreesPerSecond.y, Time.deltaTime * degreesPerSecond.z), Space.World);
+            transform.Rotate(new Vector3(Time.deltaTime * _degreesPerSecond.x, Time.deltaTime * _degreesPerSecond.y, Time.deltaTime * _degreesPerSecond.z), Space.World);
             //DEBUG
             if (resetRotation)
             {
@@ -64,9 +106,9 @@ public class FloaterComponent : MonoBehaviour
         {
             tempPos = posOffset + offset;
 
-            tempPos.x += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency.x) * amplitude.x;
-            tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency.y) * amplitude.y;
-            tempPos.z += Mathf.Sin(Time.fixedTime * Mathf.PI * frequency.z) * amplitude.z;
+            tempPos.x += Mathf.Sin(Time.fixedTime * Mathf.PI * _frequency.x) * amplitude.x;
+            tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * _frequency.y) * amplitude.y;
+            tempPos.z += Mathf.Sin(Time.fixedTime * Mathf.PI * _frequency.z) * amplitude.z;
 
             transform.position = tempPos;
         }

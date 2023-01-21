@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9165458127445780400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8177569276716860333}
+  - component: {fileID: 1110971436119347957}
+  m_Layer: 0
+  m_Name: ScreenShakeAnimationCurveHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &8177569276716860333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165458127445780400}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1110971436119347957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165458127445780400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55fcebe71af00c6479e5406d03599da5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AnimationCurveAssetList:
+  - {fileID: 11400000, guid: 7d94bf9ab6d670e4aa02f2124815e2df, type: 2}
+  - {fileID: 11400000, guid: 70a9fa2418558c34db5a23e2809d6f2b, type: 2}
+  - {fileID: 11400000, guid: d52a383710d6bb84b8c0882b209693fc, type: 2}
+  - {fileID: 11400000, guid: 7026174f16820124c824f91d52467115, type: 2}
+  - {fileID: 11400000, guid: 460aed2cb03ab8440ba97ce5afe3d874, type: 2}
+  - {fileID: 11400000, guid: 097012fb5bc558849951dd58d8016a3f, type: 2}
+  - {fileID: 11400000, guid: f4fb25bdde391354da464c859884f66f, type: 2}
