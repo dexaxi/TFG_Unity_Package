@@ -24,13 +24,16 @@ public class AnimationCurveSelector : MonoBehaviour
 {
     public static AnimationCurveSelector Instance { get; private set; }
 
+    [Header("Settings")]
     [SerializeField]
     [Tooltip("Toggle this if you want the Animation Curve Selector to not be destroyed when loading a new Scene")]
     private bool dontDestroyOnLoad;
 
+    [Space(15)]
+
     [SerializeField]
     [Tooltip("Animation Curve Asset List, to add a new type of curve, add an asset to the list and add its name to the Animation Curve Type Enum")]
-    private List<AnimationCurveAsset> AnimationCurveAssetList = new List<AnimationCurveAsset>();
+    private List<AnimationCurveAsset> animationCurveAssetList = new List<AnimationCurveAsset>();
     
     //Singleton
     private void Awake()
@@ -49,6 +52,6 @@ public class AnimationCurveSelector : MonoBehaviour
     /// <summary>
     //  Get Curve from Animation Curve Type
     /// </summary>
-    public AnimationCurve GetCurve(AnimationCurveType animationCurveType) => AnimationCurveAssetList[(int)animationCurveType];
+    public AnimationCurve GetCurve(AnimationCurveType animationCurveType) => animationCurveAssetList[(int)animationCurveType];
 
 }

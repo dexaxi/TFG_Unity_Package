@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class TestControls3D : MonoBehaviour
+using System.Linq;
+public class TestControls3D : MonoBehaviour, ISaveData
 {
 
     public Transform CameraParent;
     public Vector3 StartPos;
     public Vector3 EndPos;
     public bool Reverse;
+    public int testInt;
+    public SerializableDictionary<int, string> testDictionary;
     // Start is called before the first frame update
     void Start()
     {
         StartPos = CameraParent.position;
         EndPos = StartPos + new Vector3(0f, 0f, 5f);
         Reverse = false;
+        testDictionary = new SerializableDictionary<int, string>();
     }
 
     // Update is called once per frame
@@ -22,13 +26,13 @@ public class TestControls3D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
-            if (!ScreenShakeFromAnimationCurve3D.Instance.shaking)
+            if (!ScreenShakeFromAnimationCurve3D.Instance.Shaking)
                     AudioManager.Instance.Play("thud");
             ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen();
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (!ScreenShakeFromAnimationCurve3D.Instance.shaking)
+            if (!ScreenShakeFromAnimationCurve3D.Instance.Shaking)
                 AudioManager.Instance.Play("pop");
             ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen(AnimationCurveSelector.Instance.GetCurve(AnimationCurveType.Kick), 0.5f, 0.5f);
         }
@@ -38,16 +42,46 @@ public class TestControls3D : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.I)) 
         {
+            testDictionary.Add(testInt, "TEST");
+            testInt++;
+            Debug.Log("testInt = " + testInt);
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
+            SaveDataHandler.Instance.SaveGame();
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
+            SaveDataHandler.Instance.LoadGame();
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
         }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            SaveDataHandler.Instance.SetCurrentGameSlot(SaveDataHandler.Instance.CurrentSlot - 1);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            SaveDataHandler.Instance.SetCurrentGameSlot(SaveDataHandler.Instance.CurrentSlot + 1);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha0)) 
+        {
+            SaveDataHandler.Instance.DeleteSlot(0);
+        }        
+        if (Input.GetKeyUp(KeyCode.Alpha1)) 
+        {
+            SaveDataHandler.Instance.DeleteSlot(1);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2)) 
+        {
+            SaveDataHandler.Instance.DeleteSlot(2);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha3)) 
+        {
+            SaveDataHandler.Instance.DeleteSlot(3);
+        }
+
 
         //CameraParent.rotation = Quaternion.Euler(new Vector3(CameraParent.rotation.eulerAngles.x, CameraParent.rotation.eulerAngles.y + 60f * Time.deltaTime, CameraParent.rotation.eulerAngles.z));
         if (!Reverse)
@@ -68,6 +102,17 @@ public class TestControls3D : MonoBehaviour
         }
 
 
+    }
+
+    public void LoadData(SaveData data) 
+    {
+        this.testInt = data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestSavedInt;
+        data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestDictionary.CopySerializableDictionary(this.testDictionary);
+    }
+    public void SaveData(ref SaveData data) 
+    {
+        data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestSavedInt = this.testInt;
+        testDictionary.CopySerializableDictionary(data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestDictionary);
     }
 
 }

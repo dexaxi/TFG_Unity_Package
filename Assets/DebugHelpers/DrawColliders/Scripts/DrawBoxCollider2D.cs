@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(BoxCollider2D))]
 
+/// <summary>
+//  Class Component that allows you to print a BoxCollider2D in game using a LineRenderer
+/// </summary>
+[RequireComponent(typeof(BoxCollider2D))]
 public class DrawBoxCollider2D : MonoBehaviour
 {
-    [SerializeField] GameObject LinePrefab;
-    [SerializeField] Color LineColor;
+    [Header("Assets and Parameters")]
+    [SerializeField] 
+    [Tooltip("Use the Line Prefab Asset that comes with the package.")]
+    public GameObject LinePrefab;
+    
+    [SerializeField] 
+    [Tooltip("Color of the collider border you want printed")]
+    public Color LineColor;
 
     private LineRenderer _line;
     private BoxCollider2D _boxCol;
@@ -27,6 +36,9 @@ public class DrawBoxCollider2D : MonoBehaviour
         HilightCollider();
     }
 
+    /// <summary>
+    //  Void Function to print a Box Collider 2D as a Line Renderer while in game.
+    /// </summary>
     void HilightCollider()
     {
         Vector3[] pos = new Vector3[4];

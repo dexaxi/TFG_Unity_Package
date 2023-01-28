@@ -27,21 +27,23 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 	[Tooltip("Power with which the screenshake will shake")]
 	private float shakePower;
 
-	public bool shaking { get; private set; }
+	public bool Shaking { get; private set; }
 
     private void Awake()
     {
 		if (Instance == null)
 			Instance = this;
-    }
+		else
+			Destroy(this.gameObject);
+	}
 
 	/// <summary>
 	//	Void function to Shake the Screen using the parameters from the inspector
 	/// </summary>
 	public void ShakeScreen() {
-		if (!shaking)
+		if (!Shaking)
 		{
-			shaking = true;
+			Shaking = true;
 			StartCoroutine(IShakeScreen());
 		}
 	}
@@ -68,7 +70,7 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 			yield return null;
 		}
 
-		shaking = false;
+		Shaking = false;
 		transform.position = startPos;
 	}
 
@@ -77,9 +79,9 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 	/// </summary>
 	public void ShakeScreen(AnimationCurve curve, float duration, float power)
 	{
-		if (!shaking)
+		if (!Shaking)
 		{
-			shaking = true;
+			Shaking = true;
 			StartCoroutine(IShakeScreen(curve, duration, power));
 		}
 	}
@@ -107,7 +109,7 @@ public class ScreenShakeFromAnimationCurve2D : MonoBehaviour
 			yield return null;
 		}
 
-		shaking = false;
+		Shaking = false;
 		transform.position = startPos;
 	}
 

@@ -1,24 +1,38 @@
 using UnityEngine;
 using System;
 using UnityEngine.Audio;
+
+/// <summary>
+//  Class that contains an Audio System to play music and Sound Effects in your game.
+/// </summary>
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
-    public Sound[] sounds;
+    [Header("Sound Scriptable Object Arrays")]
+    [SerializeField]
+    [Tooltip("Sound Array that contains all of the sound scriptable objects you want to play in the game.")]
+    private Sound[] sounds;
 
-    public Sound[] randomMusicList;
+    [Tooltip("List of sounds that you can use to play any one of them.")]
+    [SerializeField]
+    private Sound[] randomMusicList;
 
-    [SerializeField] 
-    AudioMixerGroup music;
+    [Header("Audio Mixer Groups")]
+    [SerializeField]
+    [Tooltip("Audio Mixer Group Asset to mix the music in the game.")]
+    private AudioMixerGroup music;
     
+    [Tooltip("Audio Mixer Group Asset to mix the sound effects in the game.")]
     [SerializeField] 
-    AudioMixerGroup sfx;
+    private AudioMixerGroup sfx;
 
-    private int randomSoundIndex;
-    private float lastRandomSoundTime;
+    private int _randomSoundIndex;
+    private float _lastRandomSoundTime;
+
     private void Awake()
     {
+        //Make Singleton
         if (Instance == null)
         {
             Instance = this;
@@ -29,6 +43,7 @@ public class AudioManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        //for each sound's audiosource, we modify it to contain the data in the Sound Scriptable Object
         foreach (Sound sound in sounds)
         {
             sound.audioSource = gameObject.AddComponent<AudioSource>();
@@ -47,6 +62,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Function that receives the name (Case Insensitive) of a Sound Scriptable Object and looks for it in the sound array. If not found, will return null. 
+    /// </summary>
     public Sound FindSound(string name)
     {
         Sound s = Array.Find(sounds, sound => sound.name.ToLower() == name.ToLower());
@@ -58,6 +76,9 @@ public class AudioManager : MonoBehaviour
         return s;
     }
 
+    /// <summary>
+    //  Function that receives a Sound Scriptable Object's name and returns its length in seconds.
+    /// </summary>
     public float GetSoundLength(string name) 
     {
         Sound currentSound = FindSound(name);
@@ -68,6 +89,9 @@ public class AudioManager : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    //   Function that receives a Sound Scriptable Object's name and returns its progress as a percentage (0-100).
+    /// </summary>
     public float GetSongProgress(string name)
     {
         Sound currentSound = FindSound(name);
@@ -80,6 +104,9 @@ public class AudioManager : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    //   Function that receives a Sound Scriptable Object's name and returns if it's playing.
+    /// </summary>
     public bool IsPlaying(string name) 
     {
         Sound currentSound = FindSound(name);
@@ -90,6 +117,9 @@ public class AudioManager : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    //  Void function that receives a Sound Scriptable Object's name and plays it.
+    /// </summary>
     public void Play(string name)
     {
         Sound currentSound = FindSound(name);
@@ -99,36 +129,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayRandomMusic() 
-    {
-        randomMusicList[randomSoundIndex].audioSource.Stop();
-        lastRandomSoundTime = 0f;
-        randomSoundIndex = UnityEngine.Random.Range(0, randomMusicList.Length);
-        Play(randomMusicList[randomSoundIndex].name);
-    }
-
-    public void PauseLastRandomMusicClip() 
-    {
-        Sound currentSound = randomMusicList[randomSoundIndex];
-        lastRandomSoundTime = currentSound.audioSource.time;
-        randomMusicList[randomSoundIndex].audioSource.Pause();
-    }
-    public void StopLastRandomMusicClip()
-    {
-        Sound currentSound = randomMusicList[randomSoundIndex];
-        randomMusicList[randomSoundIndex].audioSource.Stop();
-    }
-
-    public void ResumeLastRandomMusicClip()
-    {
-        Sound currentSound = randomMusicList[randomSoundIndex];
-        randomMusicList[randomSoundIndex].audioSource.Play();
-        if (lastRandomSoundTime != 0 && lastRandomSoundTime != -1) 
-        {
-            currentSound.audioSource.time = lastRandomSoundTime;
-        }
-    }
-
+    /// <summary>
+    //  Void function that receives a Sound Scriptable Object's name and pauses it.
+    /// </summary>
     public void Pause(string name)
     {
         Sound currentSound = FindSound(name);
@@ -139,6 +142,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that receives a Sound Scriptable Object's name and resumes it.
+    /// </summary>
     public void Resume(string name)
     {
         Sound currentSound = FindSound(name);
@@ -152,6 +158,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that receives a Sound Scriptable Object's name and stops it.
+    /// </summary>
     public void Stop(string name)
     {
         Sound currentSound = FindSound(name);
@@ -161,6 +170,53 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that plays a random element from the random music list.
+    /// </summary>
+    public void PlayRandomMusic() 
+    {
+        randomMusicList[_randomSoundIndex].audioSource.Stop();
+        _lastRandomSoundTime = 0f;
+        _randomSoundIndex = UnityEngine.Random.Range(0, randomMusicList.Length);
+        Play(randomMusicList[_randomSoundIndex].name);
+    }
+
+    /// <summary>
+    //  Void function that pauses the last element played from the random music list.
+    /// </summary>
+    public void PauseLastRandomMusicClip() 
+    {
+        Sound currentSound = randomMusicList[_randomSoundIndex];
+        _lastRandomSoundTime = currentSound.audioSource.time;
+        randomMusicList[_randomSoundIndex].audioSource.Pause();
+    }
+
+    /// <summary>
+    //  Void function that stops the last element played from the random music list.
+    /// </summary>
+    public void StopLastRandomMusicClip()
+    {
+        Sound currentSound = randomMusicList[_randomSoundIndex];
+        randomMusicList[_randomSoundIndex].audioSource.Stop();
+    }
+
+
+    /// <summary>
+    //  Void function that resumes the last element played from the random music list.
+    /// </summary>
+    public void ResumeLastRandomMusicClip()
+    {
+        Sound currentSound = randomMusicList[_randomSoundIndex];
+        randomMusicList[_randomSoundIndex].audioSource.Play();
+        if (_lastRandomSoundTime != 0 && _lastRandomSoundTime != -1) 
+        {
+            currentSound.audioSource.time = _lastRandomSoundTime;
+        }
+    }
+
+    /// <summary>
+    //  Void function that stops all current music (NOT SFX).
+    /// </summary>
     public void StopAllMusic(){
         foreach(Sound sound in sounds)
         {
@@ -174,6 +230,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that stops all sound effects (NOT MUSIC).
+    /// </summary>
     public void StopAllSFX() 
     {
         foreach (Sound sound in sounds)
@@ -188,6 +247,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that stops all sounds.
+    /// </summary>
     public void StopAllAudio() 
     {
         foreach (Sound sound in sounds)
@@ -199,6 +261,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that pauses all music (NOT SFX).
+    /// </summary>
     public void PauseAllMusic()
     {
         foreach (Sound sound in sounds)
@@ -214,6 +279,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that pauses all Sound Effects (NOT MUSIC).
+    /// </summary>
     public void PauseAllSFX()
     {
         foreach (Sound sound in sounds)
@@ -229,6 +297,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that pauses all sounds.
+    /// </summary>
     public void PauseAllAudio()
     {
         foreach (Sound sound in sounds)
@@ -241,6 +312,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that resumes all paused music (NOT SFX).
+    /// </summary>
     public void ResumeAllPausedMusic()
     {
         foreach (Sound sound in sounds)
@@ -259,6 +333,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that resumes all paused SFX (NOT MUSIC).
+    /// </summary>
     public void ResumeAllPausedSFX()
     {
         foreach (Sound sound in sounds)
@@ -277,6 +354,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    //  Void function that resumes all sounds.
+    /// </summary>
     public void ResumeAllPausedAudio()
     {
         foreach (Sound sound in sounds)

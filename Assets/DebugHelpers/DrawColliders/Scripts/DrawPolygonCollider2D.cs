@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+//  Class Component that allows you to print a PolygonCollider2D in game using a LineRenderer
+/// </summary>
 [RequireComponent(typeof(PolygonCollider2D))]
 public class DrawPolygonCollider2D : MonoBehaviour
 {
-    [SerializeField] GameObject LinePrefab;
-    [SerializeField] Color LineColor;
+    [Header("Assets and Parameters")]
+    [SerializeField]
+    [Tooltip("Use the Line Prefab Asset that comes with the package.")]
+    public GameObject LinePrefab;
+
+    [SerializeField]
+    [Tooltip("Color of the collider border you want printed")]
+    public Color LineColor;
+    
     private LineRenderer _line;
     private List<LineRenderer> _lineList;
     private PolygonCollider2D _polygonCol;
@@ -35,6 +45,9 @@ public class DrawPolygonCollider2D : MonoBehaviour
         HilightCollider();
     }
 
+    /// <summary>
+    //  Void Function  to represent a plolygon collider 2D as a line renderer while in game
+    /// </summary>
     void HilightCollider()
     {
         for (int i = 0; i < polycount; i++)
