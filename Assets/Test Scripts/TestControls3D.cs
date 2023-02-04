@@ -12,6 +12,7 @@ public class TestControls3D : MonoBehaviour, ISaveData
     public bool Reverse;
     public int testInt;
     public SerializableDictionary<int, string> testDictionary;
+    public List<string> testList;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,7 @@ public class TestControls3D : MonoBehaviour, ISaveData
         EndPos = StartPos + new Vector3(0f, 0f, 5f);
         Reverse = false;
         testDictionary = new SerializableDictionary<int, string>();
+        testList = new List<string>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,7 @@ public class TestControls3D : MonoBehaviour, ISaveData
         if (Input.GetKeyDown(KeyCode.I)) 
         {
             testDictionary.Add(testInt, "TEST");
+            testList.Add(testInt.ToString());
             testInt++;
             Debug.Log("testInt = " + testInt);
         }
@@ -108,11 +111,13 @@ public class TestControls3D : MonoBehaviour, ISaveData
     {
         this.testInt = data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestSavedInt;
         data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestDictionary.CopySerializableDictionary(this.testDictionary);
+        this.testList = new List<string>(data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestList);
     }
     public void SaveData(ref SaveData data) 
     {
         data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestSavedInt = this.testInt;
         testDictionary.CopySerializableDictionary(data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestDictionary);
+        data.SaveSlots[SaveDataHandler.Instance.CurrentSlot].TestList = new List<string>(this.testList);
     }
 
 }

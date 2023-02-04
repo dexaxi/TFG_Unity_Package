@@ -32,6 +32,7 @@ public class SaveDataHandler : MonoBehaviour
     private List<ISaveData> _saveDataInstances;
     private SaveDataFileHandler _saveFileHandler;
     public int CurrentSlot { get; private set; }
+
     private void Awake()
     {
         //Make Singleton
