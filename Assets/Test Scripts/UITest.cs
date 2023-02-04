@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DUJAL.Systems.Saving;
 public class UITest : MonoBehaviour
 {
     public TextMeshProUGUI slot;
