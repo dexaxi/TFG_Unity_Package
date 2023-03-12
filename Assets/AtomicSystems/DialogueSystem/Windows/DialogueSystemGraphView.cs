@@ -51,6 +51,7 @@ namespace DUJAL.Systems.Dialogue
             OnGroupElementsAdded();
             OnGroupElementsRemoved();
             OnGroupRenamed();
+            OnGraphViewChanged();
             AddStyles();
         }
 
@@ -119,6 +120,35 @@ namespace DUJAL.Systems.Dialogue
                 DialogueConstants.EditorDefaultResourcesPath + DialogueConstants.GraphViewStyleFilename,
                 DialogueConstants.EditorDefaultResourcesPath + DialogueConstants.NodeStyleFilename
             );
+        }
+
+        private void OnGraphViewChanged() 
+        {
+            graphViewChanged = (changes) =>
+            {
+                if (changes.edgesToCreate != null) 
+                {
+                    foreach (Edge edge in changes.edgesToCreate) 
+                    {
+                        BaseNode next = (BaseNode)edge.input.node;
+                        ChoiceSaveData choiceData = (ChoiceSaveData)edge.output.userData;
+                        choiceData.NodeID = next.ID;
+                    }
+                }
+
+                if (changes.elementsToRemove != null) 
+                {
+                    foreach (GraphElement element in changes.elementsToRemove) 
+                    {
+                        if(element is Edge edge) 
+                        {
+                            ChoiceSaveData choiceData = (ChoiceSaveData)edge.output.userData;
+                            choiceData.NodeID = "";
+                        }
+                    }
+                }
+                return changes;
+            };
         }
         #endregion
 

@@ -3,6 +3,7 @@ using DUJAL.Systems.Dialogue.Utils;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
 namespace DUJAL.Systems.Dialogue {
     public class MultipleChoiceNode : BaseNode
@@ -11,37 +12,63 @@ namespace DUJAL.Systems.Dialogue {
         {
             base.Initialize(graphView, pos);
             DialogueType = DialogueType.SingleChoice;
-            Choices.Add(DialogueConstants.MultipleChoiceNewChoicDefaultText);
+            ChoiceSaveData choiceData = new ChoiceSaveData()
+            {
+                Text = DialogueConstants.MultipleChoiceNewChoicDefaultText
+            };
+            Choices.Add(choiceData);
         }
         public override void Draw()
         {
             base.Draw();
 
-            Button addChoice = DialogueSystemUtils.CreateButon(DialogueConstants.MultipleChoiceAddChoicDefaultText, () => 
+            Button addChoice = DialogueSystemUtils.CreateButon(DialogueConstants.MultipleChoiceAddChoicDefaultText, () =>
             {
-                outputContainer.Add(CreateNewChoice(DialogueConstants.MultipleChoiceNewChoicDefaultText));
+                ChoiceSaveData choiceData = new ChoiceSaveData()
+                {
+                    Text = DialogueConstants.MultipleChoiceNewChoicDefaultText 
+                };
+                Choices.Add(choiceData);
+                outputContainer.Add(CreateNewChoice(choiceData));
             });
 
             addChoice.AddToClassList(DialogueConstants.ButtonStyleSheet);
 
             titleContainer.Insert(2, addChoice);
 
-            foreach (string choice in Choices)
+            foreach (ChoiceSaveData choice in Choices)
             {
                 outputContainer.Add(CreateNewChoice(choice));
             }
             RefreshExpandedState();
         }
 
-        private Port CreateNewChoice(string choice) 
+        private Port CreateNewChoice(object userData) 
         {
             Port outputChoice = this.CreatePort();
+            outputChoice.userData = userData;
+            ChoiceSaveData choiceData = (ChoiceSaveData) userData;
+            Button delete = DialogueSystemUtils.CreateButon(DialogueConstants.MultipleChoiceXText, () => 
+            {
+                if (Choices.Count == 1) 
+                {
+                    return;
+                }
 
-            Button delete = DialogueSystemUtils.CreateButon(DialogueConstants.MultipleChoiceXText);
+                if (outputChoice.connected) 
+                {
+                    _graphView.DeleteElements(outputChoice.connections);
+                }
+                Choices.Remove(choiceData);
+                _graphView.RemoveElement(outputChoice);
+            });
 
             delete.AddToClassList(DialogueConstants.ButtonStyleSheet);
 
-            TextField choiceTF = DialogueSystemUtils.CreateTextField(choice);
+            TextField choiceTF = DialogueSystemUtils.CreateTextField(choiceData.Text, null, callback => 
+            {
+                choiceData.Text = callback.newValue;
+            });
 
             choiceTF.AddClasses(
                 DialogueConstants.TextFieldStyleSheet,

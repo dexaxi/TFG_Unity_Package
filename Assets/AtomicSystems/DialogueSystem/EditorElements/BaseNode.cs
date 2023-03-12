@@ -1,6 +1,7 @@
 using DUJAL.Systems.Dialogue.Constants;
 using DUJAL.Systems.Dialogue.Utils;
 using DUJAL.Systems.Utils;
+using System;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -11,12 +12,13 @@ namespace DUJAL.Systems.Dialogue
 {
     public class BaseNode : Node
     {
-        private DialogueSystemGraphView _graphView;
+        protected DialogueSystemGraphView _graphView;
         private StyleFloat _defaultBorderWidth;
         private StyleColor _defaultBorderColor;
 
+        public string ID { get; set; }
         public string DialogueName { get; set; }
-        public List<string> Choices { get; set; }
+        public List<ChoiceSaveData> Choices { get; set; }
         public string Text { get; set; }
         public DialogueType DialogueType { get; set; }
         public CustomGroup Group { get; set; }
@@ -26,8 +28,9 @@ namespace DUJAL.Systems.Dialogue
 
         public virtual void Initialize(DialogueSystemGraphView graphView, Vector2 pos) 
         {
+            ID = Guid.NewGuid().ToString();
             DialogueName = DialogueConstants.BaseNodeDefaultNodeName;
-            Choices = new List<string>();
+            Choices = new List<ChoiceSaveData>(); 
             Text = DialogueConstants.BaseNodeQuoteTitle;
             VoiceLineField = new ObjectField()
             {

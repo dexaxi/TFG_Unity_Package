@@ -11,16 +11,21 @@ namespace DUJAL.Systems.Dialogue
         {
             base.Initialize(graphView, pos);
             DialogueType = DialogueType.SingleChoice;
-            Choices.Add(DialogueConstants.NodeFirstChoicDefaultText);
+            ChoiceSaveData choiceData= new ChoiceSaveData() 
+            {
+                Text = DialogueConstants.NodeFirstChoicDefaultText
+            };
+            Choices.Add(choiceData);
         }
 
         public override void Draw()
         {
             base.Draw();
 
-            foreach (string choice in Choices) 
+            foreach (ChoiceSaveData choice in Choices) 
             {
-                Port outputChoice = this.CreatePort(choice);
+                Port outputChoice = this.CreatePort(choice.Text);
+                outputChoice.userData = choice;
                 outputContainer.Add(outputChoice);
             }
             RefreshExpandedState();

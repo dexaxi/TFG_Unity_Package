@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -7,18 +6,20 @@ namespace DUJAL.Systems.Dialogue
 {
     public class CustomGroup : Group
     {
-        private float defaultBorderWidth;
-        private Color defaultBorderColor;
+        private float _defaultBorderWidth;
+        private Color _defaultBorderColor;
 
-        public string PreviousTitle;
+        public string ID { get; set; }
+        public string PreviousTitle { get; set; }
 
         public CustomGroup(string title, Vector2 position) : base()
         {
+            ID = Guid.NewGuid().ToString();
             this.title = title;
-            this.PreviousTitle = title;
+            PreviousTitle = title;
             SetPosition(new Rect(position, Vector2.zero));
-            defaultBorderWidth = contentContainer.style.borderBottomWidth.value;
-            defaultBorderColor = contentContainer.style.borderBottomColor.value;
+            _defaultBorderWidth = contentContainer.style.borderBottomWidth.value;
+            _defaultBorderColor = contentContainer.style.borderBottomColor.value;
         }
 
         public void SetErrorStyle(Color color) 
@@ -35,14 +36,14 @@ namespace DUJAL.Systems.Dialogue
 
         public void ResetStyle()
         {
-            contentContainer.style.borderBottomWidth = defaultBorderWidth;
-            contentContainer.style.borderTopWidth = defaultBorderWidth;
-            contentContainer.style.borderLeftWidth = defaultBorderWidth;
-            contentContainer.style.borderRightWidth = defaultBorderWidth;
-            contentContainer.style.borderBottomColor = defaultBorderColor;
-            contentContainer.style.borderTopColor = defaultBorderColor;
-            contentContainer.style.borderLeftColor = defaultBorderColor;
-            contentContainer.style.borderRightColor = defaultBorderColor;
+            contentContainer.style.borderBottomWidth = _defaultBorderWidth;
+            contentContainer.style.borderTopWidth = _defaultBorderWidth;
+            contentContainer.style.borderLeftWidth = _defaultBorderWidth;
+            contentContainer.style.borderRightWidth = _defaultBorderWidth;
+            contentContainer.style.borderBottomColor = _defaultBorderColor;
+            contentContainer.style.borderTopColor = _defaultBorderColor;
+            contentContainer.style.borderLeftColor = _defaultBorderColor;
+            contentContainer.style.borderRightColor = _defaultBorderColor;
         }
     }
 }
