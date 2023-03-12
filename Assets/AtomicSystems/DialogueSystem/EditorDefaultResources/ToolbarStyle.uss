@@ -1,0 +1,56 @@
+Toolbar
+{
+	background-color: var(--ds-colors-window-base);
+	height: var(--ds-metrics-choice-tf-height);
+}
+
+TextField
+{
+	padding: var(--ds-metrics-tf-padding);
+}
+
+Button
+{
+	background-color: var(--ds-colors-button-background);
+	border-color: var(--ds-colors-window-base);
+	margin: var(--ds-metrics-margin);
+	border-width: 1px;
+	max-height: var(--ds-metrics-button-height);
+}
+
+Button:hover
+{
+	background-color: var(--ds-colors-button-hover);
+}
+
+Button:active
+{
+	background-color: var(--ds-colors-button-active);
+	color: var(--ds-colors-button-yellow);
+}
+
+.unity-text-field__label
+{
+	padding: var(--ds-metrics-tf-padding);
+	margin-right: var(--ds-metrics-toolbar-label-margin);
+}
+
+TextField:focus > .unity-text-field__label
+{
+	color: var(--ds-colors-button-yellow);
+}
+
+.unity-text-field__input
+{
+	background-color: var(--ds-colors-window-base);
+	border-color: var(--ds-colors-borders);
+	border-radius: var(--ds-metrics-window-border-radius);
+	max-height: var(--ds-metrics-tf-max-height);
+	min-height: var(--ds-metrics-tf-min-height);
+	padding: var(--ds-metrics-toolbar-tf-padding);
+}
+
+.unity-text-field__input:focus
+{
+	color: var(--ds-colors-button-yellow);
+}

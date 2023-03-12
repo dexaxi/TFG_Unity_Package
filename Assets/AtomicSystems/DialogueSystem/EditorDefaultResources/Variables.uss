@@ -3,6 +3,50 @@
 	--ds-colors-grid-background: #2b2b2b;
 	--ds-colors-grid-lines: rgba(51, 51, 51, 0.4);
 	--ds-colors-grid-thick-lines: rgba(51, 51, 51, 1);
+	
+	--ds-colors-data-container-background: #212325;
+	
+	--ds-colors-window-base: #1D1D1E;
+	
+	--ds-colors-button-background: #282D2F;
+	--ds-colors-button-hover: #252729;
+	--ds-colors-button-active: #212325; 
+	--ds-colors-button-yellow: #FDD057;
+	
+	--ds-colors-quote-background: #232527;
+	--ds-colors-quote-hover-background: #252729;
+	--ds-colors-borders: #27292C;
 
-	--ds-metrics-grid-spacing: 25;
+	--ds-metrics-grid-spacing: 25; 
+
+	--ds-metrics-window-border-radius: 4px;
+	--ds-metrics-quote-tf-border-left-width: 4px;
+
+	--ds-metrics-margin: 4px;
+	--ds-metrics-toolbar-label-margin: -75px;
+	
+	--ds-metrics-tf-padding: 4px;
+	--ds-metrics-toolbar-tf-padding: 4px;
+	--ds-metrics-cont-padding: 8px;
+	--ds-metrics-quote-tf-padding: 16px;
+	
+	--ds-metrics-tf-max-width: 240px;
+	--ds-metrics-tf-min-width: 160px;
+	--ds-metrics-tf-max-height: 120px;
+	--ds-metrics-tf-min-height: 25px;
+	--ds-metrics-filename-tf-max-width: 1000px;
+	--ds-metrics-filename-tf-min-width: 160px;
+	--ds-metrics-choice-tf-max-width: 1000px;
+	--ds-metrics-choice-tf-min-width: 100px;
+	--ds-metrics-quote-tf-max-width: 600px;
+
+	--ds-metrics-choice-tf-height: 35px;
+	--ds-metrics-choice-tf-focus-height: 25px;
+	--ds-metrics-button-height: 25px;
+	
+	--ds-metrics-container-min-width: 350px;
+
+	--ds-fonts-choice-size: 15px;
+	--ds-fonts-filename-size: 20px;
+	--ds-fonts-quote-size: 12px;
 }

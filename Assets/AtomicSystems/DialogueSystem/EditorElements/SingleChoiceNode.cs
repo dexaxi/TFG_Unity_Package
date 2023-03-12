@@ -1,3 +1,5 @@
+using DUJAL.Systems.Dialogue.Constants;
+using DUJAL.Systems.Dialogue.Utils;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -5,11 +7,11 @@ namespace DUJAL.Systems.Dialogue
 {
     public class SingleChoiceNode : BaseNode
     {
-        public override void Initialize(Vector2 pos)
+        public override void Initialize(DialogueSystemGraphView graphView, Vector2 pos)
         {
-            base.Initialize(pos);
+            base.Initialize(graphView, pos);
             DialogueType = DialogueType.SingleChoice;
-            Choices.Add("Next Dialogue");
+            Choices.Add(DialogueConstants.NodeFirstChoicDefaultText);
         }
 
         public override void Draw()
@@ -18,8 +20,7 @@ namespace DUJAL.Systems.Dialogue
 
             foreach (string choice in Choices) 
             {
-                Port outputChoice = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
-                outputChoice.portName = choice;
+                Port outputChoice = this.CreatePort(choice);
                 outputContainer.Add(outputChoice);
             }
             RefreshExpandedState();

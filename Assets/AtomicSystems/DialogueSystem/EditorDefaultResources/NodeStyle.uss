@@ -1,1 +1,158 @@
-VisualElement {}
+//CONTAINERS
+
+.ds-n-ext-cont
+{
+	background-color: var(--ds-colors-window-base);
+	padding: var(--ds-metrics-cont-padding);
+}
+
+.ds-n-main-cont
+{
+	min-width: var(--ds-metrics-container-min-width);
+	background-color: var(--ds-colors-window-base);	
+}
+
+.ds-n-data-cont
+{
+	background-color: var(--ds-colors-data-container-background);
+	padding: var(--ds-metrics-cont-padding);
+} 
+
+//TEXT FIELDS
+
+.ds-n-tf > .unity-text-field__input
+{
+	background-color: var(--ds-colors-window-base);
+	border-color: var(--ds-colors-borders);
+	border-radius: var(--ds-metrics-window-border-radius);
+	max-width: var(--ds-metrics-tf-max-width);
+	min-width: var(--ds-metrics-tf-min-width);
+	padding: var(--ds-metrics-cont-padding);
+}
+
+.ds-n-tf-hidden > .unity-text-field__input
+{
+	background-color: transparent;
+	border-color: transparent;
+}
+
+.ds-n-tf-hidden > .unity-text-field__input:focus
+{
+	background-color: var(--ds-colors-window-base); 
+	border-color: var(--ds-colors-borders);
+} 
+
+.ds-n-filename-tf > .unity-text-field__input
+{
+	font-size: var(--ds-fonts-filename-size);
+	max-width: var(--ds-metrics-filename-tf-max-width);
+	min-width: var(--ds-metrics-filename-tf-min-width);
+}
+
+.ds-n-filename-tf >  .unity-text-field__input:focus
+{
+	margin: var(--ds-metrics-margin);
+	padding: var(--ds-metrics-tf-padding);
+}
+
+.ds-n-choice-tf  >  .unity-text-field__input
+{
+	font-size: var(--ds-fonts-choice-size);
+	height: var(--ds-metrics-choice-tf-height);
+	max-width: var(--ds-metrics-choice-tf-max-width);
+	min-width: var(--ds-metrics-choice-tf-min-width);
+}
+
+.ds-n-choice-tf >  .unity-text-field__input:focus
+{
+	height: var(--ds-metrics-choice-tf-focus-height);
+	margin: var(--ds-metrics-margin);
+	padding: var(--ds-metrics-tf-padding);
+}
+
+.ds-n-quote-tf >  .unity-text-field__input
+{
+	font-size: var(--ds-fonts-quote-size);
+	background-color: var(--ds-colors-quote-background);
+	border-color: transparent;
+	border-left-color: var(--ds-colors-borders);
+	border-left-width: var(--ds-metrics-quote-tf-border-left-width);
+	padding: var(--ds-metrics-quote-tf-padding);
+	max-width: var(--ds-metrics-quote-tf-max-width);
+}
+
+.ds-n-quote-tf < .unity-text-field__input:hover
+{
+	background-color: var(--ds-colors-quote-hover-background);
+}
+
+.ds-n-quote-tf >  .unity-text-field__input:focus
+{
+	background-color: var(--ds-colors-window-base);
+	border-color: var(--ds-colors-borders);
+}
+
+.ds-n-of >  .unity-object-field__input
+{
+	margin-top: var(--ds-metrics-margin);
+	background-color: var(--ds-colors-window-base);
+	padding: var(--ds-metrics-cont-padding);
+}
+.ds-n-cf >  .unity-color-field__input
+{
+	margin-top: var(--ds-metrics-margin);
+	margin-bottom: 4px;
+	border-color: #565656;
+	border-width: 1px;
+}
+
+//BUTTONS
+
+.ds-n-b
+{
+	background-color: var(--ds-colors-button-background);
+	border-color: var(--ds-colors-window-base);
+}
+
+Button
+{
+	background-color: var(--ds-colors-button-background);
+	border-color: var(--ds-colors-button-active);
+	border-width: 1px;
+}
+
+.ds-n-b:hover
+{
+	background-color: var(--ds-colors-button-hover);
+}
+ 
+.ds-n-b:active
+{
+	background-color: var(--ds-colors-button-active);
+	color: var(--ds-colors-button-yellow);
+}
+//OTHER
+
+TextField
+{
+	margin-left: 0px;
+}
+
+.ds-n-custom-data-cont > Foldout
+{
+	margin-left: -4px;
+	margin-top: 4px;
+}
+
+-ds-n-custom-data-cont > Foldout > TextField
+{
+	margin-left: -12px;
+	margin-top: 8px;
+}
+
+//unity
+
+.unit-toggle__text
+{
+	margin: 2px;
+}
