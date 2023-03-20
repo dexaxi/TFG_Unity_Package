@@ -117,8 +117,8 @@ namespace DUJAL.Systems.Dialogue
         private void AddStyles()
         {
             this.AddStyleSheets(
-                DialogueConstants.EditorDefaultResourcesPath + DialogueConstants.GraphViewStyleFilename,
-                DialogueConstants.EditorDefaultResourcesPath + DialogueConstants.NodeStyleFilename
+                $"{DialogueConstants.EditorDefaultResourcesPath}/{DialogueConstants.GraphViewStyleFilename}",
+                $"{DialogueConstants.EditorDefaultResourcesPath}/{DialogueConstants.NodeStyleFilename}"
             );
         }
 
@@ -446,10 +446,26 @@ namespace DUJAL.Systems.Dialogue
         }
         private void OnGroupRenamed() 
         {
-            groupTitleChanged = (group, title) =>
+            groupTitleChanged = (group,  title) =>
             {
                 CustomGroup customGroup = (CustomGroup) group;
                 customGroup.title = title.RemoveWhitespaces().RemoveSpecialCharacters();
+
+                if (string.IsNullOrEmpty(customGroup.title))
+                {
+                    if (!string.IsNullOrEmpty(customGroup.PreviousTitle))
+                    {
+                        ++HasError;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(customGroup.PreviousTitle))
+                    {
+                        --HasError;
+                    }
+                }
+
                 RemoveGroup(customGroup);
                 customGroup.PreviousTitle = customGroup.title;
                 AddGroup(customGroup);

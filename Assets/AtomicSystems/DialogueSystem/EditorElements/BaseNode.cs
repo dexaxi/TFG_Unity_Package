@@ -3,6 +3,7 @@ using DUJAL.Systems.Dialogue.Utils;
 using DUJAL.Systems.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -66,6 +67,22 @@ namespace DUJAL.Systems.Dialogue
             {
                 TextField target = (TextField)callback.target;
                 target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
+                
+                if (string.IsNullOrEmpty(target.value))
+                {
+                    if (!string.IsNullOrEmpty(DialogueName))
+                    {
+                        ++_graphView.HasError;
+                    }
+                }
+                else 
+                {
+                    if (string.IsNullOrEmpty(DialogueName))
+                    {
+                        --_graphView.HasError;
+                    }
+                }
+
                 if (Group == null) 
                 {
                     _graphView.RemoveUngroupedNode(this);
@@ -100,7 +117,10 @@ namespace DUJAL.Systems.Dialogue
 
             Foldout textF = DialogueSystemUtils.CreateFoldout(DialogueConstants.BaseNodeQuoteDefaultValue);
 
-            TextField textTF = DialogueSystemUtils.CreateTextArea(Text, null);
+            TextField textTF = DialogueSystemUtils.CreateTextArea(Text, null, callback => 
+            {
+                Text = callback.newValue;
+            });
 
             textTF.AddClasses(
                 DialogueConstants.TextFieldStyleSheet,
@@ -150,6 +170,12 @@ namespace DUJAL.Systems.Dialogue
                     _graphView.DeleteElements(port.connections);
                 }
             }
+        }
+
+        public bool IsStartingNode() 
+        {
+            Port port = (Port) inputContainer.Children().First();
+            return !port.connected;
         }
 
         public void SetErrorStyle(Color color) 

@@ -5,7 +5,7 @@ namespace DUJAL.Systems.Dialogue.Constants
 {
     public static class DialogueConstants
     {
-        public const string EditorDefaultResourcesPath = "Assets/AtomicSystems/DialogueSystem/EditorDefaultResources/";
+        public const string EditorDefaultResourcesPath = "Assets/AtomicSystems/DialogueSystem/EditorDefaultResources";
         public const string DialogueGraphWindowStream = "DUJAL/Dialogue Graph";
         
         public const string DialogueGraphWindowTitle = "Dialogue Graph";
@@ -60,7 +60,18 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string ObjectFieldStyleSheet = "ds-n-of";
         public const string ColorFieldStyleSheet = "ds-n-cf";
 
-
         public static Color DefaultNodeBackgroundColor = new Color(29f/255f, 29f / 255f, 30f / 255f);
+
+        public const string DialogueEditorGraphsPath = "Assets/AtomicSystems/DialogueSystem/SavedDialogues";
+        public const string DialogueEditorGraphsFolder = "Graphs";
+
+        public const string AssetsFolderName = "Assets/AtomicSystems/DialogueSystem";
+        public const string DialogueSystemDataContainerFolderName = "SavedDialogues";
+        public const string GlobalContainerFolderName = "Global";
+        public const string GroupsContainerFolderName = "Groups";
+
+        public const string SaveInvalidFilenamePopupTitle = "Invalid File Name";
+        public const string SaveInvalidFilenamePopupText = "Please ensure the filename is valid.";
+        public const string SaveInvalidFilenamePopupPrompt = "Ok";
     }
 }

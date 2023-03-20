@@ -67,7 +67,7 @@ namespace DUJAL.Systems.Dialogue {
 
             TextField choiceTF = DialogueSystemUtils.CreateTextField(choiceData.Text, null, callback => 
             {
-                choiceData.Text = callback.newValue;
+                choiceData.Text = callback.newValue; 
             });
 
             choiceTF.AddClasses(
