@@ -12,6 +12,9 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string FileNameLabel = "File Name:";
         public const string DefaultAssetFilename = "NewDialogueGraph";
         public const string SaveAssetButonText = "Save";
+        public const string LoadAssetButonText = "Load";
+        public const string ClearAssetButonText = "Clear";
+        public const string ResetAssetButonText = "Reset";
         
         
         public const string AddSingleChoiceText = "Add Single Choice Node";
@@ -73,5 +76,11 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string SaveInvalidFilenamePopupTitle = "Invalid File Name";
         public const string SaveInvalidFilenamePopupText = "Please ensure the filename is valid.";
         public const string SaveInvalidFilenamePopupPrompt = "Ok";
+        
+        public const string LoadInvalidFilenamePopupTitle = "Could not load the file";
+        public const string LoadInvalidFilenamePopupText = "The file at the following path was not found.";
+        public const string LoadInvalidFilenamePopupText2 = "Please make sure that this file is a valid Dialogue Graph.";
+        public const string LoadInvalidFilenamePopupPrompt = "Ok";
+
     }
 }

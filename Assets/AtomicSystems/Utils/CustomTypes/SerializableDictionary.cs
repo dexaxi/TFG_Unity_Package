@@ -18,8 +18,9 @@ namespace DUJAL.Systems.Utils
 
         public void OnBeforeSerialize()
         {
-            keys.Clear();
-            values.Clear();
+            keys = new List<TKey>(this.Count);
+            values = new List<TValue>(this.Count);
+
             foreach (KeyValuePair<TKey, TValue> pair in this)
             {
                 keys.Add(pair.Key);
@@ -29,14 +30,15 @@ namespace DUJAL.Systems.Utils
 
         public void OnAfterDeserialize()
         {
-            this.Clear();
-
-            Debug.Assert(keys.Count == values.Count, "SerializableDictionary: Tried to Deserialize a SerializableDictionary, but the amount of keys: "
-                + keys.Count + " and the amount of values: " + values.Count + " do not correspond.");
-
-            for (int i = 0; i < keys.Count; i++)
+            if (keys != null && values != null && keys.Count == values.Count) 
             {
-                this.Add(keys[i], values[i]);
+                this.Clear();
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    this[keys[i]] = values[i];
+                }
+                keys = null;
+                values = null;
             }
         }
 

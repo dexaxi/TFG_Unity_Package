@@ -8,10 +8,10 @@ using System;
 namespace DUJAL.Systems.Dialogue {
     public class MultipleChoiceNode : BaseNode
     {
-        public override void Initialize(DialogueSystemGraphView graphView, Vector2 pos)
+        public override void Initialize(string nodeName, DialogueSystemGraphView graphView, Vector2 pos)
         {
-            base.Initialize(graphView, pos);
-            DialogueType = DialogueType.SingleChoice;
+            base.Initialize(nodeName, graphView, pos);
+            DialogueType = DialogueType.MultipleChoice ;
             ChoiceSaveData choiceData = new ChoiceSaveData()
             {
                 Text = DialogueConstants.MultipleChoiceNewChoicDefaultText

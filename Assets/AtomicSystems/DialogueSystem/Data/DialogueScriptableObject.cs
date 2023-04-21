@@ -13,14 +13,18 @@ namespace DUJAL.Systems.Dialogue
         [field: SerializeField] public bool IsStartingDialogue { get; set; }
         [field: SerializeField] public AudioClip VoiceLine { get; set; }
         [field: SerializeField] public Sprite SpeakerSprite { get; set; }
+        [field: SerializeField] public Color DialogueColor { get; set; }
 
-        public void Initialize(string dialogueName, string text, List<ChoiceData> choices, DialogueType dialogueType, bool isSatartingDialogue) 
+        public void Initialize(string dialogueName, string text, List<ChoiceData> choices, DialogueType dialogueType, bool isStartingDialogue, AudioClip clip, Sprite sprite, Color dialogueColor) 
         {
             DialogueName = dialogueName;
             Text = text;
             Choices = choices;
             DialogueType = dialogueType;
-            IsStartingDialogue = isSatartingDialogue;
+            IsStartingDialogue = isStartingDialogue;
+            VoiceLine = clip;
+            SpeakerSprite = sprite;
+            DialogueColor = dialogueColor;
         }
     }
 }

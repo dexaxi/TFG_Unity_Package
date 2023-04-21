@@ -52,11 +52,13 @@ namespace DUJAL.Systems.Dialogue
             switch (SearchTreeEntry.userData) 
             {
                 case DialogueType.SingleChoice:
-                    _graphView.AddElement((SingleChoiceNode)_graphView.CreateNode(DialogueType.SingleChoice, localMousePosition));
+                    _graphView.AddElement((SingleChoiceNode)_graphView.CreateNode(DialogueConstants.BaseNodeDefaultNodeName, 
+                        DialogueType.SingleChoice, localMousePosition));
                     return true;
 
                 case DialogueType.MultipleChoice:
-                    _graphView.AddElement((MultipleChoiceNode)_graphView.CreateNode(DialogueType.MultipleChoice, localMousePosition));
+                    _graphView.AddElement((MultipleChoiceNode)_graphView.CreateNode(DialogueConstants.BaseNodeDefaultNodeName, 
+                        DialogueType.MultipleChoice, localMousePosition));
                     return true;
 
                 case CustomGroup _:

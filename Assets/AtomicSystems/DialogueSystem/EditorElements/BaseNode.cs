@@ -27,10 +27,10 @@ namespace DUJAL.Systems.Dialogue
         public ObjectField VoiceLineField { get; set; }
         public CustomColorField DialogueColorField { get;  set; }
 
-        public virtual void Initialize(DialogueSystemGraphView graphView, Vector2 pos) 
+        public virtual void Initialize(string nodeName, DialogueSystemGraphView graphView, Vector2 pos) 
         {
             ID = Guid.NewGuid().ToString();
-            DialogueName = DialogueConstants.BaseNodeDefaultNodeName;
+            DialogueName = nodeName;
             Choices = new List<ChoiceSaveData>(); 
             Text = DialogueConstants.BaseNodeQuoteTitle;
             VoiceLineField = new ObjectField()

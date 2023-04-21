@@ -7,9 +7,9 @@ namespace DUJAL.Systems.Dialogue
 {
     public class SingleChoiceNode : BaseNode
     {
-        public override void Initialize(DialogueSystemGraphView graphView, Vector2 pos)
+        public override void Initialize(string nodeName, DialogueSystemGraphView graphView, Vector2 pos)
         {
-            base.Initialize(graphView, pos);
+            base.Initialize(nodeName, graphView, pos);
             DialogueType = DialogueType.SingleChoice;
             ChoiceSaveData choiceData= new ChoiceSaveData() 
             {

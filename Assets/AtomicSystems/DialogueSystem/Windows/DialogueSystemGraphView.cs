@@ -80,7 +80,8 @@ namespace DUJAL.Systems.Dialogue
         private IManipulator CreateContextMenu(string actionTitle, DialogueType type) 
         {
             ContextualMenuManipulator ctxMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode(type, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+                menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode(DialogueConstants.BaseNodeDefaultNodeName, 
+                    type, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
                 );
 
             return ctxMenuManipulator;
@@ -104,6 +105,17 @@ namespace DUJAL.Systems.Dialogue
             Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
             return localMousePosition;
         }
+
+        public void ClearGraph() 
+        {
+            graphElements.ForEach(graphElement => RemoveElement(graphElement));
+            _groupMap.Clear();
+            _ungroupedNodes.Clear();
+            _groupedNodes.Clear();
+
+            _hasError = 0;
+        }
+
         #endregion
 
         #region Style
@@ -152,8 +164,8 @@ namespace DUJAL.Systems.Dialogue
         }
         #endregion
 
-        #region Nodes and Groups
-        public Node CreateNode(DialogueType type,Vector2 pos)
+        #region Nodes and Groups 
+        public BaseNode CreateNode(string nodeName, DialogueType type, Vector2 pos, bool draw = true)
         {
             string assemblyName;
 
@@ -170,8 +182,12 @@ namespace DUJAL.Systems.Dialogue
 
             Type nodeType = Type.GetType(assemblyName);
             BaseNode node = (BaseNode) Activator.CreateInstance(nodeType);
-            node.Initialize(this, pos);
-            node.Draw();
+            node.Initialize(nodeName, this, pos);
+
+            if (draw) 
+            {
+                node.Draw();     
+            }
 
             AddUnGroupedNode(node);
 

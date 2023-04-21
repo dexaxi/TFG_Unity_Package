@@ -18,3 +18,4 @@ MonoBehaviour:
   <IsStartingDialogue>k__BackingField: 1
   <VoiceLine>k__BackingField: {fileID: 0}
   <SpeakerSprite>k__BackingField: {fileID: 0}
+  <DialogueColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706, a: 1}

@@ -12,8 +12,8 @@ namespace DUJAL.Systems.Dialogue
     public class DialogueSystemEditorWindow : EditorWindow
     {
         private Button _saveButton;
-        private TextField _fileNameTF;
-        private DialogueSystemGraphView graphView;
+        private static TextField _fileNameTF;
+        private DialogueSystemGraphView _graphView;
 
         [MenuItem(DialogueConstants.DialogueGraphWindowStream)]
         public static void Open()
@@ -36,17 +36,23 @@ namespace DUJAL.Systems.Dialogue
                 _fileNameTF.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
             });
             _saveButton = DialogueSystemUtils.CreateButon(DialogueConstants.SaveAssetButonText, () => Save());
+            Button LoadButton  = DialogueSystemUtils.CreateButon(DialogueConstants.LoadAssetButonText, () => Load());
+            Button clearButton = DialogueSystemUtils.CreateButon(DialogueConstants.ClearAssetButonText, () => Clear());
+            Button resetButton  = DialogueSystemUtils.CreateButon(DialogueConstants.ResetAssetButonText, () => ResetGraphView());
             toolbar.Add(_fileNameTF);
             toolbar.Add(_saveButton);
+            toolbar.Add(LoadButton);
+            toolbar.Add(clearButton);
+            toolbar.Add(resetButton);
             toolbar.AddStyleSheets($"{DialogueConstants.EditorDefaultResourcesPath}/{DialogueConstants.ToolbarStyleFilename}");
             rootVisualElement.Add(toolbar);
         }
 
         private void AddGraphView()
         {
-            graphView = new DialogueSystemGraphView(this);
-            graphView.StretchToParentSize();
-            rootVisualElement.Add(graphView);
+            _graphView = new DialogueSystemGraphView(this);
+            _graphView.StretchToParentSize();
+            rootVisualElement.Add(_graphView);
         }
 
         private void AddStyles()
@@ -60,6 +66,12 @@ namespace DUJAL.Systems.Dialogue
         {
             _saveButton.SetEnabled(enabled);
         }
+
+        public static void UpdateFileName(string newFileName) 
+        {
+            _fileNameTF.value = newFileName;
+        }
+
         private void Save()
         {
             if (string.IsNullOrEmpty(_fileNameTF.value)) 
@@ -72,8 +84,25 @@ namespace DUJAL.Systems.Dialogue
 
                 return;
             }
-            DialogueSystemIO.Initialize(graphView, _fileNameTF.value);
+            DialogueSystemIO.Initialize(_graphView, _fileNameTF.value);
             DialogueSystemIO.Save();
+        }
+        private void Load()
+        {
+            //EditorUtility.OpenFilePanel(
+            DialogueSystemIO.Initialize(_graphView, _fileNameTF.value);
+            DialogueSystemIO.Load();
+        }
+
+        private void Clear() 
+        {
+            _graphView.ClearGraph();
+        }
+
+        private void ResetGraphView() 
+        {
+            _graphView.ClearGraph();
+            UpdateFileName(DialogueConstants.DefaultAssetFilename);
         }
 
     }

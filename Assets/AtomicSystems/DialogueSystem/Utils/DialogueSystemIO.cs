@@ -6,6 +6,7 @@ using UnityEngine;
 using DUJAL.Systems.Dialogue.Constants;
 using System.Linq;
 using DUJAL.Systems.Utils;
+using UnityEditor.Experimental.GraphView;
 
 namespace DUJAL.Systems.Dialogue.Utils 
 {
@@ -21,6 +22,8 @@ namespace DUJAL.Systems.Dialogue.Utils
         private static Dictionary<string, GroupScriptableObject> _createdGroups;
         private static Dictionary<string, DialogueScriptableObject> _createdDialogues;
 
+        private static Dictionary<string, CustomGroup> _loadedGroups;
+        private static Dictionary<string, BaseNode> _loadedNodes;
         public static void Initialize(DialogueSystemGraphView graphView, string name) 
         {
             _graphView = graphView;
@@ -33,6 +36,9 @@ namespace DUJAL.Systems.Dialogue.Utils
 
             _createdGroups = new Dictionary<string, GroupScriptableObject>();
             _createdDialogues = new Dictionary<string, DialogueScriptableObject>();
+
+            _loadedGroups = new Dictionary<string, CustomGroup>();
+            _loadedNodes = new Dictionary<string, BaseNode>();
         }
 
         public static void Save() 
@@ -53,6 +59,86 @@ namespace DUJAL.Systems.Dialogue.Utils
 
             SaveAsset(graphData);
             SaveAsset(dialogueContainerData);
+        }
+
+        public static void Load() 
+        {
+            GraphSaveDataScriptableObject graphData = LoadAsset<GraphSaveDataScriptableObject>($"{DialogueConstants.DialogueEditorGraphsPath}/" +
+                $"{DialogueConstants.DialogueEditorGraphsFolder}", _graphFilename);
+
+            if (graphData == null) 
+            {
+                EditorUtility.DisplayDialog(
+                    DialogueConstants.LoadInvalidFilenamePopupTitle,
+                    $"{DialogueConstants.LoadInvalidFilenamePopupText}\n\n" + 
+                    $"{DialogueConstants.DialogueEditorGraphsPath}/{DialogueConstants.DialogueEditorGraphsFolder}/{_graphFilename}\n\n" +
+                    DialogueConstants.LoadInvalidFilenamePopupText2,
+                    DialogueConstants.LoadInvalidFilenamePopupPrompt
+                    );
+                return;
+            }
+            DialogueSystemEditorWindow.UpdateFileName(graphData.FileName);
+
+            LoadGroups(graphData.Groups);
+            LoadNodes(graphData.Nodes);
+            LoadNodeConnections();
+        }
+
+        private static void LoadGroups(List<GroupSaveData> groups) 
+        {
+            foreach (GroupSaveData groupData in groups) 
+            {
+                CustomGroup group = _graphView.CreateGroup(groupData.Name, groupData.Position);
+                group.ID = groupData.ID;
+                _loadedGroups.Add(group.ID, group);
+            }
+        }
+
+        private static void LoadNodes(List<NodeSaveData> nodes) 
+        {
+            foreach (NodeSaveData nodeData in nodes) 
+            {
+                List<ChoiceSaveData> choiceDataList = CloneChoiceDataList(nodeData.Choices);
+
+                BaseNode node = _graphView.CreateNode(nodeData.Name, nodeData.DialogueType, nodeData.Position, false);
+                node.ID = nodeData.ID;
+                node.Choices = choiceDataList;
+                node.Text = nodeData.Text;
+
+                node.Draw();
+
+                _graphView.AddElement(node);
+                _loadedNodes.Add(node.ID, node);
+
+                if (string.IsNullOrEmpty(nodeData.GroupID)) 
+                {
+                    continue;
+                }
+
+                CustomGroup group = _loadedGroups[nodeData.GroupID];
+                node.Group = group;
+                group.AddElement(node);
+            }    
+        }
+
+        private static void LoadNodeConnections() 
+        {
+            foreach (KeyValuePair<string, BaseNode> loadedNode in _loadedNodes) 
+            {
+                foreach (Port choicePort in loadedNode.Value.outputContainer.Children()) 
+                {
+                    ChoiceSaveData choiceData = (ChoiceSaveData)choicePort.userData;
+                    if (string.IsNullOrEmpty(choiceData.NodeID)) 
+                    {
+                        continue;
+                    }
+                    BaseNode connectedNode = _loadedNodes[choiceData.NodeID];
+                    Port connectedNodeInputPort = (Port)connectedNode.inputContainer.Children().First();
+                    Edge newEdge = choicePort.ConnectTo(connectedNodeInputPort);
+                    _graphView.AddElement(newEdge);
+                    loadedNode.Value.RefreshPorts();
+                }
+            }
         }
 
         private static void CreateStaticFolders()
@@ -111,6 +197,12 @@ namespace DUJAL.Systems.Dialogue.Utils
             return asset;
         }
 
+        private static T LoadAsset<T>(string path, string name) where T : ScriptableObject
+        {
+            string fullPath = $"{path}/{name}.asset";
+            return AssetDatabase.LoadAssetAtPath<T>(fullPath);
+        }
+
         private static void SaveGroups(GraphSaveDataScriptableObject graphData, DialogueContainerScriptableObject dialogueContainerData)
         {
             List<string> groupTitles = new List<string>();
@@ -154,10 +246,11 @@ namespace DUJAL.Systems.Dialogue.Utils
         {
             if (graphData.PreviousGroupTitles == null || graphData.PreviousGroupTitles.Count == 0) 
             {
+                graphData.PreviousGroupTitles = new List<string>(currentGroupTitles);
                 return;
             }
 
-            List<string> removableTitles = graphData.PreviousGroupTitles.Except(currentGroupTitles).ToList(); ;
+            List<string> removableTitles = graphData.PreviousGroupTitles.Except(currentGroupTitles).ToList();
 
             foreach (string removableGroupTitle in removableTitles) 
             {
@@ -187,23 +280,14 @@ namespace DUJAL.Systems.Dialogue.Utils
             }
 
             UpdateChoiceConnections();
-            //UpdateOldGroupedNodes(groupedNodeNames, graphData);
+            UpdateOldGroupedNodes(groupedNodeNames, graphData);
             UpdateOldUngroupedNodes(ungroupedNodeNames, graphData);
         }
 
         private static void SaveNodeToGraphData(BaseNode node, GraphSaveDataScriptableObject graphData)
         {
-            List<ChoiceSaveData> choiceDataList = new List<ChoiceSaveData>();
-            foreach (ChoiceSaveData choice in node.Choices) 
-            {
-                ChoiceSaveData c = new ChoiceSaveData()
-                {
-                    Text = choice.Text,
-                    NodeID = choice.NodeID
-                };
+            List<ChoiceSaveData> choiceDataList = CloneChoiceDataList(node.Choices);
 
-                choiceDataList.Add(c);
-            }
             NodeSaveData nodeData = new NodeSaveData()
             {
                 ID = node.ID,
@@ -215,11 +299,30 @@ namespace DUJAL.Systems.Dialogue.Utils
                 Position = node.GetPosition().position,
                 BackgroundColor = node.DialogueColorField.value,
                 VoiceLine = (AudioClip)node.VoiceLineField.value,
-                SpeakerSprite = (Sprite)node.ImageField.value
+                SpeakerSprite = (Sprite)node.ImageField.value,
             };
 
             graphData.Nodes.Add(nodeData);
         }
+
+        private static List<ChoiceSaveData> CloneChoiceDataList(List<ChoiceSaveData> choices)
+        {
+            List<ChoiceSaveData> choiceDataList = new List<ChoiceSaveData>();
+
+            foreach (ChoiceSaveData choice in choices)
+            {
+                ChoiceSaveData c = new ChoiceSaveData()
+                {
+                    Text = choice.Text,
+                    NodeID = choice.NodeID
+                };
+
+                choiceDataList.Add(c);
+            }
+
+            return choiceDataList;
+        }
+
         private static void SaveNodeToSO(BaseNode node, DialogueContainerScriptableObject dialogueContainerData)
         {
             DialogueScriptableObject dialogueSO;
@@ -236,7 +339,8 @@ namespace DUJAL.Systems.Dialogue.Utils
                 dialogueContainerData.UngroupedDialogues.Add(dialogueSO);
             }
 
-            dialogueSO.Initialize(node.DialogueName, node.Text, node.Choices.ConvertChoiceLists(), node.DialogueType, node.IsStartingNode());
+            dialogueSO.Initialize(node.DialogueName, node.Text, node.Choices.ConvertChoiceLists(), node.DialogueType, node.IsStartingNode(), 
+                (AudioClip)node.VoiceLineField.value, (Sprite)node.ImageField.value, node.DialogueColorField.value);
             _createdDialogues.Add(node.ID, dialogueSO);
             SaveAsset(dialogueSO);
         }
@@ -264,6 +368,7 @@ namespace DUJAL.Systems.Dialogue.Utils
         {
             if (graphData.UngroupedNodesPreviousNames == null || graphData.UngroupedNodesPreviousNames.Count == 0) 
             {
+                graphData.UngroupedNodesPreviousNames = new List<string>(currentNodeNames);
                 return;
             }
 
@@ -281,6 +386,7 @@ namespace DUJAL.Systems.Dialogue.Utils
         {
             if (graphData.GroupedNodesPreviousNames == null || graphData.GroupedNodesPreviousNames.Count == 0)
             {
+                currentNodeNames.CopySerializableDictionary(graphData.GroupedNodesPreviousNames);
                 return;
             }
 
@@ -293,12 +399,13 @@ namespace DUJAL.Systems.Dialogue.Utils
 
                     foreach (string removableNode in removableNodeNames) 
                     {
-                        RemoveAsset($"{_containerFolderPath}/{DialogueConstants.GroupsContainerFolderName}", removableNode);
+                        RemoveAsset($"{_containerFolderPath}/{DialogueConstants.GroupsContainerFolderName}/{oldGroupedNode.Key}", removableNode);
                     }
                 }
             }
             currentNodeNames.CopySerializableDictionary(graphData.GroupedNodesPreviousNames);
         }
+
         private static void RemoveAsset(string path, string assetName)
         {
             string fullAssetPath = $"{path}/{assetName}.asset";
