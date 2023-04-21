@@ -82,5 +82,7 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string LoadInvalidFilenamePopupText2 = "Please make sure that this file is a valid Dialogue Graph.";
         public const string LoadInvalidFilenamePopupPrompt = "Ok";
 
+        public const string LoadGraphDialogueTitle  = "Dialogue Graphs";
+
     }
 }

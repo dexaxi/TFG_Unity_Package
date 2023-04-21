@@ -104,7 +104,9 @@ namespace DUJAL.Systems.Dialogue.Utils
                 node.ID = nodeData.ID;
                 node.Choices = choiceDataList;
                 node.Text = nodeData.Text;
-
+                node.ImageField.value = nodeData.SpeakerSprite;
+                node.VoiceLineField.value = nodeData.VoiceLine;
+                node.DialogueColorField.value = nodeData.BackgroundColor;
                 node.Draw();
 
                 _graphView.AddElement(node);

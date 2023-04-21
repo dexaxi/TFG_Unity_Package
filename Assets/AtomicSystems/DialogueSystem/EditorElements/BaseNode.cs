@@ -47,7 +47,7 @@ namespace DUJAL.Systems.Dialogue
             {
                 name = DialogueConstants.BaseNodeColorField
             };
-            DialogueColorField.Changed += ResetStyle;
+            DialogueColorField.Changed += UpdateStyle;
             DialogueColorField.value = DialogueConstants.DefaultNodeBackgroundColor;
 
              _graphView = graphView;
@@ -95,7 +95,7 @@ namespace DUJAL.Systems.Dialogue
                 DialogueName = target.value;
                 _graphView.AddGroupedNode(this, currentGroup);
             });
-
+            UpdateStyle();
             nameTF.AddClasses(
                 DialogueConstants.TextFieldStyleSheet,
                 DialogueConstants.TextFieldHiddenStyleSheet,
@@ -203,7 +203,7 @@ namespace DUJAL.Systems.Dialogue
             mainContainer.style.borderBottomWidth = _defaultBorderWidth;
         }
 
-        public void ResetStyle()
+        public void UpdateStyle()
         {
             mainContainer.style.backgroundColor = DialogueColorField.value;
         }

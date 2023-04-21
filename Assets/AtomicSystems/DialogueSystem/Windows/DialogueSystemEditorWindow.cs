@@ -5,6 +5,7 @@ using DUJAL.Systems.Utils;
 using DUJAL.Systems.Dialogue.Utils;
 using DUJAL.Systems.Dialogue.Constants;
 using System;
+using System.IO;
 
 namespace DUJAL.Systems.Dialogue
 {
@@ -89,8 +90,13 @@ namespace DUJAL.Systems.Dialogue
         }
         private void Load()
         {
-            //EditorUtility.OpenFilePanel(
-            DialogueSystemIO.Initialize(_graphView, _fileNameTF.value);
+            string loadPath = EditorUtility.OpenFilePanel(DialogueConstants.LoadGraphDialogueTitle, DialogueConstants.DialogueEditorGraphsPath, "asset");
+            if (string.IsNullOrEmpty(loadPath))
+            {
+                return;
+            }
+            DialogueSystemIO.Initialize(_graphView, Path.GetFileNameWithoutExtension(loadPath));
+            Clear();
             DialogueSystemIO.Load();
         }
 
