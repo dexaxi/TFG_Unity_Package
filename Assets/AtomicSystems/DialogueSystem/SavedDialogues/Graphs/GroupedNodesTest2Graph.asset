@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9e8dba58d0b724c85c554208761ff5, type: 3}
+  m_Name: GroupedNodesTest2Graph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: GroupedNodesTest2
+  <Groups>k__BackingField:
+  - <ID>k__BackingField: fc1b4eac-1cdd-4ad5-a8db-71092be0f5af
+    <Name>k__BackingField: DialogueGroup
+    <Position>k__BackingField: {x: 48, y: 566}
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: 8c4d5085-4c7d-4b26-bd31-5e2dfaf1cd9a
+    <Name>k__BackingField: DialogueName
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: fc1b4eac-1cdd-4ad5-a8db-71092be0f5af
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 73, y: 625}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  - <ID>k__BackingField: 610c3988-bb8c-43cd-bbec-8af97487210d
+    <Name>k__BackingField: ddsada
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: New choice
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: fc1b4eac-1cdd-4ad5-a8db-71092be0f5af
+    <DialogueType>k__BackingField: 1
+    <Position>k__BackingField: {x: 534, y: 682}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  <PreviousGroupTitles>k__BackingField:
+  - DialogueGroup
+  <UngroupedNodesPreviousNames>k__BackingField: []
+  <GroupedNodesPreviousNames>k__BackingField:
+    keys:
+    - DialogueGroup

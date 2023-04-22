@@ -16,5 +16,51 @@ namespace DUJAL.Systems.Dialogue
             DialogueGroups = new SerializableDictionary<GroupScriptableObject, List<DialogueScriptableObject>>();
             UngroupedDialogues = new List<DialogueScriptableObject>();
         }
+
+        public List<string> GetDialogueGroupNames() 
+        {
+            List<string> returnableNames = new List<string>();
+            foreach (GroupScriptableObject groupSO in DialogueGroups.Keys) 
+            {
+                returnableNames.Add(groupSO.GroupName);
+            }
+            return returnableNames;
+        }
+
+        public List<string> GetGroupedDialogueNames(GroupScriptableObject groupSO, bool startingDialogueFilter)
+        {
+            List<DialogueScriptableObject> dialoguesInGroup = DialogueGroups[groupSO];
+            List<string> returnableNames = new List<string>();
+            foreach (DialogueScriptableObject dialogueSO in dialoguesInGroup)
+            {
+                if (startingDialogueFilter && dialogueSO.IsStartingDialogue)
+                {
+                    returnableNames.Add(dialogueSO.DialogueName);
+                }
+                else if (!startingDialogueFilter) 
+                {                
+                    returnableNames.Add(dialogueSO.DialogueName);
+                }
+            }
+            return returnableNames;
+        }
+
+
+        public List<string> GetUnGroupedDialogueNames(bool startingDialogueFilter)
+        {
+            List<string> returnableNames = new List<string>();
+            foreach (DialogueScriptableObject dialogueSO in UngroupedDialogues)
+            {
+                if (startingDialogueFilter && dialogueSO.IsStartingDialogue)
+                {
+                    returnableNames.Add(dialogueSO.DialogueName);
+                }
+                else if (!startingDialogueFilter)
+                {
+                    returnableNames.Add(dialogueSO.DialogueName);
+                }
+            }
+            return returnableNames;
+        }
     }
 }

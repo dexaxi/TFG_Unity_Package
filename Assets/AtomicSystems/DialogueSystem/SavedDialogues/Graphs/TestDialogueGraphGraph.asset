@@ -16,39 +16,101 @@ MonoBehaviour:
   <Groups>k__BackingField:
   - <ID>k__BackingField: e12213bf-0762-4ded-9927-762479f864f6
     <Name>k__BackingField: Grupo1
-    <Position>k__BackingField: {x: -82, y: 358}
+    <Position>k__BackingField: {x: -79, y: 327}
+  - <ID>k__BackingField: d98b53b7-6b18-49c5-9805-dda1f4888c11
+    <Name>k__BackingField: DialogueGroup
+    <Position>k__BackingField: {x: -190, y: 738}
   <Nodes>k__BackingField:
   - <ID>k__BackingField: d44e2614-138a-42aa-bc0b-30b2b8d97d7a
     <Name>k__BackingField: TestDialogue2
-    <Text>k__BackingField: RRRRRRRR
+    <Text>k__BackingField: Siguiente dialogo
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: 
     <GroupID>k__BackingField: e12213bf-0762-4ded-9927-762479f864f6
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 382, y: 433}
+    <Position>k__BackingField: {x: 703, y: 422}
     <BackgroundColor>k__BackingField: {r: 1, g: 0.17609818, b: 0, a: 1}
+    <VoiceLine>k__BackingField: {fileID: 8300000, guid: cde7c0f6d89fe9146b8f54f4aa0504bb,
+      type: 3}
+    <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: c785b657176a508409a61a2389bbd815,
+      type: 3}
+  - <ID>k__BackingField: 45a0d0c1-7f55-4bcd-8fdf-a8a399f45e64
+    <Name>k__BackingField: AA
+    <Text>k__BackingField: Opcion 2
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: d98b53b7-6b18-49c5-9805-dda1f4888c11
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 703, y: 1055}
+    <BackgroundColor>k__BackingField: {r: 0.89986145, g: 1, b: 0, a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  - <ID>k__BackingField: 791b5261-8350-4ead-ac33-ee7fa9977b7f
+    <Name>k__BackingField: AAA
+    <Text>k__BackingField: Opcion 3
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: d98b53b7-6b18-49c5-9805-dda1f4888c11
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 703, y: 1313}
+    <BackgroundColor>k__BackingField: {r: 0, g: 0.82729244, b: 1, a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  - <ID>k__BackingField: 68d5d697-9a79-4294-9409-fe6e72300e80
+    <Name>k__BackingField: A
+    <Text>k__BackingField: Opcion 1
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: d98b53b7-6b18-49c5-9805-dda1f4888c11
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 703, y: 797}
+    <BackgroundColor>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
     <VoiceLine>k__BackingField: {fileID: 8300000, guid: cde7c0f6d89fe9146b8f54f4aa0504bb,
       type: 3}
     <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: c785b657176a508409a61a2389bbd815,
       type: 3}
   - <ID>k__BackingField: f2f119b2-47a6-4a83-9397-85ccc28096b4
     <Name>k__BackingField: TestDialogue
-    <Text>k__BackingField: AAAA
+    <Text>k__BackingField: Primer texto dialogo single
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: d44e2614-138a-42aa-bc0b-30b2b8d97d7a
     <GroupID>k__BackingField: e12213bf-0762-4ded-9927-762479f864f6
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: -59, y: 415}
+    <Position>k__BackingField: {x: -54, y: 386}
     <BackgroundColor>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
     <VoiceLine>k__BackingField: {fileID: 8300000, guid: bfb9758ee3f5a0c4c9a13ebd703b1dbc,
       type: 3}
     <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: fc546eb95d0385540b11d601ec67cf31,
       type: 3}
+  - <ID>k__BackingField: bb626311-5681-4df1-9cd4-7230ee33938b
+    <Name>k__BackingField: AAAAAA
+    <Text>k__BackingField: "Voy a meter muchisimo texto para conseguir ver como se
+      comporta esto en caso de que pete entonces necesito meter muchisimo texto para
+      rellenar y dem\xE1s espero que no sea un problema un saludito gente"
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: New choice
+      <NodeID>k__BackingField: 68d5d697-9a79-4294-9409-fe6e72300e80
+    - <Text>k__BackingField: New choice
+      <NodeID>k__BackingField: 45a0d0c1-7f55-4bcd-8fdf-a8a399f45e64
+    - <Text>k__BackingField: New choice
+      <NodeID>k__BackingField: 791b5261-8350-4ead-ac33-ee7fa9977b7f
+    <GroupID>k__BackingField: d98b53b7-6b18-49c5-9805-dda1f4888c11
+    <DialogueType>k__BackingField: 1
+    <Position>k__BackingField: {x: -165, y: 797}
+    <BackgroundColor>k__BackingField: {r: 1, g: 0.6164134, b: 0, a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: fc546eb95d0385540b11d601ec67cf31,
+      type: 3}
   <PreviousGroupTitles>k__BackingField:
   - Grupo1
+  - DialogueGroup
   <UngroupedNodesPreviousNames>k__BackingField: []
   <GroupedNodesPreviousNames>k__BackingField:
     keys:
     - Grupo1
+    - DialogueGroup

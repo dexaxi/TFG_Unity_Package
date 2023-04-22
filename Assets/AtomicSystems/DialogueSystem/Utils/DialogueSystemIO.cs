@@ -187,7 +187,7 @@ namespace DUJAL.Systems.Dialogue.Utils
                 }
             });
         }
-        private static T CreateAsset<T> (string path, string name) where T : ScriptableObject
+        public static T CreateAsset<T> (string path, string name) where T : ScriptableObject
         {
             string fullPath = $"{path}/{name}.asset";
             T asset = AssetDatabase.LoadAssetAtPath<T>(fullPath);
@@ -199,7 +199,7 @@ namespace DUJAL.Systems.Dialogue.Utils
             return asset;
         }
 
-        private static T LoadAsset<T>(string path, string name) where T : ScriptableObject
+        public static T LoadAsset<T>(string path, string name) where T : ScriptableObject
         {
             string fullPath = $"{path}/{name}.asset";
             return AssetDatabase.LoadAssetAtPath<T>(fullPath);
@@ -408,13 +408,13 @@ namespace DUJAL.Systems.Dialogue.Utils
             currentNodeNames.CopySerializableDictionary(graphData.GroupedNodesPreviousNames);
         }
 
-        private static void RemoveAsset(string path, string assetName)
+        public static void RemoveAsset(string path, string assetName)
         {
             string fullAssetPath = $"{path}/{assetName}.asset";
             AssetDatabase.DeleteAsset(fullAssetPath);  
         }
 
-        private static void SaveAsset(UnityEngine.Object asset) 
+        public static void SaveAsset(UnityEngine.Object asset) 
         {
             EditorUtility.SetDirty(asset);
             AssetDatabase.SaveAssets();

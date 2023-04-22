@@ -5,4 +5,10 @@ namespace DUJAL.Systems.Dialogue
         SingleChoice,
         MultipleChoice
     }
+
+    public enum AudioStyle
+    {
+        GibberishSoundStyle,
+        DubbedSoundStyle
+    }
 }

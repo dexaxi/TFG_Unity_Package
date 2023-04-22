@@ -82,6 +82,7 @@ namespace DUJAL.Systems.Dialogue.Utils
             return element;
         }
 
+        //SerializableDictionaryUtil
         public static void AddItem<K, V>(this SerializableDictionary<K, List<V>> dictionary, K key, V value)
         {
             if (dictionary.ContainsKey(key)) 
@@ -93,6 +94,7 @@ namespace DUJAL.Systems.Dialogue.Utils
             dictionary.Add(key, new List<V>() { value });
         }
 
+        //Saving/Loading
         public static List<ChoiceData> ConvertChoiceLists(this List<ChoiceSaveData> choiceSaveData) 
         {
             List<ChoiceData> returnableChoices = new List<ChoiceData>();
@@ -106,6 +108,65 @@ namespace DUJAL.Systems.Dialogue.Utils
             }
 
             return returnableChoices;
+        }
+
+        //Custom Inspector
+        public static void DrawDisabledFields(Action a)
+        {
+            EditorGUI.BeginDisabledGroup(true);
+            a.Invoke();
+            EditorGUI.EndDisabledGroup();
+        }
+        public static void DrawHeader(string label) 
+        {
+            EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+        }
+
+        public static void DrawPropertyField(this SerializedProperty property) 
+        {
+            EditorGUILayout.PropertyField(property);
+        }
+
+        public static int DrawPopup(string label, SerializedProperty index, string[] options)
+        {
+            return EditorGUILayout.Popup(label, index.intValue, options);
+        }
+        public static int DrawPopup(string label, int index, string [] options) 
+        {
+            return EditorGUILayout.Popup(label, index, options);
+        } 
+
+        public static void DrawSpace(int space = 5) 
+        {
+            EditorGUILayout.Space(space);
+        }
+
+        public static void DrawHelp(string title, MessageType type = MessageType.Info, bool wide = true) 
+        {
+            EditorGUILayout.HelpBox(title, type, wide);
+        }
+
+        //Update property Index in custom editor 
+        public static void UpdateIndexOnNameListChange(this SerializedProperty selectedIndexProperty, List<string> options, int previousIndex, string oldName, bool isOldNull)
+        {
+            if (isOldNull)
+            {
+                selectedIndexProperty.intValue = 0;
+                return;
+            }
+            bool prevIndexOOB = previousIndex > options.Count - 1;
+            bool notCurrentName = prevIndexOOB || oldName != options[previousIndex];
+            if (notCurrentName)
+            {
+                if (options.Contains(oldName))
+                {
+                    selectedIndexProperty.intValue = options.IndexOf(oldName);
+                }
+                else
+                {
+                    selectedIndexProperty.intValue = 0;
+                }
+            }
         }
     }
 }

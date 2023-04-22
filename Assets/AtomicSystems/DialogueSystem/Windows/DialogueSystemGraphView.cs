@@ -19,6 +19,8 @@ namespace DUJAL.Systems.Dialogue
         private SerializableDictionary<string, DialogueSystemGroupError> _groupMap;
         private SerializableDictionary<CustomGroup, SerializableDictionary<string, DialogueSystemNodeError>> _groupedNodes;
 
+        private MiniMap _map;
+
         private int _hasError;
         public int HasError 
         {
@@ -43,9 +45,9 @@ namespace DUJAL.Systems.Dialogue
             _ungroupedNodes = new SerializableDictionary<string, DialogueSystemNodeError>();
             _groupMap = new SerializableDictionary<string, DialogueSystemGroupError>();
             _groupedNodes = new SerializableDictionary<CustomGroup, SerializableDictionary<string, DialogueSystemNodeError>>();
-
             AddManipulators();
-            AddSearchWindow(); 
+            AddSearchWindow();
+            AddMinimap();
             AddGridBackground();
             OnElementsDeleted();
             OnGroupElementsAdded();
@@ -75,6 +77,19 @@ namespace DUJAL.Systems.Dialogue
                 _seachWindow.Initialize(this);
             }
             nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), _seachWindow);
+        }
+
+        private void AddMinimap()
+        {
+            _map = new MiniMap() { anchored = true };
+            _map.SetPosition(new Rect(15, 50, 250,200));
+            Add(_map);
+            _map.visible = false;
+        }
+
+        public void ToggleMinimap() 
+        {
+            _map.visible = !_map.visible;
         }
 
         private IManipulator CreateContextMenu(string actionTitle, DialogueType type) 
@@ -132,6 +147,14 @@ namespace DUJAL.Systems.Dialogue
                 $"{DialogueConstants.EditorDefaultResourcesPath}/{DialogueConstants.GraphViewStyleFilename}",
                 $"{DialogueConstants.EditorDefaultResourcesPath}/{DialogueConstants.NodeStyleFilename}"
             );
+
+            StyleColor bakcgroundMinimapColor = new StyleColor(new Color32(30,30,30, 255));
+            StyleColor borderMinimapColor = new StyleColor(new Color32(50,50,50,255));
+            _map.style.backgroundColor = bakcgroundMinimapColor;
+            _map.style.borderTopColor = borderMinimapColor;
+            _map.style.borderRightColor= borderMinimapColor;
+            _map.style.borderBottomColor = borderMinimapColor;
+            _map.style.borderLeftColor = borderMinimapColor;
         }
 
         private void OnGraphViewChanged() 

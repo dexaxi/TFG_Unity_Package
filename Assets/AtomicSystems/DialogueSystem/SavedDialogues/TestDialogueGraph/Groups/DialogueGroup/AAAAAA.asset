@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6855f3c16f7a49c4580dc3c94a532dec, type: 3}
-  m_Name: TestDialogue
+  m_Name: AAAAAA
   m_EditorClassIdentifier: 
-  <DialogueName>k__BackingField: TestDialogue
-  <Text>k__BackingField: Primer texto dialogo single
-  <DialogueType>k__BackingField: 0
+  <DialogueName>k__BackingField: AAAAAA
+  <Text>k__BackingField: "Voy a meter muchisimo texto para conseguir ver como se
+    comporta esto en caso de que pete entonces necesito meter muchisimo texto para
+    rellenar y dem\xE1s espero que no sea un problema un saludito gente"
+  <DialogueType>k__BackingField: 1
   <IsStartingDialogue>k__BackingField: 1
-  <VoiceLine>k__BackingField: {fileID: 8300000, guid: bfb9758ee3f5a0c4c9a13ebd703b1dbc,
-    type: 3}
+  <VoiceLine>k__BackingField: {fileID: 0}
   <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: fc546eb95d0385540b11d601ec67cf31,
     type: 3}
-  <DialogueColor>k__BackingField: {r: 0, g: 0, b: 1, a: 1}
+  <DialogueColor>k__BackingField: {r: 1, g: 0.6164134, b: 0, a: 1}
