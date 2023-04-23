@@ -3535,7 +3535,7 @@ MonoBehaviour:
   _selectedDialogue: 1
   _text: {fileID: 420439526}
   _speakerImage: {fileID: 2103863658}
-  _textSpeed: 0.05
+  _textSpeed: 0.548
   _maxLineCount: 2
   _audioStyle: 0
   _autoText: 0

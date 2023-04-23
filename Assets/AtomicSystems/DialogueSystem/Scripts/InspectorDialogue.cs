@@ -62,6 +62,7 @@ namespace DUJAL.Systems.Dialogue
             ClearText();
             Enter.Invoke();
 
+            _text.maxVisibleCharacters = 0;
             _text.maxVisibleLines = _maxLineCount;
             _text.text = _currentPlayedDialogue.Text;
             _speakerImage.sprite = _currentPlayedDialogue.SpeakerSprite;
@@ -71,7 +72,9 @@ namespace DUJAL.Systems.Dialogue
             for (int i = 0; i < _text.text.Length; i++)
             {
                 _text.maxVisibleCharacters++;
-                LetterRevealed.Invoke();
+
+                if(!_text.text[i].IsWhitespace())
+                    LetterRevealed.Invoke();
 
                 _text.ForceMeshUpdate();
 
@@ -125,5 +128,9 @@ namespace DUJAL.Systems.Dialogue
             }
         }
 
+        public void ModifyTextSpeed(int newValue) 
+        {
+            _textSpeed = newValue;
+        }
     }
 }
