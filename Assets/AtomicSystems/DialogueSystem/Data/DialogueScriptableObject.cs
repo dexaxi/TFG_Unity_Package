@@ -27,7 +27,7 @@ namespace DUJAL.Systems.Dialogue
         }
         public static DialogueScriptableObject CopyInto(DialogueScriptableObject origin, DialogueScriptableObject copy) 
         {
-            copy.DialogueName = origin.DialogueName;
+            copy.DialogueName = origin.DialogueName; 
             copy.Text = origin.Text;
             copy.Choices = new List<ChoiceData>();
             foreach (ChoiceData c in origin.Choices) 

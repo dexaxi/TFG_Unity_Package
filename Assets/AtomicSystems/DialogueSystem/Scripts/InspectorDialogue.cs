@@ -7,8 +7,7 @@ namespace DUJAL.Systems.Dialogue
     using UnityEngine.Events;
     using DUJAL.Systems.Utils;
     using UnityEngine.UI;
-    using DUJAL.Systems.Dialogue.Utils;
-    using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Audio;
 
     public class InspectorDialogue : MonoBehaviour
     {
@@ -16,6 +15,7 @@ namespace DUJAL.Systems.Dialogue
         [SerializeField] private DialogueContainerScriptableObject _dialogueContainerSO;
         [SerializeField] private GroupScriptableObject _groupSO;
         [SerializeField] private DialogueScriptableObject _dialogueSO;
+        [SerializeField] private DialogueScriptableObject _currentPlayedDialogue;
         //filter
         [SerializeField] private bool _startingDialogueFilter;
         [SerializeField] private bool _groupedDialogueFilter;
@@ -40,13 +40,12 @@ namespace DUJAL.Systems.Dialogue
         [SerializeField] public UnityEvent OnTexSkipped = new UnityEvent();
 
         private int _currentChoiceIndex;
-        private DialogueScriptableObject _currentPlayedDialogue;
         private void Awake()
         {
-            _currentPlayedDialogue = DialogueSystemIO.CreateAsset<DialogueScriptableObject>(DialogueConstants.DialogueEditorGraphsPath, "CurrentDialogue");
             _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
 
             Exit.AddListener(HandleTextboxEnd);
+            LetterRevealed.AddListener(PlayGibberish);
 
             _currentChoiceIndex = 0;
             
@@ -109,13 +108,21 @@ namespace DUJAL.Systems.Dialogue
         private void FindNextDialogue()
         {
             DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[_currentChoiceIndex].NextDialogue;
-            _currentPlayedDialogue = nextDialogue;
+            DialogueScriptableObject.CopyInto(nextDialogue, _currentPlayedDialogue);
         }
 
         private void ClearText(string s = "")
         {
-            _text.maxVisibleCharacters = 1;
             _text.text = s;
+            _text.maxVisibleCharacters = 1;
+        }
+
+        private void PlayGibberish() 
+        {
+            if (AudioManager.Instance != null) 
+            {
+                AudioManager.Instance.Play(_currentPlayedDialogue.VoiceLine);
+            }
         }
 
     }

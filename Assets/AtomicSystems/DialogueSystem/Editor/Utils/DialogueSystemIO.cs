@@ -44,7 +44,6 @@ namespace DUJAL.Systems.Dialogue.Utils
         {
             CreateStaticFolders();
             GetElementsFromGraphView();
-            
             GraphSaveDataScriptableObject graphData = CreateAsset<GraphSaveDataScriptableObject>($"{DialogueConstants.DialogueEditorGraphsPath}/" +
                 $"{DialogueConstants.DialogueEditorGraphsFolder}", $"{_graphFilename}Graph");
 
@@ -58,6 +57,8 @@ namespace DUJAL.Systems.Dialogue.Utils
 
             SaveAsset(graphData);
             SaveAsset(dialogueContainerData);
+
+            DialogueScriptableObject _currentPlayedText = CreateAsset<DialogueScriptableObject>(DialogueConstants.DialogueEditorGraphsPath, "Playable Dialogue");
         }
 
         public static void Load() 

@@ -375,5 +375,16 @@ namespace DUJAL.Systems.Audio
                 }
             }
         }
+
+        public void Play(AudioClip clip)
+        {
+            foreach (Sound s in sounds) 
+            {
+                if (s.audioSource.clip == clip) 
+                {
+                    Play(s.name);
+                }
+            }
+        }
     }
 }

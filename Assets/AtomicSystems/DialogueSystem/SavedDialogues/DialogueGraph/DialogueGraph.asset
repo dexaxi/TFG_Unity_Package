@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FileName>k__BackingField: DialogueGraph
   <DialogueGroups>k__BackingField:
-    keys:
-    - {fileID: 11400000, guid: ffe4350143849944497a383e5a826dc5, type: 2}
+    list:
+    - Key: {fileID: 11400000, guid: ffe4350143849944497a383e5a826dc5, type: 2}
+      Value:
+      - {fileID: 11400000, guid: 39f7ac42b76cbdc48b5ade9596f853d7, type: 2}
   <UngroupedDialogues>k__BackingField:
-  - {fileID: 11400000, guid: 3c8373e4939d93a47985349f199a395e, type: 2}
   - {fileID: 11400000, guid: 80111fe67cc63cc48a711df27ad1315d, type: 2}
+  - {fileID: 11400000, guid: 3c8373e4939d93a47985349f199a395e, type: 2}

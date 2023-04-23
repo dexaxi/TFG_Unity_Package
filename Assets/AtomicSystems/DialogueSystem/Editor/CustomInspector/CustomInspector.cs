@@ -11,6 +11,7 @@ namespace DUJAL.Systems.Dialogue
         private SerializedProperty _dialogueContainerSOProperty;
         private SerializedProperty _groupSOProperty;
         private SerializedProperty _dialogueSOProperty;
+        private SerializedProperty _currentPlayedDialogueProperty;
         //Filters
         private SerializedProperty _startingDialogueFilterProperty;
         private SerializedProperty _groupedDialogueFilterProperty;
@@ -34,6 +35,7 @@ namespace DUJAL.Systems.Dialogue
             _dialogueContainerSOProperty = serializedObject.FindProperty("_dialogueContainerSO");
             _groupSOProperty = serializedObject.FindProperty("_groupSO");
             _dialogueSOProperty = serializedObject.FindProperty("_dialogueSO");
+            _currentPlayedDialogueProperty = serializedObject.FindProperty("_currentPlayedDialogue");
             _startingDialogueFilterProperty = serializedObject.FindProperty("_startingDialogueFilter");
             _groupedDialogueFilterProperty = serializedObject.FindProperty("_groupedDialogueFilter");
             
@@ -114,7 +116,7 @@ namespace DUJAL.Systems.Dialogue
             DrawDialogueField(dialogueNames, dialoguePath);
             
             DrawUIField();
-            
+
             serializedObject.ApplyModifiedProperties();
 
         }
@@ -175,6 +177,9 @@ namespace DUJAL.Systems.Dialogue
 
             _dialogueSOProperty.objectReferenceValue = dialogue;
             DialogueSystemUtils.DrawDisabledFields(() => _dialogueSOProperty.DrawPropertyField());
+            _currentPlayedDialogueProperty.objectReferenceValue = DialogueSystemIO.LoadAsset<DialogueScriptableObject>(DialogueConstants.DialogueEditorGraphsPath, "Playable Dialogue");
+            DialogueSystemUtils.DrawDisabledFields(() => _currentPlayedDialogueProperty.DrawPropertyField());
+
         }
         
         public void DrawHelp(string helpBoxText, MessageType type = MessageType.Info)

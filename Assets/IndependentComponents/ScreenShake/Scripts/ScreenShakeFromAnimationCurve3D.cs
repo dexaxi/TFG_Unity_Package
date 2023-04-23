@@ -47,7 +47,7 @@ namespace DUJAL.IndependentComponents.ScreenShake
 			{
 				Shaking = true;
 				StartCoroutine(IShakeScreen());
-			}
+			}  
 		}
 
 		/// <summary>

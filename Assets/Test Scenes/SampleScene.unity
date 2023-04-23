@@ -2281,8 +2281,7 @@ MonoBehaviour:
   Reverse: 0
   testInt: 0
   testDictionary:
-    keys: 
-    values: []
+    list: []
   testList: []
 --- !u!1 &902445561
 GameObject:
@@ -3528,13 +3527,15 @@ MonoBehaviour:
     type: 2}
   _groupSO: {fileID: 11400000, guid: ffe4350143849944497a383e5a826dc5, type: 2}
   _dialogueSO: {fileID: 11400000, guid: 3c8373e4939d93a47985349f199a395e, type: 2}
-  _startingDialogueFilter: 1
+  _currentPlayedDialogue: {fileID: 11400000, guid: e1640ffbd1dba1944abe190324a26be2,
+    type: 2}
+  _startingDialogueFilter: 0
   _groupedDialogueFilter: 0
   _selectedGroup: 0
-  _selectedDialogue: 0
+  _selectedDialogue: 1
   _text: {fileID: 420439526}
   _speakerImage: {fileID: 2103863658}
-  _textSpeed: 0.064
+  _textSpeed: 0.05
   _maxLineCount: 2
   _audioStyle: 0
   _autoText: 0

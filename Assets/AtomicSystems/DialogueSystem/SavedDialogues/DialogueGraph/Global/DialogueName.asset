@@ -13,10 +13,18 @@ MonoBehaviour:
   m_Name: DialogueName
   m_EditorClassIdentifier: 
   <DialogueName>k__BackingField: DialogueName
-  <Text>k__BackingField: Dialogue Text1
+  <Text>k__BackingField: 'Dialogue Text1 dialogue text dialogue text lorem impsum
+    dolor et sit amet
+
+'
+  <Choices>k__BackingField:
+  - <Text>k__BackingField: ca40afcf-f4ae-4c3f-8217-52be279763d5
+    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 39f7ac42b76cbdc48b5ade9596f853d7,
+      type: 2}
   <DialogueType>k__BackingField: 0
   <IsStartingDialogue>k__BackingField: 1
-  <VoiceLine>k__BackingField: {fileID: 0}
+  <VoiceLine>k__BackingField: {fileID: 8300000, guid: db73cff07fa294b4b990de1c612c06ec,
+    type: 3}
   <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: fc546eb95d0385540b11d601ec67cf31,
     type: 3}
   <DialogueColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706, a: 1}

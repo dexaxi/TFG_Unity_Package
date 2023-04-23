@@ -9,6 +9,7 @@ namespace DUJAL.Systems.Dialogue
     using DUJAL.Systems.Dialogue.Utils;
     using DUJAL.Systems.Dialogue.Constants;
     using System.IO;
+
     public class DialogueSystemEditorWindow : EditorWindow
     {
         private Button _saveButton;
