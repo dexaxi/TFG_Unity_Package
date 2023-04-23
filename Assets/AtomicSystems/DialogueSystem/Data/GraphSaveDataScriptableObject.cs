@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DUJAL.Systems.Utils;
-
 namespace DUJAL.Systems.Dialogue
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+    using DUJAL.Systems.Utils;
     public class GraphSaveDataScriptableObject : ScriptableObject
     {
         [field: SerializeField] public string FileName { get; set; }

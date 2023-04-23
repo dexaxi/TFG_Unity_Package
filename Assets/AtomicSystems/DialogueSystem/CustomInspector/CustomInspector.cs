@@ -1,14 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using DUJAL.Systems.Dialogue.Constants;
-using DUJAL.Systems.Dialogue.Utils;
-using System;
-using UnityEngine.Events;
-using TMPro;
 namespace DUJAL.Systems.Dialogue 
 {
+    using System.Collections.Generic;
+    using UnityEditor;
+    using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Utils;
     [CustomEditor(typeof(InspectorDialogue))]
     public class CustomInspector : Editor
     {
@@ -25,12 +20,14 @@ namespace DUJAL.Systems.Dialogue
 
         //UI Data
         private SerializedProperty _textProperty;
+        private SerializedProperty _speakerImageProperty;
         private SerializedProperty _audioStyleProperty;
         private SerializedProperty _textSpeedProperty;
         private SerializedProperty _maxLineCountProperty;
         private SerializedProperty _autoTextProperty;
         private SerializedProperty _enterProperty;
         private SerializedProperty _exitProperty;
+        private SerializedProperty _letterRevealedProperty;
 
         private void OnEnable()
         {
@@ -44,13 +41,14 @@ namespace DUJAL.Systems.Dialogue
             _selectedDialogueProperty = serializedObject.FindProperty("_selectedDialogue");
 
             _textProperty = serializedObject.FindProperty("_text");
+            _speakerImageProperty = serializedObject.FindProperty("_speakerImage");
             _audioStyleProperty = serializedObject.FindProperty("_audioStyle");
             _textSpeedProperty = serializedObject.FindProperty("_textSpeed");
             _maxLineCountProperty = serializedObject.FindProperty("_maxLineCount");
             _autoTextProperty = serializedObject.FindProperty("_autoText");
-            _enterProperty = serializedObject.FindProperty("_enter");
-            _exitProperty = serializedObject.FindProperty("_exit");
-
+            _enterProperty = serializedObject.FindProperty("Enter");
+            _exitProperty = serializedObject.FindProperty("Exit");
+            _letterRevealedProperty = serializedObject.FindProperty("LetterRevealed");
         }
 
         public override void OnInspectorGUI()
@@ -191,12 +189,14 @@ namespace DUJAL.Systems.Dialogue
         {
             DialogueSystemUtils.DrawHeader("UI");
             _textProperty.DrawPropertyField();
+            _speakerImageProperty.DrawPropertyField();
             _audioStyleProperty.DrawPropertyField();
             _textSpeedProperty.DrawPropertyField();
             _maxLineCountProperty.DrawPropertyField();
             _autoTextProperty.DrawPropertyField();
             DialogueSystemUtils.DrawSpace();
             _enterProperty.DrawPropertyField();
+            _letterRevealedProperty.DrawPropertyField();
             _exitProperty.DrawPropertyField();
             
             

@@ -1,7 +1,7 @@
-using UnityEngine;
 
 namespace DUJAL.Systems.Dialogue
-{ 
+{
+    using UnityEngine;
     public class ChoiceData
     {
         [field: SerializeField] public string Text { get; set; }

@@ -1,15 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using DUJAL.Systems.Dialogue.Constants;
-using System.Linq;
-using DUJAL.Systems.Utils;
-using UnityEditor.Experimental.GraphView;
+
 
 namespace DUJAL.Systems.Dialogue.Utils 
 {
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEngine;
+    using DUJAL.Systems.Dialogue.Constants;
+    using System.Linq;
+    using DUJAL.Systems.Utils;
+    using UnityEditor.Experimental.GraphView;
     public class DialogueSystemIO
     {
         private static DialogueSystemGraphView _graphView;
@@ -341,8 +340,16 @@ namespace DUJAL.Systems.Dialogue.Utils
                 dialogueContainerData.UngroupedDialogues.Add(dialogueSO);
             }
 
-            dialogueSO.Initialize(node.DialogueName, node.Text, node.Choices.ConvertChoiceLists(), node.DialogueType, node.IsStartingNode(), 
-                (AudioClip)node.VoiceLineField.value, (Sprite)node.ImageField.value, node.DialogueColorField.value);
+            dialogueSO.Initialize(
+                node.DialogueName,
+                node.Text,
+                node.Choices.ConvertChoiceLists(),
+                node.DialogueType,
+                node.IsStartingNode(), 
+                (AudioClip) node.VoiceLineField.value,
+                (Sprite) node.ImageField.value,
+                node.DialogueColorField.value);
+
             _createdDialogues.Add(node.ID, dialogueSO);
             SaveAsset(dialogueSO);
         }

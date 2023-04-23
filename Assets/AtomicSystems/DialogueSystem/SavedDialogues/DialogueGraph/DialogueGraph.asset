@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2474724dc3b9c2a4c8af98a07322689d, type: 3}
-  m_Name: TestDialogueGraph
+  m_Name: DialogueGraph
   m_EditorClassIdentifier: 
-  <FileName>k__BackingField: TestDialogueGraph
+  <FileName>k__BackingField: DialogueGraph
   <DialogueGroups>k__BackingField:
     keys:
-    - {fileID: 11400000, guid: b254cf9fd02a11f4b97ea0d284c863c3, type: 2}
-    - {fileID: 11400000, guid: dec5060ac32e31947932a7244e124ae5, type: 2}
-  <UngroupedDialogues>k__BackingField: []
+    - {fileID: 11400000, guid: ffe4350143849944497a383e5a826dc5, type: 2}
+  <UngroupedDialogues>k__BackingField:
+  - {fileID: 11400000, guid: 3c8373e4939d93a47985349f199a395e, type: 2}
+  - {fileID: 11400000, guid: 80111fe67cc63cc48a711df27ad1315d, type: 2}

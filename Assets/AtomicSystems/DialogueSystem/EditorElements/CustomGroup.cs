@@ -1,9 +1,8 @@
-using System;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue 
 {
+    using System;
+    using UnityEditor.Experimental.GraphView;
+    using UnityEngine;
     public class CustomGroup : Group
     {
         private float _defaultBorderWidth;

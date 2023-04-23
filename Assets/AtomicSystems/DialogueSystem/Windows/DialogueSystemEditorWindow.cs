@@ -1,15 +1,14 @@
-using UnityEditor;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using DUJAL.Systems.Utils;
-using DUJAL.Systems.Dialogue.Utils;
-using DUJAL.Systems.Dialogue.Constants;
-using System;
-using System.IO;
+
 
 namespace DUJAL.Systems.Dialogue
 {
-
+    using UnityEditor;
+    using UnityEngine.UIElements;
+    using UnityEditor.UIElements;
+    using DUJAL.Systems.Utils;
+    using DUJAL.Systems.Dialogue.Utils;
+    using DUJAL.Systems.Dialogue.Constants;
+    using System.IO;
     public class DialogueSystemEditorWindow : EditorWindow
     {
         private Button _saveButton;

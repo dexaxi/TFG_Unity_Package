@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     public class DialogueScriptableObject : ScriptableObject
     {
         [field: SerializeField] public string DialogueName { get; set; }
@@ -25,6 +24,22 @@ namespace DUJAL.Systems.Dialogue
             VoiceLine = clip;
             SpeakerSprite = sprite;
             DialogueColor = dialogueColor;
+        }
+        public static DialogueScriptableObject CopyInto(DialogueScriptableObject origin, DialogueScriptableObject copy) 
+        {
+            copy.DialogueName = origin.DialogueName;
+            copy.Text = origin.Text;
+            copy.Choices = new List<ChoiceData>();
+            foreach (ChoiceData c in origin.Choices) 
+            {
+                copy.Choices.Add(c);
+            }
+            copy.DialogueType = origin.DialogueType;
+            copy.IsStartingDialogue = origin.IsStartingDialogue;
+            copy.VoiceLine = origin.VoiceLine;
+            copy.SpeakerSprite = origin.SpeakerSprite;
+            copy.DialogueColor = origin.DialogueColor;
+            return copy;
         }
     }
 }

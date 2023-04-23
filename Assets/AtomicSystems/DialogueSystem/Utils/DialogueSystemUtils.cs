@@ -1,13 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.UIElements;
-using DUJAL.Systems.Utils;
+
 namespace DUJAL.Systems.Dialogue.Utils
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEditor;
+    using UnityEditor.Experimental.GraphView;
+    using UnityEngine.UIElements;
+    using DUJAL.Systems.Utils;
     public static class DialogueSystemUtils
     {
         //Node Utils
@@ -102,11 +101,10 @@ namespace DUJAL.Systems.Dialogue.Utils
             foreach (ChoiceSaveData choiceSave in choiceSaveData) {
                 ChoiceData choiceData = new ChoiceData()
                 {
-                    Text = choiceSave.Text
+                    Text = choiceSave.NodeID
                 };
                 returnableChoices.Add(choiceData);
             }
-
             return returnableChoices;
         }
 

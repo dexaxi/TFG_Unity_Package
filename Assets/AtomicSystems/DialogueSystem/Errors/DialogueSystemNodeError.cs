@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue 
 {
+    using System.Collections.Generic;
     public class DialogueSystemNodeError
     {
         public DialogueSystemError ErrorData { get; set; }

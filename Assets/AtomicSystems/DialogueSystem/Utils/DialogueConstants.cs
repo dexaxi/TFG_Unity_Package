@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 namespace DUJAL.Systems.Dialogue.Constants 
 {
+    using UnityEngine;
     public static class DialogueConstants
     {
 

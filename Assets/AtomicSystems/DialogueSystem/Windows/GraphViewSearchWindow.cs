@@ -1,13 +1,10 @@
-using DUJAL.Systems.Dialogue.Utils;
-using DUJAL.Systems.Dialogue.Constants;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-
 
 namespace DUJAL.Systems.Dialogue 
 {
+    using DUJAL.Systems.Dialogue.Constants;
+    using System.Collections.Generic;
+    using UnityEditor.Experimental.GraphView;
+    using UnityEngine;
     public class GraphViewSearchWindow : ScriptableObject, ISearchWindowProvider
     {
         private DialogueSystemGraphView _graphView;

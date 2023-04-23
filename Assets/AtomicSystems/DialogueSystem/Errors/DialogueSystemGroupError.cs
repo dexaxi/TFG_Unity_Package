@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue 
 {
+    using System.Collections.Generic;
+
     public class DialogueSystemGroupError
     {
         public DialogueSystemError ErrorData { get; set; }

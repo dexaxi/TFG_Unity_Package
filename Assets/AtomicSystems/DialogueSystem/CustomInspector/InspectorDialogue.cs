@@ -2,11 +2,14 @@
 namespace DUJAL.Systems.Dialogue
 {
     using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
     using UnityEngine.Events;
     using DUJAL.Systems.Utils;
+    using UnityEngine.UI;
+    using DUJAL.Systems.Dialogue.Utils;
+    using DUJAL.Systems.Dialogue.Constants;
+
     public class InspectorDialogue : MonoBehaviour
     {
         //SO
@@ -23,20 +26,31 @@ namespace DUJAL.Systems.Dialogue
 
         //UI Data
         [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private Image _speakerImage;
         [SerializeField] [Range(0,1)] private float _textSpeed;
         [SerializeField] [Range(0,10)] private int _maxLineCount;
         [SerializeField] private AudioStyle _audioStyle;
         [SerializeField] private bool _autoText;
 
-        [SerializeField] private UnityEvent _enter = new UnityEvent();
-        [SerializeField] private UnityEvent _exit = new UnityEvent();
+        [SerializeField] public UnityEvent Enter = new UnityEvent();
+        [SerializeField] public UnityEvent Exit = new UnityEvent();
+        [SerializeField] public UnityEvent LetterRevealed = new UnityEvent();
+        [SerializeField] public UnityEvent OnTextboxFull = new UnityEvent();
+        [SerializeField] public UnityEvent OnTextBoxPassed = new UnityEvent();
+        [SerializeField] public UnityEvent OnTexSkipped = new UnityEvent();
 
+        private int _currentChoiceIndex;
+        private DialogueScriptableObject _currentPlayedDialogue;
         private void Awake()
         {
-            _enter.Invoke();
-            ClearText();
+            _currentPlayedDialogue = DialogueSystemIO.CreateAsset<DialogueScriptableObject>(DialogueConstants.DialogueEditorGraphsPath, "CurrentDialogue");
+            _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
+
+            Exit.AddListener(HandleTextboxEnd);
+
+            _currentChoiceIndex = 0;
+            
             PlayText();
-            _exit.Invoke();
         }
 
         public void PlayText()
@@ -46,38 +60,63 @@ namespace DUJAL.Systems.Dialogue
 
         private IEnumerator PlayTextC() 
         {
-            for (int i = 0; i < _dialogueSO.Text.Length; i++)
+            ClearText();
+            Enter.Invoke();
+
+            _text.maxVisibleLines = _maxLineCount;
+            _text.text = _currentPlayedDialogue.Text;
+            _speakerImage.sprite = _currentPlayedDialogue.SpeakerSprite;
+
+            Debug.Log("Current Text: " + _currentPlayedDialogue.Text);
+
+            for (int i = 0; i < _text.text.Length; i++)
             {
+                _text.maxVisibleCharacters++;
+                LetterRevealed.Invoke();
+
+                _text.ForceMeshUpdate();
+
+                CheckOverflow(ref i);
+
                 yield return new WaitForSeconds(_textSpeed);
-                if (CheckIfWorkWillOverFlow(ref i)) 
-                {
-                    ClearText();
-                }
-                _text.text += _dialogueSO.Text[i];
+            }
+            Debug.Log("Exit Coroutine");
+            Exit.Invoke();
+        }
+
+        private void CheckOverflow(ref int i)
+        {
+            if (!_text.text[i].IsWhitespace() && !_text.textInfo.characterInfo[i].isVisible)
+            {
+                Debug.Log("Text box overflow.");
+                string textLeft = _text.text.Substring(i);
+                ClearText(textLeft);
+                i = 0;
+                OnTextboxFull.Invoke();
             }
         }
 
-        private bool CheckIfWorkWillOverFlow(ref int index) 
+        private void HandleTextboxEnd() 
         {
-            if (_text.textInfo.lineCount > _maxLineCount) 
+            if (_currentPlayedDialogue.Choices[0].NextDialogue != null) 
             {
-                for (int i = _text.text.Length-1; i > 0; i--) 
-                {
-                    Debug.Log(i);
-                    if (string.IsNullOrEmpty(_text.text[i].ToString().RemoveWhitespaces()))
-                    {
-                        Debug.Log("index = " + i);
-                        index = i-1;
-                    }
-                }
-                return true;
+                Debug.Log("Current Text: " + _currentPlayedDialogue.Text + " Next Text: " + _currentPlayedDialogue.Choices[0].NextDialogue.Text);
+                FindNextDialogue();
+                PlayText();
             }
-            return false;
         }
-       
-        public void ClearText() 
+
+        private void FindNextDialogue()
         {
-            _text.text = "";
+            DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[_currentChoiceIndex].NextDialogue;
+            _currentPlayedDialogue = nextDialogue;
         }
+
+        private void ClearText(string s = "")
+        {
+            _text.maxVisibleCharacters = 1;
+            _text.text = s;
+        }
+
     }
 }

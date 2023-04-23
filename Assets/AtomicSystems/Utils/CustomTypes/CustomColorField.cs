@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.UIElements;
-using UnityEngine;
-using UnityEngine.UIElements;
-using DUJAL.Systems.Dialogue.Constants;
-
 namespace DUJAL.Systems.Utils 
 {
+    using UnityEngine;
+    using DUJAL.Systems.Dialogue.Constants;
+    using UnityEditor.UIElements;
+
     public class CustomColorField : ColorField
     {
         public delegate void Notify();

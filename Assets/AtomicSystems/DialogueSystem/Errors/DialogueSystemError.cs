@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue 
 {
+    using UnityEngine;
     public class DialogueSystemError
     {
         public Color Color { get; set; }

@@ -1,12 +1,12 @@
-using System;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
-using DUJAL.Systems.Dialogue.Utils;
-using DUJAL.Systems.Utils;
+
 
 namespace DUJAL.Systems.Dialogue
 {
+    using System;
+    using UnityEditor.Experimental.GraphView;
+    using UnityEngine.UIElements;
+    using DUJAL.Systems.Dialogue.Utils;
+    using DUJAL.Systems.Utils;
     using DUJAL.Systems.Dialogue.Constants;
     using System.Collections.Generic;
     using UnityEngine;

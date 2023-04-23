@@ -1,10 +1,9 @@
-using DUJAL.Systems.Dialogue.Constants;
-using DUJAL.Systems.Dialogue.Utils;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue
 {
+    using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Utils;
+    using UnityEditor.Experimental.GraphView;
+    using UnityEngine;
     public class SingleChoiceNode : BaseNode
     {
         public override void Initialize(string nodeName, DialogueSystemGraphView graphView, Vector2 pos)
