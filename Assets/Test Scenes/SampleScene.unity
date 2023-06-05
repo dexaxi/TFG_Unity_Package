@@ -5337,6 +5337,11 @@ PrefabInstance:
       objectReference: {fileID: 319044222}
     - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
         type: 3}
+      propertyPath: _isStartingDialogue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
       propertyPath: _nextDialogueObject
       value: 
       objectReference: {fileID: 777139068}

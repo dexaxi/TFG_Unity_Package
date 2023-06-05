@@ -30,6 +30,7 @@ namespace DUJAL.Systems.Dialogue
         [SerializeField] [Range(0, 1)] private float _textSpeed;
         [SerializeField] [Range(0, 10)] private int _maxLineCount;
         [SerializeField] private bool _autoText;
+        [SerializeField] private bool _isStartingDialogue;
 
         //UI Data
         [SerializeField] private CanvasGroup _dialogueCanvasGroup;
@@ -53,7 +54,7 @@ namespace DUJAL.Systems.Dialogue
 
         private void Awake()
         {
-            _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
+            if(_isStartingDialogue) _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
 
             _previousTextSpeed = _textSpeed;
 
@@ -123,6 +124,8 @@ namespace DUJAL.Systems.Dialogue
 
         public void PlayText()
         {
+            _waitingForPerformNextDialogue = false;
+            _performNextDialogue = false;
             StartCoroutine(PlayTextC());
         }
 

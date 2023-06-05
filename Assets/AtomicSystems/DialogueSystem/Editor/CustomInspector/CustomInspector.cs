@@ -22,6 +22,7 @@ namespace DUJAL.Systems.Dialogue
         private SerializedProperty _selectedDialogueProperty;
 
         //Settings
+        private SerializedProperty _isStartingDialogueProperty;
         private SerializedProperty _audioStyleProperty;
         private SerializedProperty _textSpeedProperty;
         private SerializedProperty _autoTextProperty;
@@ -54,7 +55,8 @@ namespace DUJAL.Systems.Dialogue
             
             _selectedGroupProperty = serializedObject.FindProperty("_selectedGroup");
             _selectedDialogueProperty = serializedObject.FindProperty("_selectedDialogue");
-            
+
+            _isStartingDialogueProperty = serializedObject.FindProperty("_isStartingDialogue");
             _audioStyleProperty = serializedObject.FindProperty("_audioStyle");
             _textSpeedProperty = serializedObject.FindProperty("_textSpeed");
             _maxLineCountProperty = serializedObject.FindProperty("_maxLineCount");
@@ -217,6 +219,7 @@ namespace DUJAL.Systems.Dialogue
         {
             DialogueSystemUtils.DrawSpace();
             DialogueSystemUtils.DrawHeader("Settings");
+            _isStartingDialogueProperty.DrawPropertyField();
             _audioStyleProperty.DrawPropertyField();
             _textSpeedProperty.DrawPropertyField();
             _maxLineCountProperty.DrawPropertyField();
