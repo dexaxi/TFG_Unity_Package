@@ -21,3 +21,5 @@ MonoBehaviour:
   <UngroupedDialogues>k__BackingField:
   - {fileID: 11400000, guid: 80111fe67cc63cc48a711df27ad1315d, type: 2}
   - {fileID: 11400000, guid: 3c8373e4939d93a47985349f199a395e, type: 2}
+  - {fileID: 11400000, guid: 002756e829cd8f245a9e9f3df1b34746, type: 2}
+  - {fileID: 11400000, guid: 86b080357c2b9a44ab3f210bd4dd7d4a, type: 2}

@@ -350,7 +350,6 @@ namespace DUJAL.Systems.Dialogue.Utils
                 (AudioClip) node.VoiceLineField.value,
                 (Sprite) node.ImageField.value,
                 node.DialogueColorField.value);
-
             _createdDialogues.Add(node.ID, dialogueSO);
             SaveAsset(dialogueSO);
         }

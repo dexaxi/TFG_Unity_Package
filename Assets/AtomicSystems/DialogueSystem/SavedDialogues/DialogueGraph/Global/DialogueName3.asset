@@ -10,18 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6855f3c16f7a49c4580dc3c94a532dec, type: 3}
-  m_Name: DialogueName
+  m_Name: DialogueName3
   m_EditorClassIdentifier: 
-  <DialogueName>k__BackingField: DialogueName
-  <Text>k__BackingField: Dialogue Text2
+  <DialogueName>k__BackingField: DialogueName3
+  <Text>k__BackingField: Choice  1!
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
-    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 80111fe67cc63cc48a711df27ad1315d,
-      type: 2}
+    <NextDialogue>k__BackingField: {fileID: 0}
   <DialogueType>k__BackingField: 0
   <IsStartingDialogue>k__BackingField: 0
   <VoiceLine>k__BackingField: {fileID: 8300000, guid: bfb9758ee3f5a0c4c9a13ebd703b1dbc,
     type: 3}
   <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: c95d466f3b8a64c45a9ff2eb1ba9d482,
     type: 3}
-  <DialogueColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706, a: 1}
+  <DialogueColor>k__BackingField: {r: 1, g: 0.17174745, b: 0, a: 1}

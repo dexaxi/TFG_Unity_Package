@@ -101,7 +101,7 @@ namespace DUJAL.Systems.Dialogue.Utils
             foreach (ChoiceSaveData choiceSave in choiceSaveData) {
                 ChoiceData choiceData = new ChoiceData()
                 {
-                    Text = choiceSave.NodeID
+                    Text = choiceSave.Text
                 };
                 returnableChoices.Add(choiceData);
             }

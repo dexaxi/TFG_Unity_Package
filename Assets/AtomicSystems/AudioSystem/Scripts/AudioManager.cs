@@ -80,6 +80,20 @@ namespace DUJAL.Systems.Audio
         }
 
         /// <summary>
+        //  Same thing but receiving the proper clip. 
+        /// </summary>
+        public Sound FindSound(AudioClip clip)
+        {
+            Sound s = Array.Find(sounds, sound => sound.audioSource.clip == clip);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound: " + name + " not found!");
+                return null;
+            }
+            return s;
+        }
+
+        /// <summary>
         //  Function that receives a Sound Scriptable Object's name and returns its length in seconds.
         /// </summary>
         public float GetSoundLength(string name)
@@ -121,15 +135,31 @@ namespace DUJAL.Systems.Audio
         }
 
         /// <summary>
-        //  Void function that receives a Sound Scriptable Object's name and plays it.
+        //  Void function that receives a Sound Scriptable Object's name, searches for its sound and plays it.
         /// </summary>
         public void Play(string name)
         {
-            Sound currentSound = FindSound(name);
-            if (currentSound != null)
-            {
-                currentSound.audioSource.Play();
-            }
+            Sound s = FindSound(name);
+            if (s != null)
+                Play(s);
+        }
+
+        /// <summary>
+        //  Void function that receives an AudioClip, searches for its sound's audio source and plays it.
+        /// </summary>
+        public void Play(AudioClip clip)
+        {
+            Sound s = FindSound(clip);
+            if(s != null)
+                Play(s);
+        }
+
+        /// <summary>
+        //  Void function that receives a Sound Scriptable Object's name and plays it.
+        /// </summary>
+        public void Play(Sound sound)
+        {
+            sound?.audioSource.Play();
         }
 
         /// <summary>
@@ -376,15 +406,12 @@ namespace DUJAL.Systems.Audio
             }
         }
 
-        public void Play(AudioClip clip)
+        /// <summary>
+        //  Void function that returns a clip's audio source.
+        /// </summary>
+        public AudioSource GetAudioSource(AudioClip clip) 
         {
-            foreach (Sound s in sounds) 
-            {
-                if (s.audioSource.clip == clip) 
-                {
-                    Play(s.name);
-                }
-            }
+            return FindSound(clip)?.audioSource;
         }
     }
 }

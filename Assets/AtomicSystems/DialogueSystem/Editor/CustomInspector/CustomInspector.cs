@@ -12,23 +12,36 @@ namespace DUJAL.Systems.Dialogue
         private SerializedProperty _groupSOProperty;
         private SerializedProperty _dialogueSOProperty;
         private SerializedProperty _currentPlayedDialogueProperty;
+        
         //Filters
         private SerializedProperty _startingDialogueFilterProperty;
         private SerializedProperty _groupedDialogueFilterProperty;
+        
         //Index
         private SerializedProperty _selectedGroupProperty;
         private SerializedProperty _selectedDialogueProperty;
 
-        //UI Data
-        private SerializedProperty _textProperty;
-        private SerializedProperty _speakerImageProperty;
+        //Settings
         private SerializedProperty _audioStyleProperty;
         private SerializedProperty _textSpeedProperty;
-        private SerializedProperty _maxLineCountProperty;
         private SerializedProperty _autoTextProperty;
+        private SerializedProperty _maxLineCountProperty;
+
+
+        //UI Data
+        private SerializedProperty _dialogueCanvasGroupProperty;
+        private SerializedProperty _textProperty;
+        private SerializedProperty _speakerImageProperty;
+        private SerializedProperty _choiceButtonsProperty;
+        private SerializedProperty _nextDialogueObjectProperty;
+
+        //Events
         private SerializedProperty _enterProperty;
         private SerializedProperty _exitProperty;
         private SerializedProperty _letterRevealedProperty;
+        private SerializedProperty _onTextboxFullProperty;
+        private SerializedProperty _onTextBoxPassedProperty;
+        private SerializedProperty _onTextSkippedProperty;
 
         private void OnEnable()
         {
@@ -41,16 +54,24 @@ namespace DUJAL.Systems.Dialogue
             
             _selectedGroupProperty = serializedObject.FindProperty("_selectedGroup");
             _selectedDialogueProperty = serializedObject.FindProperty("_selectedDialogue");
-
-            _textProperty = serializedObject.FindProperty("_text");
-            _speakerImageProperty = serializedObject.FindProperty("_speakerImage");
+            
             _audioStyleProperty = serializedObject.FindProperty("_audioStyle");
             _textSpeedProperty = serializedObject.FindProperty("_textSpeed");
             _maxLineCountProperty = serializedObject.FindProperty("_maxLineCount");
             _autoTextProperty = serializedObject.FindProperty("_autoText");
+
+            _dialogueCanvasGroupProperty = serializedObject.FindProperty("_dialogueCanvasGroup");
+            _textProperty = serializedObject.FindProperty("_text");
+            _speakerImageProperty = serializedObject.FindProperty("_speakerImage");
+            _choiceButtonsProperty = serializedObject.FindProperty("_choiceButtons");
+            _nextDialogueObjectProperty = serializedObject.FindProperty("_nextDialogueObject");
+
             _enterProperty = serializedObject.FindProperty("Enter");
             _exitProperty = serializedObject.FindProperty("Exit");
             _letterRevealedProperty = serializedObject.FindProperty("LetterRevealed");
+            _onTextboxFullProperty = serializedObject.FindProperty("OnTextboxFull");
+            _onTextBoxPassedProperty = serializedObject.FindProperty("OnTextBoxPassed");
+            _onTextSkippedProperty = serializedObject.FindProperty("OnTextSkipped");
         }
 
         public override void OnInspectorGUI()
@@ -115,6 +136,8 @@ namespace DUJAL.Systems.Dialogue
 
             DrawDialogueField(dialogueNames, dialoguePath);
             
+            DrawSettingsField();
+
             DrawUIField();
 
             serializedObject.ApplyModifiedProperties();
@@ -190,21 +213,35 @@ namespace DUJAL.Systems.Dialogue
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawUIField()
+        private void DrawSettingsField() 
         {
-            DialogueSystemUtils.DrawHeader("UI");
-            _textProperty.DrawPropertyField();
-            _speakerImageProperty.DrawPropertyField();
+            DialogueSystemUtils.DrawSpace();
+            DialogueSystemUtils.DrawHeader("Settings");
             _audioStyleProperty.DrawPropertyField();
             _textSpeedProperty.DrawPropertyField();
             _maxLineCountProperty.DrawPropertyField();
             _autoTextProperty.DrawPropertyField();
+        }
+
+        private void DrawUIField()
+        {
             DialogueSystemUtils.DrawSpace();
+            DialogueSystemUtils.DrawHeader("UI");
+            _dialogueCanvasGroupProperty.DrawPropertyField();
+            _textProperty.DrawPropertyField();
+            _speakerImageProperty.DrawPropertyField();
+            _choiceButtonsProperty.DrawPropertyField();
+            _nextDialogueObjectProperty.DrawPropertyField();
+
+            DialogueSystemUtils.DrawSpace();
+            DialogueSystemUtils.DrawHeader("Events");
             _enterProperty.DrawPropertyField();
             _letterRevealedProperty.DrawPropertyField();
             _exitProperty.DrawPropertyField();
-            
-            
+            _onTextboxFullProperty.DrawPropertyField();
+            _onTextBoxPassedProperty.DrawPropertyField();
+            _onTextSkippedProperty.DrawPropertyField();
+
         }
 
     }

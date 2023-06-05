@@ -8,7 +8,8 @@ namespace DUJAL.Systems.Dialogue
 
     public enum AudioStyle
     {
-        GibberishSoundStyle,
-        DubbedSoundStyle
+        GibberishAudioStyle,
+        DubbedAudioStyle,
+        OneSoundAudioStyle
     }
 }
