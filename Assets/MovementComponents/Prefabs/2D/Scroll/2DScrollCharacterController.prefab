@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8981005736261489727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.94, y: 0, z: 0}
-  m_LocalScale: {x: 0.24964838, y: 0.24964838, z: 0.24964838}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8981005737053552149}
@@ -154,20 +154,11 @@ MonoBehaviour:
   _groundCollisionMask:
     serializedVersion: 2
     m_Bits: 448
-  _wallJumpMask:
-    serializedVersion: 2
-    m_Bits: 256
   _groundCheck: {fileID: 8981005737053552149}
-  _wallJumpCheck: {fileID: 8981005736929663737}
   _walkingSpeed: 10
   _runningBoost: 20
   _airMovementMultiplier: 1
   _jumpForce: 10
-  _wallJumpForce: 0
-  _wallJumpVerticality: {x: 0, y: 0}
-  _wallJumpDelay: 0
-  _wallHangDelay: 0
-  _wallHangStrength: 0
 --- !u!1 &8981005736929663738
 GameObject:
   m_ObjectHideFlags: 0

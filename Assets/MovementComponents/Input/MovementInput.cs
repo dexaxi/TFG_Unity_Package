@@ -24,7 +24,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     ""name"": ""MovementInput"",
     ""maps"": [
         {
-            ""name"": ""PhysicsBasedScroll2D"",
+            ""name"": ""Scroll2D"",
             ""id"": ""7b74d1bc-e7e5-4ea8-b135-5086251146db"",
             ""actions"": [
                 {
@@ -168,11 +168,44 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8befb58d-301f-4bae-a1a1-2f89de6a59a0"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""cee99cf5-9e36-47f4-9617-57a001d737fb"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""MovementControlScheme"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23778117-d9f7-417c-800d-44aab0a50031"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da183a53-8f92-4a24-9f9e-3a6555bec913"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -187,6 +220,237 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e7b0d5e-8466-4532-9358-41c18dd5feaf"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""TopDown2D"",
+            ""id"": ""77158469-0e16-4012-aa77-55f2b7ea4d10"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""73e03a3d-5d96-48d6-b157-1f801bef2bd1"",
+                    ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""723610bf-d19e-41ff-9970-e660a178e429"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""527a21e7-7d8f-44c8-b347-ba1b52fa6269"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""6d159bb2-a969-4563-ab6b-d6fa3a6bce38"",
+                    ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""3f608a80-bafd-45e8-a34a-ab5d94d6501b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a5ee66fb-0002-4e5f-b076-3ba3cf2c3b85"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""fa28a4cc-be4d-477c-9a31-bd8bfab78edb"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9ba6bf7b-fa7f-424b-8b01-f9665e9491f2"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9ff3c171-f566-4043-b949-a22b5f10fe3a"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9253edb9-d672-48f4-9cf9-72cd0ea347b6"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee7318c0-6914-45d0-a704-7f6509beda63"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3818cb04-a4a2-46e3-9800-4339315fe3d2"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eed32115-c932-43a1-a325-21a26a0bf615"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6d8da4d-9403-4677-97c1-941d4602d023"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""b6001f2c-aa9a-4f4c-9e0d-5d96de111fbc"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8f054c7f-768d-4062-9f5c-0222621f10d5"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""cebde789-4f94-48e3-a016-7cdd54f16413"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""85c878ee-fa79-486e-9074-f2bb05e16411"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""261240d1-07a5-4ce5-baed-c7d182773a66"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7cbac0d3-5039-4d7f-8c21-47ac51094cf7"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -199,11 +463,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // PhysicsBasedScroll2D
-        m_PhysicsBasedScroll2D = asset.FindActionMap("PhysicsBasedScroll2D", throwIfNotFound: true);
-        m_PhysicsBasedScroll2D_Movement = m_PhysicsBasedScroll2D.FindAction("Movement", throwIfNotFound: true);
-        m_PhysicsBasedScroll2D_Jump = m_PhysicsBasedScroll2D.FindAction("Jump", throwIfNotFound: true);
-        m_PhysicsBasedScroll2D_Run = m_PhysicsBasedScroll2D.FindAction("Run", throwIfNotFound: true);
+        // Scroll2D
+        m_Scroll2D = asset.FindActionMap("Scroll2D", throwIfNotFound: true);
+        m_Scroll2D_Movement = m_Scroll2D.FindAction("Movement", throwIfNotFound: true);
+        m_Scroll2D_Jump = m_Scroll2D.FindAction("Jump", throwIfNotFound: true);
+        m_Scroll2D_Run = m_Scroll2D.FindAction("Run", throwIfNotFound: true);
+        // TopDown2D
+        m_TopDown2D = asset.FindActionMap("TopDown2D", throwIfNotFound: true);
+        m_TopDown2D_Move = m_TopDown2D.FindAction("Move", throwIfNotFound: true);
+        m_TopDown2D_Dash = m_TopDown2D.FindAction("Dash", throwIfNotFound: true);
+        m_TopDown2D_Run = m_TopDown2D.FindAction("Run", throwIfNotFound: true);
+        m_TopDown2D_Look = m_TopDown2D.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -260,39 +530,39 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // PhysicsBasedScroll2D
-    private readonly InputActionMap m_PhysicsBasedScroll2D;
-    private IPhysicsBasedScroll2DActions m_PhysicsBasedScroll2DActionsCallbackInterface;
-    private readonly InputAction m_PhysicsBasedScroll2D_Movement;
-    private readonly InputAction m_PhysicsBasedScroll2D_Jump;
-    private readonly InputAction m_PhysicsBasedScroll2D_Run;
-    public struct PhysicsBasedScroll2DActions
+    // Scroll2D
+    private readonly InputActionMap m_Scroll2D;
+    private IScroll2DActions m_Scroll2DActionsCallbackInterface;
+    private readonly InputAction m_Scroll2D_Movement;
+    private readonly InputAction m_Scroll2D_Jump;
+    private readonly InputAction m_Scroll2D_Run;
+    public struct Scroll2DActions
     {
         private @MovementInput m_Wrapper;
-        public PhysicsBasedScroll2DActions(@MovementInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_PhysicsBasedScroll2D_Movement;
-        public InputAction @Jump => m_Wrapper.m_PhysicsBasedScroll2D_Jump;
-        public InputAction @Run => m_Wrapper.m_PhysicsBasedScroll2D_Run;
-        public InputActionMap Get() { return m_Wrapper.m_PhysicsBasedScroll2D; }
+        public Scroll2DActions(@MovementInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Scroll2D_Movement;
+        public InputAction @Jump => m_Wrapper.m_Scroll2D_Jump;
+        public InputAction @Run => m_Wrapper.m_Scroll2D_Run;
+        public InputActionMap Get() { return m_Wrapper.m_Scroll2D; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PhysicsBasedScroll2DActions set) { return set.Get(); }
-        public void SetCallbacks(IPhysicsBasedScroll2DActions instance)
+        public static implicit operator InputActionMap(Scroll2DActions set) { return set.Get(); }
+        public void SetCallbacks(IScroll2DActions instance)
         {
-            if (m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface != null)
+            if (m_Wrapper.m_Scroll2DActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnMovement;
-                @Jump.started -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnJump;
-                @Run.started -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnRun;
-                @Run.performed -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnRun;
-                @Run.canceled -= m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface.OnRun;
+                @Movement.started -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnMovement;
+                @Jump.started -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnJump;
+                @Run.started -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_Scroll2DActionsCallbackInterface.OnRun;
             }
-            m_Wrapper.m_PhysicsBasedScroll2DActionsCallbackInterface = instance;
+            m_Wrapper.m_Scroll2DActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Movement.started += instance.OnMovement;
@@ -307,7 +577,64 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
             }
         }
     }
-    public PhysicsBasedScroll2DActions @PhysicsBasedScroll2D => new PhysicsBasedScroll2DActions(this);
+    public Scroll2DActions @Scroll2D => new Scroll2DActions(this);
+
+    // TopDown2D
+    private readonly InputActionMap m_TopDown2D;
+    private ITopDown2DActions m_TopDown2DActionsCallbackInterface;
+    private readonly InputAction m_TopDown2D_Move;
+    private readonly InputAction m_TopDown2D_Dash;
+    private readonly InputAction m_TopDown2D_Run;
+    private readonly InputAction m_TopDown2D_Look;
+    public struct TopDown2DActions
+    {
+        private @MovementInput m_Wrapper;
+        public TopDown2DActions(@MovementInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_TopDown2D_Move;
+        public InputAction @Dash => m_Wrapper.m_TopDown2D_Dash;
+        public InputAction @Run => m_Wrapper.m_TopDown2D_Run;
+        public InputAction @Look => m_Wrapper.m_TopDown2D_Look;
+        public InputActionMap Get() { return m_Wrapper.m_TopDown2D; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TopDown2DActions set) { return set.Get(); }
+        public void SetCallbacks(ITopDown2DActions instance)
+        {
+            if (m_Wrapper.m_TopDown2DActionsCallbackInterface != null)
+            {
+                @Move.started -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnMove;
+                @Dash.started -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnDash;
+                @Run.started -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnRun;
+                @Look.started -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_TopDown2DActionsCallbackInterface.OnLook;
+            }
+            m_Wrapper.m_TopDown2DActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+            }
+        }
+    }
+    public TopDown2DActions @TopDown2D => new TopDown2DActions(this);
     private int m_MovementControlSchemeSchemeIndex = -1;
     public InputControlScheme MovementControlSchemeScheme
     {
@@ -317,10 +644,17 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_MovementControlSchemeSchemeIndex];
         }
     }
-    public interface IPhysicsBasedScroll2DActions
+    public interface IScroll2DActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+    }
+    public interface ITopDown2DActions
+    {
+        void OnMove(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }

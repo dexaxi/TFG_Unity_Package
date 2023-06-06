@@ -2,73 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DUJAL.IndependentComponents.SnapToGrid
+[ExecuteInEditMode]
+public class SnapToGrid : MonoBehaviour
 {
-    /// <summary>
-    //  Editor component that snaps objects to a custom grid.
-    /// </summary>
-    [ExecuteInEditMode]
-    public class SnapToGrid : MonoBehaviour
+#if UNITY_EDITOR_64
+    const int _cellMaxSize = 100;
+    [Space(3)]
+    [Range(0.1f, _cellMaxSize)]
+    public float XcellSize;
+
+    [Space(3)]
+    [Range(0.1f, _cellMaxSize)]
+    public float YcellSize;
+
+    [Space(3)]
+    [Range(0.1f, _cellMaxSize)]
+    public float ZcellSize;
+
+    [Space(3)]
+    [Header("Settings")]
+    [SerializeField] bool _snapToHeight;
+    [SerializeField] bool _localPosition;
+
+
+    private void Update()
     {
-    #if UNITY_EDITOR
+        Vector3 position;
+
+        if (_localPosition)
+            position = transform.localPosition;
+        else
+            position = transform.position;
+
+        if (XcellSize != 0)
+            position.x = Mathf.Round(position.x / XcellSize) * XcellSize;
+
+        if (_snapToHeight && YcellSize != 0)
+            position.y = Mathf.Round(position.y / YcellSize) * YcellSize;
+
+        if (ZcellSize != 0)
+            position.z = Mathf.Round(position.z / ZcellSize) * ZcellSize;
 
 
-        [Tooltip("Maximum size of cells in bot axis.")]
-        const int _cellMaxSize = 100;
-
-        [Header("Cell Sizes")]
-        [SerializeField]
-        [Range(0.1f, _cellMaxSize)]
-        [Tooltip("Size of cells in the X axis.")]
-        private float XcellSize;
-
-        [SerializeField]
-        [Range(0.1f, _cellMaxSize)]
-        [Tooltip("Size of cells in the X axis.")]
-        private float ZcellSize;
-
-        [Space(15)]
-
-        [Header("Height Parameters")]
-        [SerializeField]
-        [Tooltip("Fixed height for elements in the grid.")]
-        private bool snapToHeight;
-        [SerializeField]
-        [Tooltip("Fixed height for elements in the grid.")]
-        private float height;
-
-        [Space(15)]
-
-        [Header("Settings")]
-        [SerializeField]
-        [Tooltip("Use local position instead of world position.")]
-        private bool localPosition;
-
-        private void Update()
-        {
-            Vector3 position;
-
-            if (localPosition)
-                position = transform.localPosition;
-            else
-                position = transform.position;
-
-            if (XcellSize != 0)
-                position.x = Mathf.Round(position.x / XcellSize) * XcellSize;
-
-            if (snapToHeight)
-                position.y = height;
-
-            if (ZcellSize != 0)
-                position.z = Mathf.Round(position.z / ZcellSize) * ZcellSize;
+        if (_localPosition)
+            transform.localPosition = position;
+        else
+            transform.position = position;
 
 
-            if (localPosition)
-                transform.localPosition = position;
-            else
-                transform.position = position;
-        }
-
-    #endif
     }
+
+#endif
 }

@@ -49,7 +49,7 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _movement = new MovementInput();
-            _movement.PhysicsBasedScroll2D.Enable();
+            _movement.Scroll2D.Enable();
             _localScale = transform.localScale;
             HandleInput();
         }
@@ -65,13 +65,13 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private void HandleInput()
         {
-            _movement.PhysicsBasedScroll2D.Movement.performed += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
-            _movement.PhysicsBasedScroll2D.Movement.canceled += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            _movement.Scroll2D.Movement.performed += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            _movement.Scroll2D.Movement.canceled += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
 
-            _movement.PhysicsBasedScroll2D.Run.performed += ctx => { PerformStartRunning(); };
-            _movement.PhysicsBasedScroll2D.Run.canceled += ctx => { PerformStopRunning(); };
+            _movement.Scroll2D.Run.performed += ctx => { PerformStartRunning(); };
+            _movement.Scroll2D.Run.canceled += ctx => { PerformStopRunning(); };
 
-            _movement.PhysicsBasedScroll2D.Jump.performed += ctx => { PerformJump(ctx.started); };
+            _movement.Scroll2D.Jump.performed += ctx => { PerformJump(); };
         }
 
         private void PerformMoved(Vector2 movementVector)
@@ -79,7 +79,7 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
             _movementInput = movementVector;
         }
 
-        private void PerformJump(bool started)
+        private void PerformJump()
         {
             if (IsGrounded)
             {
@@ -94,9 +94,9 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private IEnumerator DisableJumpInput(float delay)
         {
-            _movement.PhysicsBasedScroll2D.Jump.Disable();
+            _movement.Scroll2D.Jump.Disable();
             yield return new WaitForSeconds(delay);
-            _movement.PhysicsBasedScroll2D.Jump.Enable();
+            _movement.Scroll2D.Jump.Enable();
         }
 
         private void PerformStartRunning()
@@ -111,7 +111,7 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private void UpdateVelocity()
         {
-            if (_movement.PhysicsBasedScroll2D.Run.IsPressed() && IsGrounded) _runningSum = _runningBoost;
+            if (_movement.Scroll2D.Run.IsPressed() && IsGrounded) _runningSum = _runningBoost;
             else if (!IsGrounded) _runningSum = 0;
 
             float velocityXCoord = _movementInput.normalized.x * (_walkingSpeed + _runningSum);
@@ -179,13 +179,13 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         private void OnDestroy()
         {
             _movement.Disable();
-            _movement.PhysicsBasedScroll2D.Movement.performed -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
-            _movement.PhysicsBasedScroll2D.Movement.canceled -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            _movement.Scroll2D.Movement.performed -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            _movement.Scroll2D.Movement.canceled -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
 
-            _movement.PhysicsBasedScroll2D.Run.performed -= ctx => { PerformStartRunning(); };
-            _movement.PhysicsBasedScroll2D.Run.canceled -= ctx => { PerformStopRunning(); };
+            _movement.Scroll2D.Run.performed -= ctx => { PerformStartRunning(); };
+            _movement.Scroll2D.Run.canceled -= ctx => { PerformStopRunning(); };
 
-            _movement.PhysicsBasedScroll2D.Jump.performed -= ctx => { PerformJump(ctx.started); };
+            _movement.Scroll2D.Jump.performed -= ctx => { PerformJump(); };
         }
 
     }
