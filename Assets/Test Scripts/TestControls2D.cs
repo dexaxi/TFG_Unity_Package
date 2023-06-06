@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DUJAL.IndependentComponents.ScreenShake;
+using DUJAL.IndependentComponents.LaunchRigidBody;
+using DUJAL.MovementComponents.PhysicsBased2D;
+
 public class TestControls2D : MonoBehaviour
 {
 
@@ -34,8 +35,12 @@ public class TestControls2D : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+        if (Input.GetKeyDown(KeyCode.T)) 
+        {
+            LaunchRigidBody.LaunchRigidBody2D(FindObjectOfType<Rigidbody2D>(), new Vector2(0, 1), 10);
+        }
 
-        if (!Reverse)
+        /*if (!Reverse)
         {
             CameraParent.position = Vector3.MoveTowards(CameraParent.position, EndPos, 5f * Time.deltaTime);
             if (Vector3.Distance(CameraParent.position, EndPos) == 0)
@@ -50,6 +55,7 @@ public class TestControls2D : MonoBehaviour
             {
                 Reverse = false;
             }
-        }
+        }*/
+        CameraParent.position = new Vector3(FindObjectOfType<PhysicsBasedScrollMovement2D>().transform.position.x, CameraParent.position.y, CameraParent.position.z);
     }
 }

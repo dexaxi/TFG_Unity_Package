@@ -36,20 +36,20 @@ namespace DUJAL.Systems.Audio
         private void Awake()
         {
             //Make Singleton
-            if (Instance == null)
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
             {
                 Instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
-            else
-            {
-                Destroy(this.gameObject);
-            }
 
             //for each sound's audiosource, we modify it to contain the data in the Sound Scriptable Object
             foreach (Sound sound in sounds)
-            {
-                sound.audioSource = gameObject.AddComponent<AudioSource>();
+            {   
+                sound.audioSource = Instance.gameObject.AddComponent<AudioSource>();
                 sound.audioSource.clip = sound.clip;
                 sound.audioSource.volume = sound.volume;
                 sound.audioSource.pitch = sound.pitch;
@@ -84,13 +84,12 @@ namespace DUJAL.Systems.Audio
         /// </summary>
         public Sound FindSound(AudioClip clip)
         {
-            Sound s = Array.Find(sounds, sound => sound.audioSource.clip == clip);
-            if (s == null)
+            foreach (Sound s in sounds)
             {
-                Debug.LogWarning("Sound: " + name + " not found!");
-                return null;
+                if (s.audioSource.clip == clip) return s;
             }
-            return s;
+            Debug.LogWarning("Sound: " + clip.name + " not found!");
+            return null;
         }
 
         /// <summary>
@@ -140,8 +139,7 @@ namespace DUJAL.Systems.Audio
         public void Play(string name)
         {
             Sound s = FindSound(name);
-            if (s != null)
-                Play(s);
+            if (s != null) Play(s);
         }
 
         /// <summary>
@@ -150,8 +148,7 @@ namespace DUJAL.Systems.Audio
         public void Play(AudioClip clip)
         {
             Sound s = FindSound(clip);
-            if(s != null)
-                Play(s);
+            if(s != null) Play(s);
         }
 
         /// <summary>

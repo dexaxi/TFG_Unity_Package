@@ -5,6 +5,7 @@ using DUJAL.IndependentComponents.ScreenShake;
 using DUJAL.Systems.Audio;
 using DUJAL.Systems.Saving;
 using DUJAL.Systems.Utils;
+using DUJAL.IndependentComponents.LaunchRigidBody;
 
 public class TestControls3D : MonoBehaviour, ISaveData
 {
@@ -62,6 +63,8 @@ public class TestControls3D : MonoBehaviour, ISaveData
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
+            Debug.Log("LaucnRigidBody triggered!");
+            LaunchRigidBody.LaunchRigidBody3D(FindObjectOfType<Rigidbody>(), new Vector3(0, 1, 0), 10);
         }
         if (Input.GetKeyDown(KeyCode.G))
         {

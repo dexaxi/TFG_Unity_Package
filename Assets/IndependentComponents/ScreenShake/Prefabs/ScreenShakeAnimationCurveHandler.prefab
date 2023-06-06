@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55fcebe71af00c6479e5406d03599da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationCurveAssetList:
+  dontDestroyOnLoad: 0
+  animationCurveAssetList:
   - {fileID: 11400000, guid: 7d94bf9ab6d670e4aa02f2124815e2df, type: 2}
   - {fileID: 11400000, guid: 70a9fa2418558c34db5a23e2809d6f2b, type: 2}
   - {fileID: 11400000, guid: d52a383710d6bb84b8c0882b209693fc, type: 2}

@@ -1,0 +1,51 @@
+{
+    "name": "InteractionMap",
+    "maps": [
+        {
+            "name": "Interact",
+            "id": "f4d44932-8555-472b-a399-aca9b153b996",
+            "actions": [
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "8bf13e7e-0eb6-4b44-9b74-596ba6b25130",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c6296740-8dc6-4f71-942b-7e954f2f31a1",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "InteractionControlScheme",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c0a9cfe-b2fc-4059-8e85-349030d7ccb2",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "InteractionControlScheme",
+            "bindingGroup": "InteractionControlScheme",
+            "devices": []
+        }
+    ]
+}

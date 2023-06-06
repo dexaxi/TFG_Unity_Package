@@ -38,14 +38,14 @@ namespace DUJAL.Systems.Saving
         private void Awake()
         {
             //Make Singleton
-            if (Instance == null)
+            if (Instance != null && Instance != this)
             {
-                Instance = this;
-                DontDestroyOnLoad(this.gameObject);
+                Destroy(this.gameObject);
             }
             else
             {
-                Destroy(this.gameObject);
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
             }
 
             _saveDataInstances = FindAllSaveDataInstances();
