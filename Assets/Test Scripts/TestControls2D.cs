@@ -56,6 +56,6 @@ public class TestControls2D : MonoBehaviour
                 Reverse = false;
             }
         }*/
-        //CameraParent.position = new Vector3(FindObjectOfType<PhysicsBasedScrollMovement2D>().transform.position.x, CameraParent.position.y, CameraParent.position.z);
+        CameraParent.position = new Vector3(FindObjectOfType<PhysicsBasedScrollMovement2D>().transform.position.x, CameraParent.position.y, CameraParent.position.z);
     }
 }

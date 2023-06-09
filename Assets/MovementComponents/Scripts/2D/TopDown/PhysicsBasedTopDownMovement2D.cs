@@ -1,9 +1,11 @@
 namespace DUJAL.MovementComponents.PhysicsBased2D
 {
     using System.Collections;
-    using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using UnityEngine.InputSystem;
+    using UnityEngine.InputSystem.Controls;
+    using DUJAL.IndependentComponents.LaunchRigidBody;
 
     [RequireComponent(typeof(Rigidbody2D))]
     public class PhysicsBasedTopDownMovement2D : MonoBehaviour
@@ -13,26 +15,34 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         [SerializeField] private Transform _rotatedTransform;
         [SerializeField] private bool _allowDiagonal;
         
-
         [Header("MovementSettings")]
-        [SerializeField] private float _walkingSpeed;
-        [SerializeField] private float _runningBoost;
+        [SerializeField] [Range(0, 200)] private int _walkingSpeed;
+        [SerializeField] [Range(0, 200)] private int _runningBoost;
 
+        [Header("Dash Settings")]
+        [SerializeField] private bool _dashInDirectionOfLook;
+        [SerializeField] [Range(0f, 2f)] private float _dashDuration;
+        [SerializeField] [Range(0, 500)] private int _dashForce;
+        [SerializeField] [Range(0f, 2f)] private float _dashCooldown;
 
         private MovementInput _movementMap;
         private Rigidbody2D _rigidbody;
 
         private Vector2 _movementInput;
         private Vector2 _lookInput;
-        private Vector2 _localScale;
+        private Vector2 _previousValidInput;
 
         private float _runningSum;
+        private float _dashTimer;
+        public float ActiveDashCooldown { get; private set; }
+
+        public bool IsDashing { get; private set; }
         private bool _useMouse;
+        
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _localScale = transform.localScale;
 
             HandleInput();
         }
@@ -41,6 +51,11 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         {
             HandleRotation();
             UpdateMovement();
+        }
+
+        private void Update()
+        {
+            HandleDeviceChange();
         }
 
 
@@ -60,29 +75,58 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
             
             _movementMap.TopDown2D.Run.canceled += ctx => { CancelRun(); };
 
-            InputSystem.onDeviceChange += OnDeviceChange;
+            InputDevice device = InputSystem.devices.FirstOrDefault();
+            if (device is Mouse)
+            {
+                _useMouse = true;
+            }
+            else if (device is Gamepad)
+            {
+                _useMouse = false;
+            }
+
         }
 
-        private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+        private void HandleDeviceChange()
         {
-            if (device is Mouse || device is Gamepad)
+            if ((Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame) 
+                || (Mouse.current.delta.ReadValue() != Vector2.zero || Mouse.current.leftButton.wasPressedThisFrame))
             {
-                if (device == Mouse.current)
-                {
-                    _useMouse = true;
-                }
-                else if (device == Gamepad.current)
-                {
-                    _useMouse = false;
-                }
+                _useMouse = true;
+            }
+            else if (Gamepad.current != null &&
+                (Gamepad.current.allControls.Any(x => x is ButtonControl button && x.IsPressed() && !x.synthetic)
+                || Gamepad.current.allControls.Any(y => y is StickControl stick && y.IsActuated() && !y.synthetic)))
+            {
+                _useMouse = false;
             }
         }
 
         private void PerformMoved(Vector2 movementVector)
         {
             _movementInput = movementVector;
-        } 
-        
+            if (!_allowDiagonal) RestrictDiagonalMovement();
+            if (_movementInput.magnitude > 0.1f) _previousValidInput = _movementInput;
+        }
+
+        private Vector2 RestrictDiagonalMovement()
+        {
+            if (_movementInput.sqrMagnitude > 1)
+            {
+                _movementInput.Normalize();
+            }
+
+            if (Mathf.Abs(_movementInput.x) > Mathf.Abs(_movementInput.y))
+            {
+                _movementInput.y = 0;
+            }
+            else
+            {
+                _movementInput.x = 0;
+            }
+            return _movementInput;
+        }
+
         private void PerformLook(Vector2 lookVector)
         {
             _lookInput = lookVector;
@@ -90,7 +134,41 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private void PerformDash()
         {
-            Debug.Log("DASH!");
+            if (!IsDashing) 
+            {
+                Vector2 dashDirection = _dashInDirectionOfLook ? _rotatedTransform.up : _previousValidInput;
+                StartCoroutine(PerformDashC(dashDirection));
+            }
+        }
+
+        private IEnumerator PerformDashC(Vector2 dashDirection) 
+        {
+            if (ActiveDashCooldown <= 0) 
+            {
+                StartCoroutine(StartDashCooldown());
+                IsDashing = true;
+                _dashTimer = _dashDuration;
+                LaunchRigidBody.LaunchRigidBody2D(_rigidbody, dashDirection,  _dashForce);
+                while (_dashTimer >= 0) 
+                {
+                    yield return new WaitForSeconds(0.01f);
+                    _dashTimer -= 0.01f;
+                }
+                IsDashing = false;
+            }
+        }
+
+        private IEnumerator StartDashCooldown() 
+        {
+            if (!IsDashing) 
+            {
+                ActiveDashCooldown = _dashCooldown;
+                while (ActiveDashCooldown > 0) 
+                {
+                    yield return new WaitForSeconds(0.01f);
+                    ActiveDashCooldown -= 0.01f;
+                }
+            }
         }
 
         private void PerformRun()
@@ -103,7 +181,6 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
             _runningSum = 0;
         }
 
-
         private void OnDestroy()
         {
             _movementMap.TopDown2D.Disable();
@@ -115,13 +192,11 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
             _movementMap.TopDown2D.Dash.performed -= ctx => { PerformDash(); };
             _movementMap.TopDown2D.Run.performed -= ctx => { PerformRun(); };
             _movementMap.TopDown2D.Run.canceled -= ctx => { CancelRun(); };
-            
-            InputSystem.onDeviceChange -= OnDeviceChange;
         }
 
         private void UpdateMovement() 
         {
-            _rigidbody.velocity = _movementInput * (_walkingSpeed + _runningSum);
+           if(!IsDashing)_rigidbody.velocity = _movementInput * (_walkingSpeed + _runningSum);
         }
 
         private void HandleRotation() 
@@ -139,7 +214,6 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
             {
                 Vector2 lookDirection = _lookInput.normalized;
                 _rotatedTransform.up = Vector2.Lerp(_rotatedTransform.up, lookDirection, 20f * Time.deltaTime);
-                
             }
         }
 
