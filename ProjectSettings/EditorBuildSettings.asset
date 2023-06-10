@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Test Scenes/SampleSceneTopDown2D.unity
-    guid: 22a604b23a7e2b1469834e14d772f487
-  - enabled: 1
     path: Assets/Test Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Test Scenes/SampleSceneTopDown2D.unity
+    guid: 22a604b23a7e2b1469834e14d772f487
   - enabled: 1
     path: Assets/Test Scenes/TestScene2D.unity
     guid: d7c4455666b424a4d95eccd19cdde973

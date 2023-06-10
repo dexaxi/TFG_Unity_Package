@@ -1,27 +1,23 @@
-namespace DUJAL.MovementComponents.PhysicsBased3D
+namespace DUJAL.MovementComponents.DiscreteBased3D
 {
     using DG.Tweening;
     using DUJAL.IndependentComponents.LaunchRigidBody;
     using System;
-    using System.Collections;
     using System.Linq;
     using UnityEngine;
     using UnityEngine.InputSystem;
     using UnityEngine.InputSystem.Controls;
 
-    public enum FPS
+    public enum FPS_Discrete
     {
-        FPS_Restricted,
-        FPS_Walking,
-        FPS_Running,
-        FPS_WallRunning,
-        FPS_Crouching,
-        FPS_Sliding,
-        FPS_Air,
-        FPS_Dashing
+        FPS_Discrete_Restricted,
+        FPS_Discrete_Walking,
+        FPS_Discrete_Running,
+        FPS_Discrete_Crouching,
+        FPS_Discrete_Air,
     }
 
-    public class PhysicsBasedFirstPersonMovement3D : MonoBehaviour
+    public class FirstPersonMovement3D : MonoBehaviour
     {
         [Header("Movement Settings")]
         [SerializeField] [Range(0, 50)] private float _walkSpeed;
@@ -39,20 +35,6 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
         [Header("Jump Settings")]
         [SerializeField] [Range(0, 50)] private float _jumpForce;
         [SerializeField] [Range(0, 1)] private float _jumpCooldown;
-
-        [Header("Slide Settings")]
-        [SerializeField] [Range(0, 50)] private float _slideSpeed;
-        [SerializeField] [Range(0, 500)] private float _slideForce;
-        [SerializeField] [Range(0, 3)] private float _slideTime;
-        [SerializeField] [Range(0, 2)] public float _slideScale;
-
-        [Header("Dash Settings")]
-        [SerializeField] [Range(0,50)] private float _dashSpeed;
-        [SerializeField] [Range(0,50)] private float _dashSpeedLossMultiplier;
-
-        [Header("WallRun Settings")]
-        [SerializeField] [Range(0, 50)] private float _wallRunSpeed;
-        [SerializeField] public LayerMask WallCollisionLayer;
 
         [Header("Ground Check Settings")]
         [SerializeField] [Range(0, 3)] private float _playerHeight;
@@ -72,15 +54,10 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
         [SerializeField] private Transform CameraHolder;
         [SerializeField] public Camera Camera;
 
-        [HideInInspector] public bool IsDashing;
-        [HideInInspector] public bool IsWallRunning;
-        [HideInInspector] public float MaxYDashingspeed;
-
-        public FPS State { get; private set; }
+        public FPS_Discrete State { get; private set; }
         public bool IsGrounded { get; private set; }
         public bool IsCrouching { get; private set; }
         public bool IsRestricted { get; private set; }
-        public bool IsSliding { get; private set; }
         public bool IsExitingSlope { get; private set; }
         public bool UseMouse { get; private set; }
         public Vector2 MovementInput { get; private set; }
@@ -88,18 +65,13 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
         
         private Rigidbody _rigidbody;
         private RaycastHit _slopeHit;
-        private FPS _previousState;
         
         private Vector2 _cameraRotation;
         private Vector3 _moveDir;
 
         private float _currentMoveSpeed;
         private float _desiredMoveSpeed;
-        private float _lastDesiredMoveSpeed;
         private float _startingScale;
-        private float _currentSlideTimer;
-        private float _speedLossFactor;
-        private bool _keepMomentum;
 
         private bool _readyToJump;        
 
@@ -124,16 +96,15 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
 
         private void FixedUpdate()
         {
-            if (State != FPS.FPS_Restricted) HandleMovement();
+            if (State != FPS_Discrete.FPS_Discrete_Restricted) HandleMovement();
             CheckGrounded();
             HandleJump();
-            HandleSliding();
             SpeedControl();
         }
 
         private void HandleDrag() 
         {
-            if (State == FPS.FPS_Walking || State == FPS.FPS_Running ||State == FPS.FPS_Crouching) _rigidbody.drag = _groundDrag;
+            if (State == FPS_Discrete.FPS_Discrete_Walking|| State == FPS_Discrete.FPS_Discrete_Running || State == FPS_Discrete.FPS_Discrete_Crouching) _rigidbody.drag = _groundDrag;
             else _rigidbody.drag = _airDrag;
         }
 
@@ -152,9 +123,6 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
 
             MovementMap.FPS.Crouch.performed += ctx => { PerformCrouch(); };
             MovementMap.FPS.Crouch.canceled += ctx => { CancelCrouch(); };
-            
-            MovementMap.FPS.Slide.performed += ctx => { PerformSlide(); };
-            MovementMap.FPS.Slide.canceled += ctx => { CancelSlide(); };
         }
 
         private void LockCursor()
@@ -174,7 +142,7 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
             _cameraRotation.x -= mouseInputY;
             _cameraRotation.x = Mathf.Clamp(_cameraRotation.x, -90f, 90f);
 
-            CameraHolder.rotation = Quaternion.Euler(_cameraRotation.x, _cameraRotation.y, 0);
+            CameraHolder.transform.rotation = Quaternion.Euler(_cameraRotation.x, _cameraRotation.y, 0);
             Orientation.rotation = Quaternion.Euler(0, _cameraRotation.y, 0);
         }
 
@@ -195,47 +163,25 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
 
         private void SetRunState()
         {
-            State = FPS.FPS_Running;
+            State = FPS_Discrete.FPS_Discrete_Running;
             _desiredMoveSpeed = _runSpeed;
         }
 
         private void SetWalkState()
         {
-            State = FPS.FPS_Walking;
+            State = FPS_Discrete.FPS_Discrete_Walking;
             _desiredMoveSpeed = _walkSpeed;
         }
 
         private void SetCrouchingState() 
         {
-            State = FPS.FPS_Crouching;
+            State = FPS_Discrete.FPS_Discrete_Crouching;
             _desiredMoveSpeed = _crouchMovementSpeed;
-        }
-
-        private void SetSlidingState() 
-        {
-            State = FPS.FPS_Sliding;
-            _speedLossFactor = _speedLossMultiplier;
-
-            if (CheckSlope() && _rigidbody.velocity.y < 0.1f) _desiredMoveSpeed = _slideSpeed;
-            else _desiredMoveSpeed = _runSpeed;
-        }
-
-        private void SetWallRunningState() 
-        {
-            State = FPS.FPS_WallRunning;
-            _desiredMoveSpeed = _wallRunSpeed;
-        }
-
-        private void SetDashingState() 
-        {
-            State = FPS.FPS_Dashing;
-            _desiredMoveSpeed = _dashSpeed;
-            _speedLossFactor = _dashSpeedLossMultiplier;
         }
 
         private void SetAirState() 
         {
-            State = FPS.FPS_Air;
+            State = FPS_Discrete.FPS_Discrete_Air;
             if (_desiredMoveSpeed < _runSpeed) _desiredMoveSpeed = _walkSpeed;
             else _desiredMoveSpeed = _runSpeed;
         }
@@ -246,47 +192,11 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
             _rigidbody.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             IsCrouching = true;
         }
-
-        private void PerformSlide() 
-        {
-            if (IsWallRunning) return;
-
-            IsSliding = true;
-
-            transform.localScale = new Vector3(transform.localScale.x, _slideScale, transform.localScale.z);
-            _rigidbody.AddForce(Vector3.down * 5f, ForceMode.Impulse);
-            _currentSlideTimer = _slideTime;
-        }
-
-        private void CancelSlide() 
-        {
-            IsSliding = false;
-            transform.localScale = new Vector3(transform.localScale.x, _startingScale, transform.localScale.z);
-        }
-
         private void CancelCrouch()
         {
             IsCrouching = false;
             transform.localScale = new Vector3(transform.localScale.x, _startingScale, transform.localScale.z);
         }
-
-        private void HandleSliding()
-        {
-            if (!IsSliding) return;
-
-            if (!CheckSlope() || _rigidbody.velocity.y > -0.1f)
-            {
-                _rigidbody.AddForce(_moveDir.normalized * _slideForce, ForceMode.Force);
-                _currentSlideTimer -= Time.deltaTime;
-            }
-            else
-            {
-                _rigidbody.AddForce(CalculateNormalizedSlopeDirection(_moveDir) * _slideForce, ForceMode.Force);
-            }
-
-            if (_currentSlideTimer <= 0) CancelSlide();
-        }
-
         private void PerformMovement(Vector2 movementVector)
         {
             MovementInput = movementVector;
@@ -307,29 +217,17 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
         {
             if (IsRestricted)
             {
-                State = FPS.FPS_Restricted;
-            }
-            else if (IsWallRunning)
-            {
-                SetWallRunningState();
-            }
-            else if (IsSliding)
-            {
-                SetSlidingState();
-            }
-            else if (IsDashing)
-            {
-                SetDashingState();
+                State = FPS_Discrete.FPS_Discrete_Restricted;
             }
             else if (IsCrouching)
             {
                 SetCrouchingState();
             }
-            else if (MovementMap.FPS.Run.IsPressed() && IsGrounded && !IsCrouching && !IsSliding)
+            else if (MovementMap.FPS.Run.IsPressed() && IsGrounded && !IsCrouching)
             {
                 SetRunState();
             }
-            else if (IsGrounded && !IsSliding)
+            else if (IsGrounded)
             {
                 SetWalkState();
             }
@@ -338,54 +236,11 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
                 SetAirState();
             }
 
-            if (_previousState == FPS.FPS_Dashing || (_previousState == FPS.FPS_Sliding && CheckSlope())) _keepMomentum = true;
-            if (Mathf.Abs(_desiredMoveSpeed - _lastDesiredMoveSpeed) > Mathf.Abs(_walkSpeed - _runSpeed)
-                && _currentMoveSpeed != 0 && _keepMomentum) 
-            {
-                StopCoroutine(LerpMoveSpeedKeepMomentum());
-                StartCoroutine(LerpMoveSpeedKeepMomentum());
-            }
-            else
-            {
-                StopCoroutine(LerpMoveSpeedKeepMomentum());
-                _currentMoveSpeed = _desiredMoveSpeed;
-            }
-
-            _lastDesiredMoveSpeed = _desiredMoveSpeed;
-            _previousState = State;
-        }
-
-        private IEnumerator LerpMoveSpeedKeepMomentum()
-        {
-            float timer = 0;
-            float delta = Mathf.Abs(_desiredMoveSpeed - _currentMoveSpeed);
-            float startValue = _currentMoveSpeed;
-
-            float speedLossFactor = _speedLossFactor;
-
-            while (timer < delta)
-            {
-                _currentMoveSpeed = Mathf.Lerp(startValue, _desiredMoveSpeed, timer / delta);
-
-                if (CheckSlope())
-                {
-                    float slopeAngle = Vector3.Angle(Vector3.up, _slopeHit.normal);
-                    float slopeAngleIncrease = 1 + (slopeAngle / 90f);
-
-                    timer += Time.deltaTime * speedLossFactor * _slopeMomentumDecreaseMultiplier * slopeAngleIncrease;
-                }
-                else timer += Time.deltaTime * speedLossFactor;
-                yield return null;
-            }
-
-            _speedLossFactor = 1f;
             _currentMoveSpeed = _desiredMoveSpeed;
-            _keepMomentum = false;
         }
 
         private void HandleMovement()
         {
-            if (State == FPS.FPS_Dashing) return;
 
             _moveDir = Orientation.forward * MovementInput.y + Orientation.right * MovementInput.x;
 
@@ -397,11 +252,11 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
             }
             else if (IsGrounded)
             {
-                _rigidbody.AddForce(_moveDir.normalized * _currentMoveSpeed * 10f, ForceMode.Force);
+                _rigidbody.velocity = new Vector3(_moveDir.normalized.x * _currentMoveSpeed * 10f, _rigidbody.velocity.y, _moveDir.normalized.z * _currentMoveSpeed * 10f);
             }
             else if (!IsGrounded) 
             {
-                _rigidbody.AddForce(_moveDir.normalized * _currentMoveSpeed * 10f * _airSpeedMultiplier, ForceMode.Force);
+                _rigidbody.velocity = new Vector3(_moveDir.normalized.x * _currentMoveSpeed * 10f * _airSpeedMultiplier, _rigidbody.velocity.y, _moveDir.normalized.z * _currentMoveSpeed * 10f * _airSpeedMultiplier);
             }
             _rigidbody.useGravity = !CheckSlope();
         }
@@ -424,11 +279,6 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
                     Vector3 newGroundVel = groundVel.normalized * _currentMoveSpeed;
                     _rigidbody.velocity = new Vector3(newGroundVel.x, _rigidbody.velocity.y, newGroundVel.z);
                 }
-            }
-
-            if (MaxYDashingspeed != 0 && _rigidbody.velocity.y > MaxYDashingspeed) 
-            {
-                _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, MaxYDashingspeed, _rigidbody.velocity.z);
             }
         }
 
@@ -478,9 +328,6 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
 
             MovementMap.FPS.Crouch.performed -= ctx => { PerformCrouch(); };
             MovementMap.FPS.Crouch.canceled -= ctx => { CancelCrouch(); };
-
-            MovementMap.FPS.Slide.performed -= ctx => { PerformSlide(); };
-            MovementMap.FPS.Slide.canceled -= ctx => { CancelSlide(); };
         }
     }
 }

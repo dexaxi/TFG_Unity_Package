@@ -1019,6 +1019,15 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffe72981-7d67-44f2-bc1a-b7ea2de960fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1197,6 +1206,28 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0b72a4f-1e9d-402d-ba13-0c708f8ce4a3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""37ec0d68-6d39-4d9a-a33c-78ce33515bff"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1245,6 +1276,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_FPS_CameraMovement = m_FPS.FindAction("Camera Movement", throwIfNotFound: true);
         m_FPS_Crouch = m_FPS.FindAction("Crouch", throwIfNotFound: true);
         m_FPS_Slide = m_FPS.FindAction("Slide", throwIfNotFound: true);
+        m_FPS_Dash = m_FPS.FindAction("Dash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1579,6 +1611,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_FPS_CameraMovement;
     private readonly InputAction m_FPS_Crouch;
     private readonly InputAction m_FPS_Slide;
+    private readonly InputAction m_FPS_Dash;
     public struct FPSActions
     {
         private @MovementInput m_Wrapper;
@@ -1589,6 +1622,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @CameraMovement => m_Wrapper.m_FPS_CameraMovement;
         public InputAction @Crouch => m_Wrapper.m_FPS_Crouch;
         public InputAction @Slide => m_Wrapper.m_FPS_Slide;
+        public InputAction @Dash => m_Wrapper.m_FPS_Dash;
         public InputActionMap Get() { return m_Wrapper.m_FPS; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1616,6 +1650,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Slide.started -= m_Wrapper.m_FPSActionsCallbackInterface.OnSlide;
                 @Slide.performed -= m_Wrapper.m_FPSActionsCallbackInterface.OnSlide;
                 @Slide.canceled -= m_Wrapper.m_FPSActionsCallbackInterface.OnSlide;
+                @Dash.started -= m_Wrapper.m_FPSActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_FPSActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_FPSActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_FPSActionsCallbackInterface = instance;
             if (instance != null)
@@ -1638,6 +1675,9 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Slide.started += instance.OnSlide;
                 @Slide.performed += instance.OnSlide;
                 @Slide.canceled += instance.OnSlide;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
         }
     }
@@ -1692,5 +1732,6 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnCameraMovement(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
 }
