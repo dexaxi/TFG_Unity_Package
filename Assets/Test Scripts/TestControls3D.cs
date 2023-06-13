@@ -6,7 +6,8 @@ using DUJAL.Systems.Audio;
 using DUJAL.Systems.Saving;
 using DUJAL.Systems.Utils;
 using DUJAL.IndependentComponents.LaunchRigidBody;
-
+using DUJAL.MovementComponents.PhysicsBased3D;
+using Cinemachine;
 public class TestControls3D : MonoBehaviour, ISaveData
 {
 
@@ -16,76 +17,78 @@ public class TestControls3D : MonoBehaviour, ISaveData
     public int testInt;
     public SerializableDictionary<int, string> testDictionary;
     public List<string> testList;
+    PhysicsBasedThirdPersonMovement3D tps;
     // Start is called before the first frame update
     void Start()
     {
         EndPos = StartPos + new Vector3(0f, 0f, 5f);
         Reverse = false;
         testDictionary = new SerializableDictionary<int, string>();
-
+        tps = FindObjectOfType<PhysicsBasedThirdPersonMovement3D>();
         testList = new List<string>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.O))
         {
             if (!ScreenShakeFromAnimationCurve3D.Instance.Shaking)
-                    AudioManager.Instance.Play("thud");
-            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen();
+                AudioManager.Instance.Play("thud");
+            tps.DebugRotateIsometricCamera90Degrees();
         }
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (!ScreenShakeFromAnimationCurve3D.Instance.Shaking)
                 AudioManager.Instance.Play("pop");
-            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen(AnimationCurveSelector.Instance.GetCurve(AnimationCurveType.Kick), 0.5f, 0.5f);
+            CinemachineFreeLook camera = tps.CurrentCamera.GetComponentInChildren<CinemachineFreeLook>();
+            //ScreenShakeFromAnimationCurve3D.Instance.ShakeScreenCinemachine(camera, AnimationCurveSelector.Instance.GetCurve(AnimationCurveType.Kick));
+            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreenCinemachine(camera, null);
+
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
             SceneManager.LoadScene(1);
         }
-        if (Input.GetKeyDown(KeyCode.I)) 
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            testDictionary.Add(testInt, "TEST");
-            testList.Add(testInt.ToString());
-            testInt++;
-            Debug.Log("testInt = " + testInt);
+            if (tps != null) tps.ChangeCameraMode(CameraMode.CameraMode_Normal);
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            SaveDataHandler.Instance.SaveGame();
+            if (tps != null) tps.ChangeCameraMode(CameraMode.CameraMode_Shoulder);
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            SaveDataHandler.Instance.LoadGame();
+            if (tps != null) tps.ChangeCameraMode(CameraMode.CameraMode_TopDown);
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.Log("LaucnRigidBody triggered!");
-            LaunchRigidBody.LaunchRigidBody3D(FindObjectOfType<Rigidbody>(), new Vector3(0, 1, 0), 10);
+            if (tps != null) tps.ChangeCameraMode(CameraMode.CameraMode_FixedYTopDown);
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            SaveDataHandler.Instance.SetCurrentGameSlot(SaveDataHandler.Instance.CurrentSlot - 1);
+            if (tps != null) tps.ChangeCameraMode(CameraMode.CameraMode_FixedXYTopDown);
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            SaveDataHandler.Instance.SetCurrentGameSlot(SaveDataHandler.Instance.CurrentSlot + 1);
+            if (tps != null) tps.ChangeCameraMode(CameraMode.CameraMode_Isometric);
         }
-        if (Input.GetKeyUp(KeyCode.Alpha0)) 
+        if (Input.GetKeyUp(KeyCode.Alpha0))
         {
             SaveDataHandler.Instance.DeleteSlot(0);
-        }        
-        if (Input.GetKeyUp(KeyCode.Alpha1)) 
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             SaveDataHandler.Instance.DeleteSlot(1);
         }
-        if (Input.GetKeyUp(KeyCode.Alpha2)) 
+        if (Input.GetKeyUp(KeyCode.Alpha2))
         {
             SaveDataHandler.Instance.DeleteSlot(2);
         }
-        if (Input.GetKeyUp(KeyCode.Alpha3)) 
+        if (Input.GetKeyUp(KeyCode.Alpha3))
         {
             SaveDataHandler.Instance.DeleteSlot(3);
         }

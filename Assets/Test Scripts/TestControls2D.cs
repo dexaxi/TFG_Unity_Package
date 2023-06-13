@@ -7,7 +7,6 @@ using DUJAL.MovementComponents.PhysicsBased2D;
 public class TestControls2D : MonoBehaviour
 {
 
-    public Transform CameraParent;
     public Vector3 StartPos;
     public Vector3 EndPos;
     public bool Reverse;
@@ -15,7 +14,6 @@ public class TestControls2D : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartPos = CameraParent.position;
         EndPos = StartPos + new Vector3(5f, 0f, 0f);
         Reverse = false;
     }
@@ -56,6 +54,5 @@ public class TestControls2D : MonoBehaviour
                 Reverse = false;
             }
         }*/
-        CameraParent.position = new Vector3(FindObjectOfType<PhysicsBasedScrollMovement2D>().transform.position.x, CameraParent.position.y, CameraParent.position.z);
     }
 }

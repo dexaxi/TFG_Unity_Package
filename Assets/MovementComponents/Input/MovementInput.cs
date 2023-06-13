@@ -472,7 +472,7 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""a05bbc0a-aa7a-442c-bb25-83534c068711"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2,StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
@@ -489,6 +489,24 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                     ""name"": ""Run"",
                     ""type"": ""Button"",
                     ""id"": ""99181016-3834-4388-908a-b768ca54f476"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""02082048-3a60-4fce-b562-012f3defa033"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae26f856-da94-4e99-9026-c1f1e5345149"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -620,11 +638,55 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e42f0ca8-3e1a-46ac-a520-b64fd9d80c41"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb6b5212-a802-40ca-ad0d-dadd53070afd"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d88f0b1-b81d-46fb-bb56-7f344f58f754"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65a45e95-e81b-4fed-ba98-006124c0ea6c"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11195bf4-70da-4e34-beea-1f943d25ff78"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1257,6 +1319,8 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         m_ThirdPersonMovement_CameraMovement = m_ThirdPersonMovement.FindAction("Camera Movement", throwIfNotFound: true);
         m_ThirdPersonMovement_Jump = m_ThirdPersonMovement.FindAction("Jump", throwIfNotFound: true);
         m_ThirdPersonMovement_Run = m_ThirdPersonMovement.FindAction("Run", throwIfNotFound: true);
+        m_ThirdPersonMovement_Crouch = m_ThirdPersonMovement.FindAction("Crouch", throwIfNotFound: true);
+        m_ThirdPersonMovement_Slide = m_ThirdPersonMovement.FindAction("Slide", throwIfNotFound: true);
         // Scroll3D
         m_Scroll3D = asset.FindActionMap("Scroll3D", throwIfNotFound: true);
         m_Scroll3D_Move = m_Scroll3D.FindAction("Move", throwIfNotFound: true);
@@ -1446,6 +1510,8 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_ThirdPersonMovement_CameraMovement;
     private readonly InputAction m_ThirdPersonMovement_Jump;
     private readonly InputAction m_ThirdPersonMovement_Run;
+    private readonly InputAction m_ThirdPersonMovement_Crouch;
+    private readonly InputAction m_ThirdPersonMovement_Slide;
     public struct ThirdPersonMovementActions
     {
         private @MovementInput m_Wrapper;
@@ -1454,6 +1520,8 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         public InputAction @CameraMovement => m_Wrapper.m_ThirdPersonMovement_CameraMovement;
         public InputAction @Jump => m_Wrapper.m_ThirdPersonMovement_Jump;
         public InputAction @Run => m_Wrapper.m_ThirdPersonMovement_Run;
+        public InputAction @Crouch => m_Wrapper.m_ThirdPersonMovement_Crouch;
+        public InputAction @Slide => m_Wrapper.m_ThirdPersonMovement_Slide;
         public InputActionMap Get() { return m_Wrapper.m_ThirdPersonMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1475,6 +1543,12 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Run.started -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnRun;
+                @Crouch.started -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnCrouch;
+                @Slide.started -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnSlide;
+                @Slide.performed -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnSlide;
+                @Slide.canceled -= m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface.OnSlide;
             }
             m_Wrapper.m_ThirdPersonMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -1491,6 +1565,12 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @Slide.started += instance.OnSlide;
+                @Slide.performed += instance.OnSlide;
+                @Slide.canceled += instance.OnSlide;
             }
         }
     }
@@ -1710,6 +1790,8 @@ public partial class @MovementInput : IInputActionCollection2, IDisposable
         void OnCameraMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
     }
     public interface IScroll3DActions
     {

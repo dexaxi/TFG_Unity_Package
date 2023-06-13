@@ -7751,6 +7751,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhysicsBasedTopDownCharacterController
       objectReference: {fileID: 0}
+    - target: {fileID: 1305954997828661077, guid: cdebe3959b7fef944bdbbd521c7e9229,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdebe3959b7fef944bdbbd521c7e9229, type: 3}
 --- !u!1 &419312888
@@ -17806,6 +17811,12 @@ Transform:
   m_Father: {fileID: 1605981873}
   m_RootOrder: 340
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1038859476 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1305954997550420408, guid: cdebe3959b7fef944bdbbd521c7e9229,
+    type: 3}
+  m_PrefabInstance: {fileID: 417018704}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1042738371
 GameObject:
   m_ObjectHideFlags: 0
@@ -19858,6 +19869,7 @@ GameObject:
   - component: {fileID: 1231547332}
   - component: {fileID: 1231547331}
   - component: {fileID: 1231547334}
+  - component: {fileID: 1231547335}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -19964,6 +19976,22 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &1231547335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231547330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b81444c4bb302f8418814cc9c8559869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerTransform: {fileID: 1038859476}
+  _cameraFollowType: 0
+  _offset: {x: 0, y: 0, z: -10}
+  _smoothness: 20
 --- !u!1 &1249778752
 GameObject:
   m_ObjectHideFlags: 0

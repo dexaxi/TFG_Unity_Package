@@ -1,8 +1,8 @@
-using System.Collections;
-using UnityEngine;
-
 namespace DUJAL.IndependentComponents.ScreenShake
 {
+	using System.Collections;
+	using UnityEngine;
+	using Cinemachine;
 	/// <summary>
 	//	This class uses 3D rotation to shake the screen to prevent clipping and perspective issues. 
 	/// </summary>
@@ -24,7 +24,7 @@ namespace DUJAL.IndependentComponents.ScreenShake
 		private float shakeDuration;
 
 		[SerializeField]
-		[Range(0f, 5f)]
+		[Range(0f, 15f)]
 		[Tooltip("Power with which the rotation based screenshake will shake")]
 		private float rotationPower;
 
@@ -87,6 +87,7 @@ namespace DUJAL.IndependentComponents.ScreenShake
 				StartCoroutine(IShakeScreen(curve, duration, power));
 			}
 		}
+
 		/// <summary>
 		//Coroutine to Shake Screen
 		/// </summary>
@@ -111,6 +112,88 @@ namespace DUJAL.IndependentComponents.ScreenShake
 			}
 			Shaking = false;
 			transform.rotation = startRot;
+		}
+
+		/// <summary>
+		//Void function to Shake the Screen using Cinemachine virtual cameras using component params
+		/// </summary>
+		public void ShakeScreenCinemachine(CinemachineVirtualCamera camera, AnimationCurve curve)
+		{
+			if (camera == null) return;
+			if (!Shaking)
+			{
+				Shaking = true;
+				StartCoroutine(IShakeScreenCinemachine(camera, curve, shakeDuration, rotationPower));
+			}
+		}
+
+		/// <summary>
+		//Void function to Shake the Screen using Cinemachine free look cameras using component params
+		/// </summary>
+		public void ShakeScreenCinemachine(CinemachineFreeLook camera, AnimationCurve curve)
+		{
+			if (camera == null) return;
+			if (!Shaking)
+			{
+				Shaking = true;
+				StartCoroutine(IShakeScreenCinemachine(camera.GetRig(0), curve, shakeDuration, rotationPower));
+				StartCoroutine(IShakeScreenCinemachine(camera.GetRig(1), curve, shakeDuration, rotationPower));
+				StartCoroutine(IShakeScreenCinemachine(camera.GetRig(2), curve, shakeDuration, rotationPower));
+			}
+		}
+
+		/// <summary>
+		//Void function to Shake the Screen using Cinemachine virtual cameras using code defined params
+		/// </summary>
+		public void ShakeScreenCinemachine(CinemachineVirtualCamera camera,AnimationCurve curve, float duration, float power)
+		{
+			if (camera == null) return;
+			if (!Shaking)
+			{
+				Shaking = true;
+				StartCoroutine(IShakeScreenCinemachine(camera, curve, duration, power));
+			}
+		}
+
+		/// <summary>
+		//Void function to Shake the Screen using Cinemachine free look cameras using code defined params
+		/// </summary>
+		public void ShakeScreenCinemachine(CinemachineFreeLook camera, AnimationCurve curve, float duration, float power)
+		{
+			if (camera == null) return;
+			if (!Shaking)
+			{
+				Shaking = true;
+				StartCoroutine(IShakeScreenCinemachine(camera.GetRig(0), curve, duration, power));
+				StartCoroutine(IShakeScreenCinemachine(camera.GetRig(1), curve, duration, power));
+				StartCoroutine(IShakeScreenCinemachine(camera.GetRig(2), curve, duration, power));
+			}
+		}
+		
+		/// <summary>
+		//Coroutine to Shake Screen using a Cinemachine Virtual Camera
+		/// </summary>
+		private IEnumerator IShakeScreenCinemachine(CinemachineVirtualCamera camera, AnimationCurve curve, float duration, float power)
+		{
+			CinemachineBasicMultiChannelPerlin perlin = camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+			float _startingAmplitudeGain = perlin.m_AmplitudeGain;
+			float _startingFrequencyGain = perlin.m_FrequencyGain;
+
+			if (curve == null) curve = AnimationCurveSelector.Instance.GetCurve(shakeCurveType);
+
+			float elapsed = 0f;
+			while (elapsed < duration)
+			{
+				elapsed += Time.deltaTime;
+				float strength = curve.Evaluate(elapsed / duration);
+				perlin.m_AmplitudeGain = strength * power;
+				perlin.m_FrequencyGain = strength * power;
+				yield return null;
+			}
+
+			Shaking = false;
+			perlin.m_AmplitudeGain = _startingAmplitudeGain;
+			perlin.m_FrequencyGain = _startingFrequencyGain;
 		}
 
 		/// <summary>

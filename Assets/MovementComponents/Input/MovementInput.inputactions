@@ -450,7 +450,7 @@
                     "type": "PassThrough",
                     "id": "a05bbc0a-aa7a-442c-bb25-83534c068711",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeVector2,StickDeadzone",
                     "interactions": "",
                     "initialStateCheck": false
                 },
@@ -467,6 +467,24 @@
                     "name": "Run",
                     "type": "Button",
                     "id": "99181016-3834-4388-908a-b768ca54f476",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "02082048-3a60-4fce-b562-012f3defa033",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Slide",
+                    "type": "Button",
+                    "id": "ae26f856-da94-4e99-9026-c1f1e5345149",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -598,11 +616,55 @@
                 {
                     "name": "",
                     "id": "e42f0ca8-3e1a-46ac-a520-b64fd9d80c41",
-                    "path": "<Gamepad>/leftStickPress",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb6b5212-a802-40ca-ad0d-dadd53070afd",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8d88f0b1-b81d-46fb-bb56-7f344f58f754",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65a45e95-e81b-4fed-ba98-006124c0ea6c",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11195bf4-70da-4e34-beea-1f943d25ff78",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

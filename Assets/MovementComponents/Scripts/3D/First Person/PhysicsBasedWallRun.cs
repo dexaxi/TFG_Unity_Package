@@ -2,7 +2,7 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
 {
     using UnityEngine;
 
-    public class WallRunComponent : MonoBehaviour
+    public class PhysicsBasedWallRun : MonoBehaviour
     {
         [Header("Wall Run Settings")]
         [SerializeField] [Range(0, 500)] private float _wallRunForce;

@@ -2,7 +2,7 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
 {
     using UnityEngine;
     using UnityEngine.Events;
-    public class DashComponent : MonoBehaviour
+    public class PhysicsBasedDash : MonoBehaviour
     {
         [Header("Dash Settings")]
         [SerializeField] [Range(0,100)] private float _horizontalDashForce;

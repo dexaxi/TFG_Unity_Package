@@ -241,7 +241,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
         private void HandleMovement()
         {
-
             _moveDir = Orientation.forward * MovementInput.y + Orientation.right * MovementInput.x;
 
             if (CheckSlope() && !IsExitingSlope)

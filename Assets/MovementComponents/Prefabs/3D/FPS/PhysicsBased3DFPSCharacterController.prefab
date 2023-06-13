@@ -511,15 +511,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7187064308703247828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 768361e51bc2a5842918ceb6e9f47f13, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b3a3eca7031a2147a140a1e451cd19b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _horizontalDashForce: 30
-  _verticalDashForce: 3
-  _maxYSpeedWhileDashing: 20
-  _dashDuration: 0.2
+  _horizontalDashForce: 50
+  _verticalDashForce: 2
+  _maxYSpeedWhileDashing: 30
+  _dashDuration: 0.25
   _dashCooldown: 1.5
-  _dashFov: 100
+  _dashFov: 95
   _allowUpwardsDash: 1
   _allowSidewaysDash: 1
   _disableGravityWhileDashing: 0
