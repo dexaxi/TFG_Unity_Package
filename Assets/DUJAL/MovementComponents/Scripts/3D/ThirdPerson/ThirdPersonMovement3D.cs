@@ -13,21 +13,21 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
     public enum ThirdPerson_Discrete
     {
-        ThirdPerson_Restricted,
-        ThirdPerson_Walking,
-        ThirdPerson_Running,
-        ThirdPerson_Crouching,
-        ThirdPerson_Air
+        ThirdPerson_Discrete_Restricted,
+        ThirdPerson_Discrete_Walking,
+        ThirdPerson_Discrete_Running,
+        ThirdPerson_Discrete_Crouching,
+        ThirdPerson_Discrete_Air
     }
 
     public enum CameraMode_Discrete 
     {
-        CameraMode_Normal,
-        CameraMode_Shoulder,
-        CameraMode_TopDown,
-        CameraMode_FixedYTopDown,
-        CameraMode_FixedXYTopDown,
-        CameraMode_Isometric
+        CameraMode_Discrete_Normal,
+        CameraMode_Discrete_Shoulder,
+        CameraMode_Discrete_TopDown,
+        CameraMode_Discrete_FixedYTopDown,
+        CameraMode_Discrete_FixedXYTopDown,
+        CameraMode_Discrete_Isometric
     }
 
     public class ThirdPersonMovement3D : MonoBehaviour
@@ -119,7 +119,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             HandleDrag();
             HandleJump();
             
-            if (State != ThirdPerson_Discrete.ThirdPerson_Restricted) HandleMovement();
+            if (State != ThirdPerson_Discrete.ThirdPerson_Discrete_Restricted) HandleMovement();
             
             SpeedControl();
         }
@@ -144,7 +144,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
         private void HandleDrag()
         {
-            if (State == ThirdPerson_Discrete.ThirdPerson_Walking || State == ThirdPerson_Discrete.ThirdPerson_Running|| State == ThirdPerson_Discrete.ThirdPerson_Crouching) _rigidbody.drag = _groundDrag;
+            if (State == ThirdPerson_Discrete.ThirdPerson_Discrete_Walking || State == ThirdPerson_Discrete.ThirdPerson_Discrete_Running|| State == ThirdPerson_Discrete.ThirdPerson_Discrete_Crouching) _rigidbody.drag = _groundDrag;
             else _rigidbody.drag = _airDrag;
         }
 
@@ -168,30 +168,30 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             //Camera Type Logic
             switch (_currentCameraMode)
             {
-                case CameraMode_Discrete.CameraMode_Normal:
-                case CameraMode_Discrete.CameraMode_TopDown:
-                case CameraMode_Discrete.CameraMode_FixedYTopDown:
+                case CameraMode_Discrete.CameraMode_Discrete_Normal:
+                case CameraMode_Discrete.CameraMode_Discrete_TopDown:
+                case CameraMode_Discrete.CameraMode_Discrete_FixedYTopDown:
                     HandleNormalCameraCharacterRotation();
                     break;
 
-                case CameraMode_Discrete.CameraMode_FixedXYTopDown:
+                case CameraMode_Discrete.CameraMode_Discrete_FixedXYTopDown:
                     HandleXYFixedTopDownCharacterRotation();
                     break;
 
-                case CameraMode_Discrete.CameraMode_Isometric:
+                case CameraMode_Discrete.CameraMode_Discrete_Isometric:
                     HandleIsometricCharacterRotation();
                     break;
 
-                case CameraMode_Discrete.CameraMode_Shoulder:
+                case CameraMode_Discrete.CameraMode_Discrete_Shoulder:
                     HandleShoulderCameraCharacterRotation();
                     break;
             }
 
             //Sensitivity logic
-            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Isometric || _currentCameraMode == CameraMode_Discrete.CameraMode_FixedXYTopDown) return;
+            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Discrete_Isometric || _currentCameraMode == CameraMode_Discrete.CameraMode_Discrete_FixedXYTopDown) return;
             Vector2 sensitivity = UseMouse ? _mouseSensitivity : _controllerSensitivity;
             _freeLook.m_XAxis.m_MaxSpeed = 300 * sensitivity.x;
-            if (_currentCameraMode == CameraMode_Discrete.CameraMode_FixedYTopDown) return;
+            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Discrete_FixedYTopDown) return;
             _freeLook.m_YAxis.m_MaxSpeed = 2 * sensitivity.y;
         }
 
@@ -207,34 +207,34 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
             switch (_currentCameraMode)
             {
-                case CameraMode_Discrete.CameraMode_Normal:
-                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Normal].SetActive(true);
-                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Normal];
+                case CameraMode_Discrete.CameraMode_Discrete_Normal:
+                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_Normal].SetActive(true);
+                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_Normal];
                     break;
 
-                case CameraMode_Discrete.CameraMode_Shoulder:
-                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Shoulder].SetActive(true);
-                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Shoulder];
+                case CameraMode_Discrete.CameraMode_Discrete_Shoulder:
+                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_Shoulder].SetActive(true);
+                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_Shoulder];
                     break;
 
-                case CameraMode_Discrete.CameraMode_TopDown:
-                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_TopDown].SetActive(true);
-                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_TopDown];
+                case CameraMode_Discrete.CameraMode_Discrete_TopDown:
+                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_TopDown].SetActive(true);
+                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_TopDown];
                     break;
 
-                case CameraMode_Discrete.CameraMode_FixedYTopDown:
-                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_FixedYTopDown].SetActive(true);
-                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_FixedYTopDown];
+                case CameraMode_Discrete.CameraMode_Discrete_FixedYTopDown:
+                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_FixedYTopDown].SetActive(true);
+                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_FixedYTopDown];
                     break;
 
-                case CameraMode_Discrete.CameraMode_FixedXYTopDown:
-                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_FixedXYTopDown].SetActive(true);
-                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_FixedXYTopDown];
+                case CameraMode_Discrete.CameraMode_Discrete_FixedXYTopDown:
+                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_FixedXYTopDown].SetActive(true);
+                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_FixedXYTopDown];
                     break;
 
-                case CameraMode_Discrete.CameraMode_Isometric:
-                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Isometric].SetActive(true);
-                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Isometric];
+                case CameraMode_Discrete.CameraMode_Discrete_Isometric:
+                    _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_Isometric].SetActive(true);
+                    CurrentCamera = _cameraPrefabs[(int)CameraMode_Discrete.CameraMode_Discrete_Isometric];
                     break;
             }
 
@@ -358,25 +358,25 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
         private void SetRunState()
         {
-            State = ThirdPerson_Discrete.ThirdPerson_Running;
+            State = ThirdPerson_Discrete.ThirdPerson_Discrete_Running;
             _desiredMoveSpeed = _runSpeed;
         }
 
         private void SetWalkState()
         {
-            State = ThirdPerson_Discrete.ThirdPerson_Walking;
+            State = ThirdPerson_Discrete.ThirdPerson_Discrete_Walking;
             _desiredMoveSpeed = _walkSpeed;
         }
 
         private void SetCrouchingState()
         {
-            State = ThirdPerson_Discrete.ThirdPerson_Crouching;
+            State = ThirdPerson_Discrete.ThirdPerson_Discrete_Crouching;
             _desiredMoveSpeed = _crouchMovementSpeed;
         }
 
         private void SetAirState()
         {
-            State = ThirdPerson_Discrete.ThirdPerson_Air;
+            State = ThirdPerson_Discrete.ThirdPerson_Discrete_Air;
             if (_desiredMoveSpeed < _runSpeed) _desiredMoveSpeed = _walkSpeed;
             else _desiredMoveSpeed = _runSpeed;
         }
@@ -385,7 +385,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         {
             if (IsRestricted)
             {
-                State = ThirdPerson_Discrete.ThirdPerson_Restricted;
+                State = ThirdPerson_Discrete.ThirdPerson_Discrete_Restricted;
             }
             else if (IsCrouching)
             {
@@ -455,7 +455,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
         public void SetIsometricCameraAngle(float newPanAngle, float rotationTime) 
         {
-            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Isometric) 
+            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Discrete_Isometric) 
             {
                 StartCoroutine(SetIsometricCameraAngleC(newPanAngle, rotationTime));
             }
@@ -463,7 +463,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         
         public void RotateIsometricCamera(float angleToSum, float rotationTime) 
         {
-            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Isometric) 
+            if (_currentCameraMode == CameraMode_Discrete.CameraMode_Discrete_Isometric) 
             {
                 float newAngle = _freeLook.GetComponent<CinemachineRecomposer>().m_Pan + angleToSum;
                 StartCoroutine(SetIsometricCameraAngleC(newAngle, rotationTime));
@@ -500,7 +500,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         [ContextMenu("Debug RotateIsoCam")]
         public void DebugRotateIsometricCamera90Degrees() 
         {
-            if(_currentCameraMode == CameraMode_Discrete.CameraMode_Isometric) RotateIsometricCamera(90, 1f);
+            if(_currentCameraMode == CameraMode_Discrete.CameraMode_Discrete_Isometric) RotateIsometricCamera(90, 1f);
         }
     }
 }

@@ -5,13 +5,13 @@ namespace DUJAL.Systems.Dialogue.Constants
     {
 
         //Paths and folder names
-        public const string EditorDefaultResourcesPath = "Assets/AtomicSystems/DialogueSystem/EditorDefaultResources";
+        public const string EditorDefaultResourcesPath = "Assets/DUJAL/AtomicSystems/DialogueSystem/EditorDefaultResources";
         public const string DialogueGraphWindowStream = "DUJAL/Dialogue Graph";
 
-        public const string DialogueEditorGraphsPath = "Assets/AtomicSystems/DialogueSystem/SavedDialogues";
+        public const string DialogueEditorGraphsPath = "Assets/DUJAL/AtomicSystems/DialogueSystem/SavedDialogues";
         public const string DialogueEditorGraphsFolder = "Graphs";
 
-        public const string AssetsFolderName = "Assets/AtomicSystems/DialogueSystem";
+        public const string AssetsFolderName = "Assets/DUJAL/AtomicSystems/DialogueSystem";
         public const string DialogueSystemDataContainerFolderName = "SavedDialogues";
         public const string GlobalContainerFolderName = "Global";
         public const string GroupsContainerFolderName = "Groups";

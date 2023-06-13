@@ -16,7 +16,7 @@ MonoBehaviour:
   <Groups>k__BackingField:
   - <ID>k__BackingField: 0aae234e-4aac-44c3-afcd-d8a8d2152c9e
     <Name>k__BackingField: DialogueGroup
-    <Position>k__BackingField: {x: 806.99994, y: 369.00003}
+    <Position>k__BackingField: {x: 807, y: 369}
   <Nodes>k__BackingField:
   - <ID>k__BackingField: ca40afcf-f4ae-4c3f-8217-52be279763d5
     <Name>k__BackingField: DialogueName
