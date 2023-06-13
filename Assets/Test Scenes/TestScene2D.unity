@@ -2744,7 +2744,7 @@ GameObject:
   - component: {fileID: 1143714287}
   - component: {fileID: 1143714286}
   - component: {fileID: 1143714285}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4415,7 +4415,7 @@ PrefabInstance:
     - target: {fileID: 1183304625250254239, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: orthographic size
-      value: 14
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1183304626190983242, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
@@ -4435,7 +4435,7 @@ PrefabInstance:
     - target: {fileID: 1183304626190983253, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.8
+      value: 2.05
       objectReference: {fileID: 0}
     - target: {fileID: 1183304626190983253, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
@@ -4495,7 +4495,12 @@ PrefabInstance:
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: _offset.y
-      value: 9
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
+        type: 3}
+      propertyPath: _offset.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
@@ -4505,12 +4510,12 @@ PrefabInstance:
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: Deadzone.y
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: _smoothness
-      value: 11
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
@@ -4520,16 +4525,21 @@ PrefabInstance:
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: Constraints.y
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: CameraFollowType
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
         type: 3}
       propertyPath: _playerTransform
+      value: 
+      objectReference: {fileID: 361205124}
+    - target: {fileID: 7771933032812519871, guid: 64b87ea8a15cba3489208c9876eefeb2,
+        type: 3}
+      propertyPath: _targetTransform
       value: 
       objectReference: {fileID: 361205124}
     m_RemovedComponents: []
