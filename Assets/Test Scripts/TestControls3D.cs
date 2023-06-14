@@ -6,6 +6,7 @@ using DUJAL.Systems.Audio;
 using DUJAL.Systems.Saving;
 using DUJAL.Systems.Utils;
 using DUJAL.IndependentComponents.LaunchRigidBody;
+using DUJAL.Systems.EXP;
 using DUJAL.MovementComponents.PhysicsBased3D;
 using Cinemachine;
 public class TestControls3D : MonoBehaviour, ISaveData
@@ -90,7 +91,7 @@ public class TestControls3D : MonoBehaviour, ISaveData
         }
         if (Input.GetKeyUp(KeyCode.Alpha3))
         {
-            SaveDataHandler.Instance.DeleteSlot(3);
+            FindObjectOfType<Experience>().GrantExp(ExperienceMobHanlder.Instance.GetMobXp("TestMob"));
         }
     }
 

@@ -12,6 +12,7 @@ namespace DUJAL.IndependentComponents.Interactables
         [SerializeField] private bool _toggleOnce;
 
         [Header("Events")]
+        [Tooltip("To execute an event on interaction, subscribe to this event")]
         [SerializeField] public UnityEvent Interact;
         
         private SphereCollider _collider;

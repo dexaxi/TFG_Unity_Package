@@ -1,11 +1,11 @@
-using UnityEngine;
 
 namespace DUJAL.Systems.Audio
 {
+    using UnityEngine;
     /// <summary>
     //  Scriptable Object that contains AudioClip, Audio Source and several params to manage these.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Sound Asset", menuName = "Sound")]
+    [CreateAssetMenu(fileName = "New Sound Asset", menuName = "DUJAL/Sound")]
     public class Sound : ScriptableObject
     {
         [Header("Sound Scriptable Object Parameters")]

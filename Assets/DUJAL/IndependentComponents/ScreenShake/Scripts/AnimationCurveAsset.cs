@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
 namespace DUJAL.IndependentComponents.ScreenShake
 {
+    using UnityEngine;
     /// <summary>
     //  Animation Curve Asset to store different types of curve.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Animation Curve", menuName = "Animation Curve")]
+    [CreateAssetMenu(fileName = "New Animation Curve", menuName = "DUJAL/Animation Curve")]
     public class AnimationCurveAsset : ScriptableObject
     {
         [Header("Animation Curve Scriptable Object Asset")]
