@@ -1,15 +1,15 @@
 
 namespace DUJAL.Systems.Dialogue
 {
+    using DUJAL.MovementComponents;
+    using DUJAL.Systems.Audio;
+    using DUJAL.Systems.Utils;
     using System.Collections;
+    using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
     using UnityEngine.Events;
-    using DUJAL.Systems.Utils;
     using UnityEngine.UI;
-    using DUJAL.Systems.Audio;
-    using System.Collections.Generic;
-
     public class InspectorDialogue : MonoBehaviour
     {
         //SO
@@ -51,13 +51,16 @@ namespace DUJAL.Systems.Dialogue
         private bool _performNextDialogue;
         private bool _waitingForPerformNextDialogue;
         DialogueInputActions _dialogueInputActions;
+        private bool _previousDialogueAutoText;
+
+        private TextMeshProUGUI _auxTMPro;
+
+        private int _auxTMProCharIndex;
+        private int _parsedTextIndexDelta;
 
         private void Awake()
         {
             if(_isStartingDialogue) _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
-
-            _previousTextSpeed = _textSpeed;
-
             ToggleIndividualChoiceButtonVisibility(false);
 
             Enter.AddListener(HandleMultipleChoiceButtons);
@@ -66,8 +69,8 @@ namespace DUJAL.Systems.Dialogue
             AssignAudioType();
 
             _currentChoiceIndex = 0;
-
             HandleInput();
+            OpenDialogueObject();
         }
 
 
@@ -114,7 +117,6 @@ namespace DUJAL.Systems.Dialogue
             };
 
         }
-
         private void TriggerSelectChoice(int n)
         {
             if (n >= _currentPlayedDialogue.Choices.Count) return;
@@ -126,9 +128,15 @@ namespace DUJAL.Systems.Dialogue
         {
             _waitingForPerformNextDialogue = false;
             _performNextDialogue = false;
+            _previousTextSpeed = _textSpeed;
+            _previousDialogueAutoText = _autoText;
+            _auxTMProCharIndex = 0;
+            _parsedTextIndexDelta = 0;
             StartCoroutine(PlayTextC());
         }
 
+        private int _nextOpenTagIndex;
+        private int _nextCloseTagIndex;
         private IEnumerator PlayTextC()
         {
             ClearText();
@@ -138,38 +146,49 @@ namespace DUJAL.Systems.Dialogue
             _text.maxVisibleLines = _maxLineCount;
             _text.text = _currentPlayedDialogue.Text;
             UpdateSpeakerSprite();
-
+            _text.ForceMeshUpdate();
+            
             for (int i = 0; i < _text.text.Length; i++)
             {
-                _text.maxVisibleCharacters++;
+                CopyParsedTMProUGUI(_text);
+                _nextOpenTagIndex = _text.text.IndexOf('<', i);
+                _nextCloseTagIndex = _text.text.IndexOf('>', i);
 
-                if (!_text.text[i].IsWhitespace())
-                    LetterRevealed.Invoke();
-
-                _text.ForceMeshUpdate();
-
-                bool overflow = CheckOverflow(i);
-
-                if (overflow)
+                if (_nextOpenTagIndex > _nextCloseTagIndex || _nextOpenTagIndex == i ||_nextCloseTagIndex == i)
                 {
-                    if (!_autoText)
+                    _parsedTextIndexDelta = _nextCloseTagIndex - i;
+                }
+                else if (_parsedTextIndexDelta == 0) 
+                {                
+                    HandleTextEffects();
+                    _text.ForceMeshUpdate();
+
+                    if (!_text.text[i].IsWhitespace()) LetterRevealed.Invoke();
+                    
+                    if (CheckOverflow(_auxTMProCharIndex))
                     {
-                        _waitingForPerformNextDialogue = true;
-                        yield return new WaitUntil(() => _performNextDialogue);
-                        _performNextDialogue = false;
-                        _waitingForPerformNextDialogue = false;
+                        if (!_autoText)
+                        {
+                            _waitingForPerformNextDialogue = true;
+                            yield return new WaitUntil(() => _performNextDialogue);
+                            _performNextDialogue = false;
+                            _waitingForPerformNextDialogue = false;
+                        }
+                        ModifyTextSpeed(_previousTextSpeed);
+                        string textLeft = _text.text.Substring(i);
+                        ClearText(textLeft);
+                        Destroy(_auxTMPro.gameObject);
+                        _auxTMProCharIndex = 0;
+                        i = 0;
+                        OnTextboxFull.Invoke();
                     }
 
-                    ModifyTextSpeed(_previousTextSpeed);
-                    string textLeft = _text.text.Substring(i);
-                    ClearText(textLeft);
-                    i = 0;
-                    OnTextboxFull.Invoke();
+                    _auxTMProCharIndex++;
+                    _text.maxVisibleCharacters++;
+
+                    yield return new WaitForSeconds(_textSpeed);
                 }
-
-                yield return new WaitForSeconds(_textSpeed);
             }
-
             if (!_autoText)
             {
                 _waitingForPerformNextDialogue = true;
@@ -178,16 +197,35 @@ namespace DUJAL.Systems.Dialogue
                 _waitingForPerformNextDialogue = false;
                 OnTextBoxPassed.Invoke();
             }
+            Destroy(_auxTMPro.gameObject);
             Exit.Invoke();
         }
 
         private bool CheckOverflow(int currentTextboxIndex)
         {
-            return !_text.text[currentTextboxIndex].IsWhitespace() && !_text.textInfo.characterInfo[currentTextboxIndex].isVisible;
+            return _auxTMPro.textInfo.characterInfo[currentTextboxIndex].lineNumber >= _text.maxVisibleLines;
+        }
+
+        private void CopyParsedTMProUGUI(TextMeshProUGUI original)
+        {
+            if(_auxTMPro == null)  _auxTMPro = Instantiate(original, transform);
+            _auxTMPro.textInfo.characterInfo = new TMP_CharacterInfo[_auxTMPro.text.Length];
+            for (int i = 0; i < _auxTMPro.text.Length; i++) 
+            {
+                TMP_CharacterInfo charInfo = original.textInfo.characterInfo[i];
+                _auxTMPro.textInfo.characterInfo[i] = charInfo;
+            }
+            _auxTMPro.text = original.GetParsedText();
+        }
+
+        private void HandleTextEffects() 
+        {
+            GetComponent<TextAnimatorInspector>().HandleTextEffects(_text);
         }
 
         private void HandleTextboxEnd()
         {
+            WobbleText.DO = false;
             if (_currentPlayedDialogue.Choices[0].NextDialogue != null)
             {
                 FindNextDialogue();
@@ -262,12 +300,15 @@ namespace DUJAL.Systems.Dialogue
             switch (_currentPlayedDialogue.DialogueType)
             {
                 case DialogueType.MultipleChoice:
+                    _previousDialogueAutoText = _autoText;
+                    _autoText = false;
                     ToggleIndividualChoiceButtonVisibility(true);
                     _dialogueInputActions.TextBoxActionMap.NextDialogue.Disable();
                     EnableChoiceInputs();
                     return;
 
                 case DialogueType.SingleChoice:
+                    _autoText = _previousDialogueAutoText;
                     ToggleIndividualChoiceButtonVisibility(false);
                     _currentChoiceIndex = 0;
                     _dialogueInputActions.TextBoxActionMap.NextDialogue.Enable();
@@ -319,6 +360,8 @@ namespace DUJAL.Systems.Dialogue
 
         public void CloseDialogueObject()
         {
+            InputHanlder.Instance.LockCursor();
+            InputHanlder.Instance.UnlockInput();
             DisableChoiceInputs();
             _dialogueInputActions.TextBoxActionMap.NextDialogue.Disable();
             ToggleIndividualChoiceButtonVisibility(false);
@@ -330,10 +373,18 @@ namespace DUJAL.Systems.Dialogue
 
         public void OpenDialogueObject()
         {
+            InputHanlder.Instance.UnlockCursor();
+            InputHanlder.Instance.LockInput();
             _currentChoiceIndex = 0;
             _dialogueCanvasGroup.alpha = 1;
             _dialogueCanvasGroup.interactable = true;
             _dialogueCanvasGroup.blocksRaycasts = true;
+        }
+
+        public void UpdateAutoText(bool newValue) 
+        {
+            _autoText = newValue;
+            _previousDialogueAutoText = newValue;
         }
     }
 }

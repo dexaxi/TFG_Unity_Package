@@ -4,7 +4,7 @@ namespace DUJAL.MovementComponents.DiscreteBased2D
     using DUJAL.IndependentComponents.LaunchRigidBody;
 
     [RequireComponent(typeof(Rigidbody2D))]
-    public class ScrollMovement2D : MonoBehaviour
+    public class ScrollMovement2D : MovementComponent
     {
         [Header("Collision Settings")]
         [SerializeField] private LayerMask _groundCollisionMask;
@@ -21,9 +21,7 @@ namespace DUJAL.MovementComponents.DiscreteBased2D
         public bool IsGrounded { get; private set; }
 
         private Rigidbody2D _rigidbody;
-        private MovementInput _movement;
 
-        private Vector2 _movementInput;
         private Vector2 _localScale;
 
         private float _runningSum;
@@ -33,10 +31,11 @@ namespace DUJAL.MovementComponents.DiscreteBased2D
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _movement = new MovementInput();
-            _movement.Scroll2D.Enable();
+            MovementMap = new MovementInput();
+            MovementMap.Scroll2D.Enable();
             _localScale = transform.localScale;
             HandleInput();
+            InputHanlder.Instance.LockCursor();
         }
 
         private void FixedUpdate()
@@ -48,18 +47,18 @@ namespace DUJAL.MovementComponents.DiscreteBased2D
 
         private void HandleInput()
         {
-            _movement.Scroll2D.Movement.performed += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
-            _movement.Scroll2D.Movement.canceled += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Scroll2D.Movement.performed += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Scroll2D.Movement.canceled += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
 
-            _movement.Scroll2D.Run.performed += ctx => { PerformStartRunning(); };
-            _movement.Scroll2D.Run.canceled += ctx => { PerformStopRunning(); };
+            MovementMap.Scroll2D.Run.performed += ctx => { PerformStartRunning(); };
+            MovementMap.Scroll2D.Run.canceled += ctx => { PerformStopRunning(); };
 
             if(!_disableJumping) EnableJumping();
         }
 
         private void PerformMoved(Vector2 movementVector)
         {
-            _movementInput = movementVector;
+            MovementInput = movementVector;
         }
 
         private void PerformJump()
@@ -82,10 +81,10 @@ namespace DUJAL.MovementComponents.DiscreteBased2D
 
         private void UpdateMovement()
         {
-            if (_movement.Scroll2D.Run.IsPressed() && IsGrounded) _runningSum = _runningBoost;
+            if (MovementMap.Scroll2D.Run.IsPressed() && IsGrounded) _runningSum = _runningBoost;
             else if (!IsGrounded) _runningSum = 0;
 
-            transform.Translate(_movementInput.normalized * (_walkingSpeed + _runningSum) * Time.deltaTime);
+            transform.Translate(MovementInput.normalized * (_walkingSpeed + _runningSum) * Time.deltaTime);
         }
 
 
@@ -97,29 +96,29 @@ namespace DUJAL.MovementComponents.DiscreteBased2D
 
         private void HandleAutoFlipCharacter()
         {
-            if (_movementInput.x < 0) transform.localScale = new Vector2(-_localScale.x, _localScale.y);
-            else if (_movementInput.x > 0) transform.localScale = new Vector2(_localScale.x, _localScale.y);
+            if (MovementInput.x < 0) transform.localScale = new Vector2(-_localScale.x, _localScale.y);
+            else if (MovementInput.x > 0) transform.localScale = new Vector2(_localScale.x, _localScale.y);
         }
 
         public void DisableJumping() 
         {
-            _movement.Scroll2D.Jump.performed -= ctx => { PerformJump(); };
+            MovementMap.Scroll2D.Jump.performed -= ctx => { PerformJump(); };
         }
 
         public void EnableJumping() 
         {
-            _movement.Scroll2D.Jump.performed += ctx => { PerformJump(); };
+            MovementMap.Scroll2D.Jump.performed += ctx => { PerformJump(); };
         }
 
 
         private void OnDestroy()
         {
-            _movement.Disable();
-            _movement.Scroll2D.Movement.performed -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
-            _movement.Scroll2D.Movement.canceled -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Disable();
+            MovementMap.Scroll2D.Movement.performed -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Scroll2D.Movement.canceled -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
 
-            _movement.Scroll2D.Run.performed -= ctx => { PerformStartRunning(); };
-            _movement.Scroll2D.Run.canceled -= ctx => { PerformStopRunning(); };
+            MovementMap.Scroll2D.Run.performed -= ctx => { PerformStartRunning(); };
+            MovementMap.Scroll2D.Run.canceled -= ctx => { PerformStopRunning(); };
 
             DisableJumping();
         }

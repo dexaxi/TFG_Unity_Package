@@ -16,7 +16,7 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
         SideScroll_Air
     }
 
-    public class PhysicsBasedScrollMovement3D : MonoBehaviour
+    public class PhysicsBasedScrollMovement3D : MovementComponent
     {
         [Header("Movement Settings")]
         [SerializeField] [Range(0, 50)] private float _walkSpeed;
@@ -62,8 +62,6 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
         public bool IsExitingSlope { get; private set; }
 
         public SideScroll State { get; private set; }
-        public Vector2 MovementInput { get; private set; }
-        public MovementInput MovementMap { get; private set; }
 
         private Rigidbody _rigidbody;
         private RaycastHit _slopeHit;
@@ -88,7 +86,7 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
             _rigidbody.freezeRotation = true;
             _readyToJump = true;
             _startingScale = transform.localScale.y;
-            LockCursor();
+            InputHanlder.Instance.LockCursor();
             HandleInput();
         }
 
@@ -108,12 +106,6 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
             if (State != SideScroll.SideScroll_Restricted) HandleMovement();
             
             SpeedControl();
-        }
-
-        private void LockCursor()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
         }
 
         private void HandleInput()

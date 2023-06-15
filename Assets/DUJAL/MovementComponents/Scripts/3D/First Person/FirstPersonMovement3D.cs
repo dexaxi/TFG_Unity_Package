@@ -17,7 +17,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         FPS_Discrete_Air,
     }
 
-    public class FirstPersonMovement3D : MonoBehaviour
+    public class FirstPersonMovement3D : MovementComponent
     {
         [Header("Movement Settings")]
         [SerializeField] [Range(0, 50)] private float _walkSpeed;
@@ -59,9 +59,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         public bool IsCrouching { get; private set; }
         public bool IsRestricted { get; private set; }
         public bool IsExitingSlope { get; private set; }
-        public bool UseMouse { get; private set; }
-        public Vector2 MovementInput { get; private set; }
-        public MovementInput MovementMap { get; private set;}
         
         private Rigidbody _rigidbody;
         private RaycastHit _slopeHit;
@@ -82,7 +79,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             _rigidbody.freezeRotation = true;
             _readyToJump = true;
             _startingScale = transform.localScale.y;
-            LockCursor();
+            InputHanlder.Instance.LockCursor();
             HandleInput();
         }
 
@@ -125,12 +122,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             MovementMap.FPS.Crouch.canceled += ctx => { CancelCrouch(); };
         }
 
-        private void LockCursor()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
         private void HandleCameraRotation(Vector2 mouseDelta)
         {
             Vector2 sensitivity = UseMouse ? _mouseSensitivity : _controllerSensitivity;
@@ -144,21 +135,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
             CameraHolder.transform.rotation = Quaternion.Euler(_cameraRotation.x, _cameraRotation.y, 0);
             Orientation.rotation = Quaternion.Euler(0, _cameraRotation.y, 0);
-        }
-
-        private void HandleDeviceChange()
-        {
-            if ((Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
-                || (Mouse.current.delta.ReadValue() != Vector2.zero || Mouse.current.leftButton.wasPressedThisFrame))
-            {
-                UseMouse = true;
-            }
-            else if (Gamepad.current != null &&
-                (Gamepad.current.allControls.Any(x => x is ButtonControl button && x.IsPressed() && !x.synthetic)
-                || Gamepad.current.allControls.Any(y => y is StickControl stick && y.IsActuated() && !y.synthetic)))
-            {
-                UseMouse = false;
-            }
         }
 
         private void SetRunState()

@@ -30,7 +30,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         CameraMode_Discrete_Isometric
     }
 
-    public class ThirdPersonMovement3D : MonoBehaviour
+    public class ThirdPersonMovement3D : MovementComponent
     {
         [Header("Movement Settings")]
         [SerializeField] [Range(0, 50)] private float _walkSpeed;
@@ -74,11 +74,8 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         public bool IsCrouching { get; private set; }
         public bool IsRestricted { get; private set; }
         public bool IsExitingSlope { get; private set; }
-        public bool UseMouse { get; private set; }
 
         public ThirdPerson_Discrete State { get; private set; }
-        public Vector2 MovementInput { get; private set; }
-        public MovementInput MovementMap { get; private set; }
 
         private Rigidbody _rigidbody;
         private RaycastHit _slopeHit;
@@ -102,7 +99,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             _readyToJump = true;
             _startingScale = transform.localScale.y;
             ChangeCameraMode(_currentCameraMode);
-            LockCursor();
+            InputHanlder.Instance.LockCursor();
             HandleInput();
         }
 
@@ -124,12 +121,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             SpeedControl();
         }
 
-        private void LockCursor()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
         private void HandleInput()
         {
             MovementMap = new MovementInput();
@@ -146,21 +137,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         {
             if (State == ThirdPerson_Discrete.ThirdPerson_Discrete_Walking || State == ThirdPerson_Discrete.ThirdPerson_Discrete_Running|| State == ThirdPerson_Discrete.ThirdPerson_Discrete_Crouching) _rigidbody.drag = _groundDrag;
             else _rigidbody.drag = _airDrag;
-        }
-
-        private void HandleDeviceChange()
-        {
-            if ((Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
-                || (Mouse.current.delta.ReadValue() != Vector2.zero || Mouse.current.leftButton.wasPressedThisFrame))
-            {
-                UseMouse = true;
-            }
-            else if (Gamepad.current != null &&
-                (Gamepad.current.allControls.Any(x => x is ButtonControl button && x.IsPressed() && !x.synthetic)
-                || Gamepad.current.allControls.Any(y => y is StickControl stick && y.IsActuated() && !y.synthetic)))
-            {
-                UseMouse = false;
-            }
         }
 
         private void HandleCameraRotation()

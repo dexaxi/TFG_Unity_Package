@@ -15,7 +15,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         SideScroll_Discrete_Air
     }
 
-    public class ScrollMovement3D : MonoBehaviour
+    public class ScrollMovement3D : MovementComponent
     {
         [Header("Movement Settings")]
         [SerializeField] [Range(0, 50)] private float _walkSpeed;
@@ -54,8 +54,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         public bool IsExitingSlope { get; private set; }
 
         public SideScroll_Discrete State { get; private set; }
-        public Vector2 MovementInput { get; private set; }
-        public MovementInput MovementMap { get; private set; }
 
         private Rigidbody _rigidbody;
         private RaycastHit _slopeHit;
@@ -76,7 +74,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             _rigidbody.freezeRotation = true;
             _readyToJump = true;
             _startingScale = transform.localScale.y;
-            LockCursor();
+            InputHanlder.Instance.LockCursor();
             HandleInput();
         }
 
@@ -96,13 +94,6 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             
             SpeedControl();
         }
-
-        private void LockCursor()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
         private void HandleInput()
         {
             MovementMap = new MovementInput();

@@ -102,5 +102,11 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string CustomInspectorGroupedDialogueHelpBox2= "Dialogues in this Dialogue Group.";
         public const string CustomInspectorUnGroupedDialogueHelpBox = "Global Dialogues in this Dialogue Dialogue Container.";
         public const string CustomInspectorNoDialogueWarn = "A Dialogue must be selected ofr this component to work.";
+
+        //Text effects
+        public const string CloseTag = "</>";
+        public const string wobbleTag = "<wobble>";
+        public const string rainbowTag = "<rainbow>";
+
     }
 }

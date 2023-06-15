@@ -5,7 +5,7 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
     using DUJAL.IndependentComponents.LaunchRigidBody;
 
     [RequireComponent(typeof(Rigidbody2D))]
-    public class PhysicsBasedScrollMovement2D : MonoBehaviour
+    public class PhysicsBasedScrollMovement2D : MovementComponent
     {
         [Header("Collision Settings")]
         [SerializeField] private LayerMask _groundCollisionMask;
@@ -32,9 +32,7 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         public bool IsTouchingWall { get; private set; }
 
         private Rigidbody2D _rigidbody;
-        private MovementInput _movement;
 
-        private Vector2 _movementInput;
         private Vector2 _localScale;
 
         private float _runningSum;
@@ -48,10 +46,11 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _movement = new MovementInput();
-            _movement.Scroll2D.Enable();
+            MovementMap = new MovementInput();
+            MovementMap.Scroll2D.Enable();
             _localScale = transform.localScale;
             HandleInput();
+            InputHanlder.Instance.LockCursor();
         }
 
         private void FixedUpdate()
@@ -65,18 +64,18 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private void HandleInput()
         {
-            _movement.Scroll2D.Movement.performed += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
-            _movement.Scroll2D.Movement.canceled += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Scroll2D.Movement.performed += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Scroll2D.Movement.canceled += ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
 
-            _movement.Scroll2D.Run.performed += ctx => { PerformStartRunning(); };
-            _movement.Scroll2D.Run.canceled += ctx => { PerformStopRunning(); };
+            MovementMap.Scroll2D.Run.performed += ctx => { PerformStartRunning(); };
+            MovementMap.Scroll2D.Run.canceled += ctx => { PerformStopRunning(); };
 
-            _movement.Scroll2D.Jump.performed += ctx => { PerformJump(); };
+            MovementMap.Scroll2D.Jump.performed += ctx => { PerformJump(); };
         }
 
         private void PerformMoved(Vector2 movementVector)
         {
-            _movementInput = movementVector;
+            MovementInput = movementVector;
         }
 
         private void PerformJump()
@@ -94,9 +93,9 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private IEnumerator DisableJumpInput(float delay)
         {
-            _movement.Scroll2D.Jump.Disable();
+            MovementMap.Scroll2D.Jump.Disable();
             yield return new WaitForSeconds(delay);
-            _movement.Scroll2D.Jump.Enable();
+            MovementMap.Scroll2D.Jump.Enable();
         }
 
         private void PerformStartRunning()
@@ -111,12 +110,12 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
 
         private void UpdateVelocity()
         {
-            if (_movement.Scroll2D.Run.IsPressed() && IsGrounded) _runningSum = _runningBoost;
+            if (MovementMap.Scroll2D.Run.IsPressed() && IsGrounded) _runningSum = _runningBoost;
             else if (!IsGrounded) _runningSum = 0;
 
-            float velocityXCoord = _movementInput.normalized.x * (_walkingSpeed + _runningSum);
+            float velocityXCoord = MovementInput.normalized.x * (_walkingSpeed + _runningSum);
 
-            RaycastHit2D hit = Physics2D.Raycast(_wallJumpCheck.position, _movementInput, RAYCAST_DISTANCE, _wallJumpMask);
+            RaycastHit2D hit = Physics2D.Raycast(_wallJumpCheck.position, MovementInput, RAYCAST_DISTANCE, _wallJumpMask);
             if (hit.collider != null && !_hang)
             {
                 velocityXCoord = 0f;
@@ -140,7 +139,7 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
                 _hang = true;
             }
 
-            if (_hang && IsTouchingWall && !IsGrounded && Mathf.Abs(_movementInput.x) > 0.1)
+            if (_hang && IsTouchingWall && !IsGrounded && Mathf.Abs(MovementInput.x) > 0.1)
             {
                 _rigidbody.AddForce(new Vector2(0, _wallHangStrength), ForceMode2D.Impulse);
             }
@@ -178,14 +177,14 @@ namespace DUJAL.MovementComponents.PhysicsBased2D
         }
         private void OnDestroy()
         {
-            _movement.Disable();
-            _movement.Scroll2D.Movement.performed -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
-            _movement.Scroll2D.Movement.canceled -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Disable();
+            MovementMap.Scroll2D.Movement.performed -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
+            MovementMap.Scroll2D.Movement.canceled -= ctx => { PerformMoved(ctx.ReadValue<Vector2>()); };
 
-            _movement.Scroll2D.Run.performed -= ctx => { PerformStartRunning(); };
-            _movement.Scroll2D.Run.canceled -= ctx => { PerformStopRunning(); };
+            MovementMap.Scroll2D.Run.performed -= ctx => { PerformStartRunning(); };
+            MovementMap.Scroll2D.Run.canceled -= ctx => { PerformStopRunning(); };
 
-            _movement.Scroll2D.Jump.performed -= ctx => { PerformJump(); };
+            MovementMap.Scroll2D.Jump.performed -= ctx => { PerformJump(); };
         }
 
     }
