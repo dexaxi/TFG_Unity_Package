@@ -1,46 +1,37 @@
 namespace DUJAL.Systems.Dialogue 
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
-    using TMPro;
 
-    public class WobbleText : MonoBehaviour
+    public class WobbleText : TextEffect
     {
-        public static bool DO;
-        public static IEnumerator WobbleTextC(TextMeshProUGUI textComponent, int startingIndex, int endIndex)
+        private void Update()
         {
-            DO = true;
-            while(DO) 
+            if (!_doAnimate) return;
+
+            _textComponent.ForceMeshUpdate();
+            var textInfo = _textComponent.textInfo;
+            for (int i = _effect.TextStartIndex; i < _effect.GetTextEndIndex(); ++i)
             {
-                Debug.Log("Animating Wobble from " + startingIndex + " to " + endIndex);
-
-                var textInfo = textComponent.textInfo;
-                for (int i = startingIndex; i < endIndex; ++i)
+                var charInfo = textInfo.characterInfo[i];
+                if (!charInfo.isVisible)
                 {
-                    var charInfo = textInfo.characterInfo[i];
-
-                    if (charInfo.isVisible) 
-                    {
-                        var vertices = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
-
-                        for (int j = 0; j < 4; ++j)
-                        {
-                            var origin = vertices[charInfo.vertexIndex + j];
-                            vertices[charInfo.vertexIndex + j] = origin + new Vector3(0, Mathf.Sin(Time.time * 2f + origin.x * 0.01f) * 10f, 0);
-                        }
-                    }
+                    continue;
                 }
 
-                for (int i = 0; i < textInfo.meshInfo.Length; ++i)
+                var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+                for (int j = 0; j < 4; ++j)
                 {
-                    var meshinfo = textInfo.meshInfo[i];
-                    meshinfo.mesh.vertices = meshinfo.vertices;
-                    textComponent.UpdateGeometry(meshinfo.mesh, i);
-                    textComponent.ForceMeshUpdate();
+                    var orig = verts[charInfo.vertexIndex + j];
+                    float newOrigY = Mathf.Sin(Time.fixedTime * 2f + orig.x * 0.01f) * 10f;
+                    verts[charInfo.vertexIndex + j] = orig + new Vector3(0f, newOrigY, 0f);
                 }
+            }
 
-                yield return null;
+            for (int i = 0; i < textInfo.meshInfo.Length; ++i)
+            {
+                var meshInfo = textInfo.meshInfo[i];
+                meshInfo.mesh.vertices = meshInfo.vertices;
+                _textComponent.UpdateGeometry(meshInfo.mesh, i);
             }
         }
     }

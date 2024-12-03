@@ -1,127 +1,71 @@
 namespace DUJAL.Systems.Dialogue 
 {
     using DUJAL.Systems.Dialogue.Constants;
-    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
     using System;
 
-    public enum TextEffects 
-    {
-        TextEffects_Wobble,
-        TextEffects_Rainbow
-    }
-
     public class TextAnimatorInspector : MonoBehaviour
     {
-        TextMeshProUGUI textComponent;
-        public List<int> nextOpenTags;
+        private TextMeshProUGUI _textComponent;
+        
+        private List<TextEffect> _effectReferences = new();
 
-        private void Awake()
+        public void HandleTextEffects(List<EffectInstance> effectInstances, TextMeshProUGUI text) 
         {
-            nextOpenTags = new List<int>();
-            for (int i = 0; i < Enum.GetNames(typeof(TextEffects)).Length; i++)
-            {
-                nextOpenTags.Add(int.MaxValue);
-            }
-        }
+            _textComponent = text;
 
-        public void HandleTextEffects(TextMeshProUGUI text) 
-        {
-            textComponent = text;
-            int indexOfNextCloseTag = textComponent.text.IndexOf(DialogueConstants.CloseTag);
-            int indexOfNextOpenTag = CalculateNextOpenTag(indexOfNextCloseTag, out string nextEffect);
-            
-            if (indexOfNextCloseTag != -1 && indexOfNextOpenTag > indexOfNextCloseTag)
+            foreach (EffectInstance effect in effectInstances)
             {
-                textComponent.text = textComponent.text.Remove(indexOfNextCloseTag, DialogueConstants.CloseTag.Length);
-            }
-            else
-            {
-                EffectSwitch(nextEffect);
-            }
-        }
-
-        private int CalculateNextOpenTag(int nextClosedTag, out string nextEffect)
-        {
-            int aux = int.MaxValue;
-            int indexAux = 0;
-            for (int i = 0; i < nextOpenTags.Count; i++) 
-            {
-                nextOpenTags[i] = textComponent.text.IndexOf(GetStringFromEffect((TextEffects)i));
-            }
-            
-            for (int i = 0; i < nextOpenTags.Count; i++)
-            {
-                if (nextOpenTags[i] != -1 && nextOpenTags[i] < aux) 
+                TextEffects effectType = GetEnumFromTag(effect.Tag);
+                if (effectType != TextEffects.Invalid)
                 {
-                    aux = nextOpenTags[i];
-                    indexAux = i;
+                    HandleEffect(effect, GetTypeFromEffect(effectType));
                 }
             }
-
-            nextEffect = GetStringFromEffect((TextEffects)indexAux);
-            return aux;
         }
 
-        private string GetStringFromEffect(TextEffects effect) 
+        public void StopTextEffects() 
+        {
+            foreach (TextEffect effect in _effectReferences) 
+            {
+                effect.StopAnimation();
+                Destroy(effect);
+            }
+            _effectReferences.Clear();
+        }
+
+        private TextEffects GetEnumFromTag(string tag)
+        {
+            if (tag.Contains(DialogueConstants.wobbleTag)) return TextEffects.Wobble;
+            else if (tag.Contains(DialogueConstants.rainbowTag)) return TextEffects.Rainbow;
+
+            return TextEffects.Invalid;
+        }
+
+        private Type GetTypeFromEffect(TextEffects effect) 
         {
             switch (effect) 
             {
-                case TextEffects.TextEffects_Wobble:
-                    return DialogueConstants.wobbleTag;
+                case TextEffects.Wobble:
+                    return typeof(WobbleText);
                 
-                case TextEffects.TextEffects_Rainbow:
-                    return DialogueConstants.rainbowTag;
+                case TextEffects.Rainbow:
+                    return null;
                 
                 default: 
-                    return "";
+                    return null;
             }
         }
 
-        private void EffectSwitch(string nextEffect)
+        private void HandleEffect(EffectInstance effectInstance, Type effectType) 
         {
-            switch (nextEffect)
-            {
-                case DialogueConstants.wobbleTag:
-                    HandleWobble();
-                    break;
-                case DialogueConstants.rainbowTag:
-                    HandleRainbow();
-                    break;
-            }
-        }
-
-        private void HandleWobble() 
-        {
-            string tag = DialogueConstants.wobbleTag;
-            if (textComponent.text.Contains(tag))
-            {
-                //apply effect to substring
-                int indexOfNextCloseTag = textComponent.text.IndexOf(DialogueConstants.CloseTag);
-                int applicableStartIndex = textComponent.text.IndexOf(tag) + tag.Length;
-                StartCoroutine(WobbleText.WobbleTextC(textComponent, applicableStartIndex, indexOfNextCloseTag));
-                RemoveExtraText(tag);
-            }
-        }
-
-        private void HandleRainbow()
-        {
-            string tag = DialogueConstants.rainbowTag;
-            if (textComponent.text.Contains(tag))
-            {
-                //apply effect to substring
-                int indexOfNextCloseTag = textComponent.text.IndexOf(DialogueConstants.CloseTag);
-                int applicableStartIndex = textComponent.text.IndexOf(tag) + tag.Length;
-                //
-                RemoveExtraText(tag);
-            }
-        }
-
-        private void RemoveExtraText(string tag)
-        {
-            textComponent.text = textComponent.text.Remove(textComponent.text.IndexOf(tag), tag.Length);
+            //apply effect to substring
+            var textEffect = gameObject.AddComponent(effectType) as TextEffect;
+            textEffect.UpdateData(effectInstance, _textComponent);
+            textEffect.StartAnimation();
+            _effectReferences.Add(textEffect);
         }
     }
 }

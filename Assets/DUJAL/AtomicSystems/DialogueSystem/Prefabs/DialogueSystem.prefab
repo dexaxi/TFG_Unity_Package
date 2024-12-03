@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 467125163724767264}
   - component: {fileID: 467125163724767271}
+  - component: {fileID: 4801643848584073560}
   m_Layer: 0
   m_Name: DialogueSystem
   m_TagString: Untagged
@@ -58,6 +59,8 @@ MonoBehaviour:
   _textSpeed: 0.1
   _maxLineCount: 2
   _autoText: 0
+  _isStartingDialogue: 0
+  _dialogueCanvasGroup: {fileID: 0}
   _text: {fileID: 0}
   _speakerImage: {fileID: 0}
   _choiceButtons:
@@ -84,3 +87,15 @@ MonoBehaviour:
   OnTextSkipped:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4801643848584073560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467125163724767265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f72a9916500c54199c0afac27b3343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
