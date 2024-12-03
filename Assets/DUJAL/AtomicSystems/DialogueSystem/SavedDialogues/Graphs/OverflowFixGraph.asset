@@ -10,33 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa9e8dba58d0b724c85c554208761ff5, type: 3}
-  m_Name: WobbleGraph
+  m_Name: OverflowFixGraph
   m_EditorClassIdentifier: 
-  <FileName>k__BackingField: Wobble
+  <FileName>k__BackingField: OverflowFix
   <Groups>k__BackingField: []
   <Nodes>k__BackingField:
-  - <ID>k__BackingField: cb297eb3-cfa8-419c-a376-00028cd5ab97
+  - <ID>k__BackingField: 46435455-355f-489d-84a5-3d5b144c9bb0
     <Name>k__BackingField: DialogueName
-    <Text>k__BackingField: <wobble>haha</> good evening.
-    <Choices>k__BackingField:
-    - <Text>k__BackingField: Next Dialogue
-      <NodeID>k__BackingField: 6cc7713d-a45a-496f-b8d4-8179bb13ef64
-    <GroupID>k__BackingField: 
-    <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 342, y: 266}
-    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
-      a: 1}
-    <VoiceLine>k__BackingField: {fileID: 0}
-    <SpeakerSprite>k__BackingField: {fileID: 0}
-  - <ID>k__BackingField: 6cc7713d-a45a-496f-b8d4-8179bb13ef64
-    <Name>k__BackingField: DialogueName2
-    <Text>k__BackingField: <wobble>haha</> good <wobble>evening</>.
+    <Text>k__BackingField: <color=yellow>hola buenos dias</color> <wobble>cipote</>
+      <color=red>chochete</color> <color=yellow>hola buenos dias</color> <wobble>cipote</>
+      <color=red>chochete</color>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: 
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 836, y: 332}
+    <Position>k__BackingField: {x: 315, y: 313}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -44,6 +33,5 @@ MonoBehaviour:
   <PreviousGroupTitles>k__BackingField: []
   <UngroupedNodesPreviousNames>k__BackingField:
   - DialogueName
-  - DialogueName2
   <GroupedNodesPreviousNames>k__BackingField:
     list: []

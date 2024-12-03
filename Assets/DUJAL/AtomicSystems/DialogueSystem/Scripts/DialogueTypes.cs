@@ -35,15 +35,30 @@ namespace DUJAL.Systems.Dialogue
             TextStartIndex = -1;
             Tag = "";
             Text = "";
+            tagType = TextEffects.Invalid;
+            RemainingText = "";
+            CutoffIndex = -1;
         }
 
         public int TextStartIndex;
         public string Tag;
         public string Text;
-
+        public TextEffects tagType;
+        public string RemainingText;
+        public int CutoffIndex;
         public int GetTextEndIndex()
         {
-            return TextStartIndex + Text.Length;
+            int textStartIdx = CutoffIndex != -1 ? CutoffIndex : TextStartIndex;
+            return textStartIdx + Text.Length;
+        }
+
+        public bool IsValid() 
+        {
+            if (tagType == TextEffects.Invalid) return false;
+            if (TextStartIndex == -1) return false;
+            if (Tag.Length == 0) return false;
+            if (Text.Length == 0) return false;
+            return true;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace DUJAL.Systems.Dialogue
     using UnityEngine.UI;
     using System;
     using DUJAL.Systems.Dialogue.Constants;
+    using UnityEngine.UIElements;
 
     public class InspectorDialogue : MonoBehaviour
     {
@@ -38,8 +39,8 @@ namespace DUJAL.Systems.Dialogue
         //UI Data
         [SerializeField] private CanvasGroup _dialogueCanvasGroup;
         [SerializeField] private TextMeshProUGUI _text;
-        [SerializeField] private Image _speakerImage;
-        [SerializeField] private List<Button> _choiceButtons;
+        [SerializeField] private UnityEngine.UI.Image _speakerImage;
+        [SerializeField] private List<UnityEngine.UI.Button> _choiceButtons;
         [SerializeField] private InspectorDialogue _nextDialogueObject;
 
         [SerializeField] public UnityEvent Enter = new UnityEvent();
@@ -52,17 +53,14 @@ namespace DUJAL.Systems.Dialogue
         [HideInInspector] public List<EffectInstance> EffectInstances = new();
 
         private int _currentChoiceIndex;
-        
-        private int _auxTMProCharIndex;
-        
+
         private float _previousTextSpeed;
-        
+
         private bool _performNextDialogue;
         private bool _waitingForPerformNextDialogue;
         private bool _previousDialogueAutoText;
-        
+
         private DialogueInputActions _dialogueInputActions;
-        private TextMeshProUGUI _auxTMPro;
         private TextAnimatorInspector _animationHandler;
 
 
@@ -125,6 +123,7 @@ namespace DUJAL.Systems.Dialogue
             };
 
         }
+
         private void TriggerSelectChoice(DialogueChoice choice)
         {
             if ((int)choice >= _currentPlayedDialogue.Choices.Count) return;
@@ -138,13 +137,12 @@ namespace DUJAL.Systems.Dialogue
             StartCoroutine(TextDisplayLoop());
         }
 
-        private void ResetDialogueSystem() 
+        private void ResetDialogueSystem()
         {
             _waitingForPerformNextDialogue = false;
             _performNextDialogue = false;
             _previousTextSpeed = _textSpeed;
             _previousDialogueAutoText = _autoText;
-            _auxTMProCharIndex = 0;
             EffectInstances.Clear();
         }
 
@@ -154,15 +152,30 @@ namespace DUJAL.Systems.Dialogue
 
             for (int i = 0; i < _currentPlayedDialogue.Text.Length; i++)
             {
+                if (_currentPlayedDialogue.Text[i].IsWhitespace()) continue;
+
                 int nextOpenTagStartIndex = _currentPlayedDialogue.Text.IndexOf('<', i);
-                if (nextCloseTagEndIndex < i && nextOpenTagStartIndex != -1)
+                int nextOpenTagEndIndex = _currentPlayedDialogue.Text.IndexOf('>', i);
+
+                if (nextOpenTagStartIndex == -1) continue;
+
+                int tagsize = (nextOpenTagEndIndex + 1) - nextOpenTagStartIndex;
+
+                if (tagsize < 1)
                 {
-                    int nextOpenTagEndIndex = _currentPlayedDialogue.Text.IndexOf('>', i) + 1;
+                    Debug.Log("Invalid tag size");
+                }
+
+                string tag = _currentPlayedDialogue.Text.Substring(nextOpenTagStartIndex, tagsize);
+
+                bool isCustomTag = TextEffectUtils.IsCustomTag(tag);
+
+                if (isCustomTag && nextCloseTagEndIndex < i && nextOpenTagStartIndex != -1)
+                {
                     int nextCloseTagStartIndex = _currentPlayedDialogue.Text.IndexOf(DialogueConstants.CloseTag, i);
-                    nextCloseTagEndIndex = nextCloseTagStartIndex + DialogueConstants.CloseTag.Length;
-                    int textStartIndex = nextOpenTagEndIndex;
+                    nextCloseTagEndIndex = nextCloseTagStartIndex + DialogueConstants.CloseTag.Length - 1;
+                    int textStartIndex = nextOpenTagEndIndex + 1;
                     int textEndIndex = nextCloseTagStartIndex;
-                    string tag = _currentPlayedDialogue.Text.Substring(nextOpenTagStartIndex, nextOpenTagEndIndex - nextOpenTagStartIndex);
                     string text = _currentPlayedDialogue.Text.Substring(textStartIndex, textEndIndex - textStartIndex);
 
                     EffectInstance effectInstance = new()
@@ -171,116 +184,195 @@ namespace DUJAL.Systems.Dialogue
                         Text = text
                     };
                     EffectInstances.Add(effectInstance);
-                    
-                    i = nextCloseTagEndIndex + 1;
+
+                    i = nextCloseTagEndIndex;
+                }
+                else
+                {
+                    i = nextOpenTagEndIndex;
                 }
             }
 
-            for(int i = 0; i < EffectInstances.Count; i++) 
+            for (int i = 0; i < EffectInstances.Count; i++)
             {
-                int textStartIndex = RemoveExtraText(EffectInstances[i]);
-                EffectInstances[i].TextStartIndex = textStartIndex;
+                RemoveExtraText(EffectInstances[i]);
             }
         }
 
-        //Returns new index of text
-        private int RemoveExtraText(EffectInstance effect)
+        private void RemoveExtraText(EffectInstance effect)
         {
             string tag = effect.Tag;
             int indexOfTag = _currentPlayedDialogue.Text.IndexOf(tag);
-            
+
             _currentPlayedDialogue.Text = _currentPlayedDialogue.Text.Remove(indexOfTag, tag.Length);
 
             int indexOfCloseTag = _currentPlayedDialogue.Text.IndexOf(DialogueConstants.CloseTag);
             _currentPlayedDialogue.Text = _currentPlayedDialogue.Text.Remove(indexOfCloseTag, DialogueConstants.CloseTag.Length);
-
-            return _currentPlayedDialogue.Text.IndexOf(effect.Text);
         }
 
-        private IEnumerator TextDisplayLoop()
+        private void SetEffectIndexes()
         {
-            ClearText();
-            Enter.Invoke();
+            string parsedText = _text.GetParsedText();
+            int prevEffectIndex = 0;
+            for (int i = 0; i < EffectInstances.Count; i++)
+            {
+                int textStartIndex = parsedText.IndexOf(EffectInstances[i].Text, prevEffectIndex);
+                EffectInstances[i].TextStartIndex = textStartIndex;
+                EffectInstances[i].tagType = TextEffectUtils.GetEnumFromTag(EffectInstances[i].Tag);
+                prevEffectIndex = EffectInstances[i].GetTextEndIndex();
+            }
+#if DEBUG
+            foreach (EffectInstance effect in EffectInstances)
+            {
+                Debug.Assert(effect.IsValid(), "Invalid Effect Instance " + effect.Tag + ": " + effect.Text + " StartIndex: " + effect.TextStartIndex);
+            }
+#endif
+        }
 
-            //Handle Pre Loop
-            _text.maxVisibleCharacters = 0;
-            _text.maxVisibleLines = _maxLineCount;
-            PreParseTextTags();
-            _text.text = _currentPlayedDialogue.Text;
-            UpdateSpeakerSprite();
+    private IEnumerator TextDisplayLoop()
+    {
+        ClearText();
+        Enter.Invoke();
+
+        //Handle Pre Loop
+        _text.maxVisibleCharacters = 0;
+        _text.maxVisibleLines = _maxLineCount;
+        PreParseTextTags();
+        _text.text = _currentPlayedDialogue.Text;
+        _text.ForceMeshUpdate();
+        SetEffectIndexes();
+        
+        UpdateSpeakerSprite();
+        HandleTextEffects();
+
+        for (int i = 0; i < _text.textInfo.characterCount; i++)
+        {
             _text.ForceMeshUpdate();
 
-            HandleTextEffects(EffectInstances);
-
-            for (int i = 0; i < _text.text.Length; i++)
+            if (CheckOverflow(i))
             {
-                CopyParsedTMProUGUI(_text);
-                _text.ForceMeshUpdate();
-                    
-                if (CheckOverflow(_auxTMProCharIndex))
+                if (!_autoText)
                 {
-                    if (!_autoText)
-                    {
-                        _waitingForPerformNextDialogue = true;
-                        yield return new WaitUntil(() => _performNextDialogue);
-                        _performNextDialogue = false;
-                        _waitingForPerformNextDialogue = false;
-                    }
-
-                    ModifyTextSpeed(_previousTextSpeed);
-                    string textLeft = _text.text.Substring(i);
-                    ClearText(textLeft);
-                    Destroy(_auxTMPro.gameObject);
-                    _auxTMProCharIndex = 0;
-                    i = 0;
-                    OnTextboxFull.Invoke();
+                    _waitingForPerformNextDialogue = true;
+                    yield return new WaitUntil(() => _performNextDialogue);
+                    _performNextDialogue = false;
+                    _waitingForPerformNextDialogue = false;
                 }
 
-                _auxTMProCharIndex++;
-                _text.maxVisibleCharacters++;
-                if (!_text.text[i].IsWhitespace()) LetterRevealed.Invoke();
-
-                 yield return new WaitForSeconds(_textSpeed);
+                ModifyTextSpeed(_previousTextSpeed);
+                int overflowIndex = GetOverflowIndex(i);
+                HandleCutoffCustomTags(i);
+                string textLeft = _text.text[overflowIndex..];
+                ClearText(textLeft);
+                _text.ForceMeshUpdate();
+                UpdateTextEffectIndexes();
+                i = 0;
+                OnTextboxFull.Invoke();
             }
-            
-            if (!_autoText)
+
+            if (!_text.textInfo.characterInfo[i].character.IsWhitespace()) LetterRevealed.Invoke();
+            _text.maxVisibleCharacters++;
+
+            yield return new WaitForSeconds(_textSpeed);
+        }
+
+        if (!_autoText)
+        {
+            _waitingForPerformNextDialogue = true;
+            yield return new WaitUntil(() => _performNextDialogue);
+            _performNextDialogue = false;
+            _waitingForPerformNextDialogue = false;
+            OnTextBoxPassed.Invoke();
+        }
+
+        Exit.Invoke();
+    }
+
+        private int GetOverflowIndex(int currentIndex)
+        {
+            int overflowIndex = _text.textInfo.characterInfo[currentIndex].index;
+            string overflowCandidate = _text.text[overflowIndex..];
+            int indexOfTagOpen = overflowCandidate.IndexOf('<');
+            int indexOfTagClose = overflowCandidate.IndexOf("</");
+            if (indexOfTagClose != -1 && indexOfTagClose <= indexOfTagOpen)
             {
-                _waitingForPerformNextDialogue = true;
-                yield return new WaitUntil(() => _performNextDialogue);
-                _performNextDialogue = false;
-                _waitingForPerformNextDialogue = false;
-                OnTextBoxPassed.Invoke();
+                while (overflowIndex != 0)
+                {
+                    if (_text.text[overflowIndex] == '<')
+                    {
+                        break;
+                    }
+                    overflowIndex--;
+                }
             }
-
-            Destroy(_auxTMPro.gameObject);
-            Exit.Invoke();
+            return overflowIndex;
         }
 
         private bool CheckOverflow(int currentTextboxIndex)
         {
-            return _auxTMPro.textInfo.characterInfo[currentTextboxIndex].lineNumber >= _text.maxVisibleLines;
-        }
-
-        private void CopyParsedTMProUGUI(TextMeshProUGUI original)
-        {
-            if(_auxTMPro == null) _auxTMPro = Instantiate(original, transform);
-            _auxTMPro.textInfo.characterInfo = new TMP_CharacterInfo[_auxTMPro.text.Length];
-            for (int i = 0; i < _auxTMPro.text.Length; i++) 
+            var isOverflow = false;
+            if (currentTextboxIndex < _text.textInfo.characterCount)
             {
-                TMP_CharacterInfo charInfo = original.textInfo.characterInfo[i];
-                _auxTMPro.textInfo.characterInfo[i] = charInfo;
+                if (_text.textInfo.characterInfo[currentTextboxIndex].lineNumber >= _text.maxVisibleLines)
+                {
+                    isOverflow = true;
+                }
             }
-            _auxTMPro.text = original.GetParsedText();
+            else
+            {
+                Debug.Log("Error: Textbox index out of bounds");
+            }
+            return isOverflow;
         }
 
-        private void HandleTextEffects(List<EffectInstance> effectInstances) 
+        private void HandleTextEffects()
         {
-            _animationHandler?.HandleTextEffects(effectInstances, _text);
+            _animationHandler.HandleTextEffects(EffectInstances, _text);
         }
 
         private void StopTextEffects()
         {
-            _animationHandler?.StopTextEffects();
+            _animationHandler.StopTextEffects();
+        }
+
+        private void UpdateTextEffectIndexes() 
+        {
+            int currentEffectIndex = 0;
+            string parsedText = _text.GetParsedText();
+            foreach (EffectInstance effect in EffectInstances)
+            {
+                if (effect.RemainingText.Length != 0)
+                {
+                    int newTextIndex = parsedText.IndexOf(effect.RemainingText, currentEffectIndex);
+                    int cutoffIndex = newTextIndex + effect.RemainingText.Length;
+                    effect.TextStartIndex = newTextIndex;
+                    effect.CutoffIndex = cutoffIndex;
+                    currentEffectIndex = cutoffIndex;
+                }
+                else 
+                {
+                    int newTextIndex = parsedText.IndexOf(effect.Text, currentEffectIndex);
+                    if (newTextIndex != -1) 
+                    {
+                        effect.TextStartIndex = newTextIndex;
+                        currentEffectIndex = effect.GetTextEndIndex();
+                    }
+                }
+                string currentString = parsedText.Substring(currentEffectIndex);
+            }
+            StopTextEffects();
+            HandleTextEffects();
+        }
+
+        private void HandleCutoffCustomTags(int currentTextBoxIndex)
+        {
+            if (EffectInstances.Count < 1) return;
+            var currentEffect = EffectInstances[0];
+            
+            if (currentTextBoxIndex < currentEffect.TextStartIndex || currentTextBoxIndex > currentEffect.GetTextEndIndex()) return;
+
+            int diff = currentTextBoxIndex - currentEffect.TextStartIndex;
+            currentEffect.RemainingText = currentEffect.Text.Substring(0, diff);
         }
 
         private void HandleTextboxEnd()
@@ -448,3 +540,18 @@ namespace DUJAL.Systems.Dialogue
         }
     }
 }
+
+/*
+Simple <color=yellow>example</color> of text created with <#80ff80>TextMesh</color><#8080ff>Pro</color>! 
+<wobble>pollas 
+
+pollas</> 
+
+<rainbow>pollas pollas</> 
+
+<wobble>pollas pollas</> 
+
+<wobble>pollas pollas</> 
+
+<color=yellow>cipote</color>
+ */

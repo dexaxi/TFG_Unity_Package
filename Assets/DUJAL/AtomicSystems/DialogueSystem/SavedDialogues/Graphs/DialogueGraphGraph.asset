@@ -83,7 +83,7 @@ MonoBehaviour:
     <Name>k__BackingField: DialogueName
     <Text>k__BackingField: Simple <color=yellow>example</color> of text created with
       <#80ff80>TextMesh</color><#8080ff>Pro</color>! <wobble>pollas pollas</> <rainbow>pollas
-      pollas</> <wobble>pollas pollas</> <wobble><rainbow>pollas pollas</>
+      pollas</> <wobble>pollas pollas</> <wobble>pollas pollas</>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: ca40afcf-f4ae-4c3f-8217-52be279763d5
@@ -96,6 +96,21 @@ MonoBehaviour:
       type: 3}
     <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: fc546eb95d0385540b11d601ec67cf31,
       type: 3}
+  - <ID>k__BackingField: 9afcf76e-1d5f-47bf-8663-002121831617
+    <Name>k__BackingField: DialogueName0
+    <Text>k__BackingField: Simple <color=yellow>example</color> of text created with
+      <#80ff80>TextMesh</color><#8080ff>Pro</color>! <wobble>pollas pollas</> <rainbow>pollas
+      pollas</> <wobble>pollas pollas</> <wobble>pollas pollas</> <color=yellow>cipote</color>
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 97c827cf-7c5d-4635-bb00-b02ae5026825
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: -1201, y: 457}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
   <PreviousGroupTitles>k__BackingField:
   - DialogueGroup
   <UngroupedNodesPreviousNames>k__BackingField:
@@ -103,6 +118,7 @@ MonoBehaviour:
   - DialogueName3
   - DialogueName4
   - DialogueName
+  - DialogueName0
   <GroupedNodesPreviousNames>k__BackingField:
     list:
     - Key: DialogueGroup

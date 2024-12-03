@@ -18,11 +18,9 @@ namespace DUJAL.Systems.Dialogue
 
             foreach (EffectInstance effect in effectInstances)
             {
-                TextEffects effectType = GetEnumFromTag(effect.Tag);
-                if (effectType != TextEffects.Invalid)
-                {
-                    HandleEffect(effect, GetTypeFromEffect(effectType));
-                }
+                Type type = TextEffectUtils.GetTypeFromEffect(effect.tagType);
+                if (type == null) continue;
+                HandleEffect(effect, type);
             }
         }
 
@@ -31,41 +29,22 @@ namespace DUJAL.Systems.Dialogue
             foreach (TextEffect effect in _effectReferences) 
             {
                 effect.StopAnimation();
-                Destroy(effect);
-            }
-            _effectReferences.Clear();
-        }
-
-        private TextEffects GetEnumFromTag(string tag)
-        {
-            if (tag.Contains(DialogueConstants.wobbleTag)) return TextEffects.Wobble;
-            else if (tag.Contains(DialogueConstants.rainbowTag)) return TextEffects.Rainbow;
-
-            return TextEffects.Invalid;
-        }
-
-        private Type GetTypeFromEffect(TextEffects effect) 
-        {
-            switch (effect) 
-            {
-                case TextEffects.Wobble:
-                    return typeof(WobbleText);
-                
-                case TextEffects.Rainbow:
-                    return null;
-                
-                default: 
-                    return null;
             }
         }
 
         private void HandleEffect(EffectInstance effectInstance, Type effectType) 
         {
             //apply effect to substring
-            var textEffect = gameObject.AddComponent(effectType) as TextEffect;
+            var textEffect = gameObject.GetComponent(effectType) as TextEffect;
+            
+            if (textEffect == null)
+            {
+                textEffect = gameObject.AddComponent(effectType) as TextEffect;
+                _effectReferences.Add(textEffect);
+            }
+
             textEffect.UpdateData(effectInstance, _textComponent);
             textEffect.StartAnimation();
-            _effectReferences.Add(textEffect);
         }
     }
 }

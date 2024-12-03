@@ -1,19 +1,22 @@
-namespace DUJAL.Systems.Dialogue 
+namespace DUJAL.Systems.Dialogue
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.XR;
 
-    public class WobbleText : TextEffect
+    public class RainbowText : TextEffect
     {
-        private void Update()
+        void Update()
         {
-            if (!_doAnimate) 
+            if (!_doAnimate)
             {
                 return;
             }
 
             _textComponent.ForceMeshUpdate();
             var textInfo = _textComponent.textInfo;
-            foreach (EffectInstance effect in _effects) 
+            foreach (EffectInstance effect in _effects)
             {
                 for (int i = effect.TextStartIndex; i < effect.GetTextEndIndex(); ++i)
                 {
@@ -23,12 +26,11 @@ namespace DUJAL.Systems.Dialogue
                         continue;
                     }
 
-                    var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+                    var meshInfo = textInfo.meshInfo[charInfo.materialReferenceIndex];
                     for (int j = 0; j < 4; ++j)
                     {
-                        var orig = verts[charInfo.vertexIndex + j];
-                        float newOrigY = Mathf.Sin(Time.time * 2f + orig.x * 0.01f) * 10f;
-                        verts[charInfo.vertexIndex + j] = orig + new Vector3(0f, newOrigY, 0f);
+                        int vertexIndex = charInfo.vertexIndex + j;
+                        meshInfo.colors32[vertexIndex] = Color.red;
                     }
                 }
             }

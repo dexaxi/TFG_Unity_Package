@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2474724dc3b9c2a4c8af98a07322689d, type: 3}
-  m_Name: Wobble
+  m_Name: OverflowFix
   m_EditorClassIdentifier: 
-  <FileName>k__BackingField: Wobble
+  <FileName>k__BackingField: OverflowFix
   <DialogueGroups>k__BackingField:
     list: []
   <UngroupedDialogues>k__BackingField:
-  - {fileID: 11400000, guid: 9f960ca725c083046acc90e7a671f090, type: 2}
-  - {fileID: 11400000, guid: 58baa761f7d38384d84073d364d3eb0b, type: 2}
+  - {fileID: 11400000, guid: 11a490291e9672f4289b87f65e392dc8, type: 2}

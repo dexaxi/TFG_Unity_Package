@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6855f3c16f7a49c4580dc3c94a532dec, type: 3}
-  m_Name: DialogueName
+  m_Name: DialogueName2
   m_EditorClassIdentifier: 
-  <DialogueName>k__BackingField: DialogueName
-  <Text>k__BackingField: <wobble>haha</> good evening.
+  <DialogueName>k__BackingField: DialogueName2
+  <Text>k__BackingField: <wobble>haha</> good <wobble>evening</>.
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
-    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 58baa761f7d38384d84073d364d3eb0b,
-      type: 2}
+    <NextDialogue>k__BackingField: {fileID: 0}
   <DialogueType>k__BackingField: 0
-  <IsStartingDialogue>k__BackingField: 1
+  <IsStartingDialogue>k__BackingField: 0
   <VoiceLine>k__BackingField: {fileID: 0}
   <SpeakerSprite>k__BackingField: {fileID: 0}
   <DialogueColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706, a: 1}
