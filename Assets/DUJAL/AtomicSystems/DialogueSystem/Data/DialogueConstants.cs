@@ -110,5 +110,14 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string FadeInTag = "<fadein";
         public const string VertexJitterTag = "<jitter";
         public const string CloseTag = "</>";
+
+        //Text effect parameter tags
+        public const string SPEED_TAG = "speed=\"";
+        public const string AMPLITUDE_TAG = "amplitude=\"";
+        
+        //Text effect parameter default values
+        public const float WOBBLE_DEFAULT_SPEED = 2f;
+        public const float WOBBLE_DEFAULT_AMPLITUDE = 10f;
+        public const float RAINBOW_DEFAULT_SPEED = 0.05f;
     }
 }

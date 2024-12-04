@@ -3,25 +3,31 @@ namespace DUJAL.Systems.Dialogue.Animations
     using UnityEngine;
     using DUJAL.Systems.Dialogue.Types;
     using DUJAL.Systems.Dialogue.Animations.Utils;
+    using System.Collections.Generic;
+    using DUJAL.Systems.Dialogue.Constants;
 
     public class WobbleText : TextEffect
     {
-        private const string SPEED_TAG = "speed=\"";
-        private const string AMPLITUDE_TAG = "amplitude=\"";
-        private const float DEFAULT_SPEED = 2f;
-        private const float DEFAULT_AMPLITUDE = 10f;
-
-        private float _speed;
-        private float _amplitude;
+        private readonly Dictionary<int, float> _speed = new();
+        private readonly Dictionary<int,float> _amplitude = new();
 
         public override void GetParamsFromTag()
         {
             base.GetParamsFromTag();
+            int effectIdx = 0;
             foreach (EffectInstance effect in _effects)
-            { 
-                _speed = TextEffectUtils.GetParamFromTag(effect, SPEED_TAG, DEFAULT_SPEED);
-                _amplitude = TextEffectUtils.GetParamFromTag(effect, AMPLITUDE_TAG, DEFAULT_AMPLITUDE);
+            {
+                _speed[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.SPEED_TAG, DialogueConstants.WOBBLE_DEFAULT_SPEED);
+                _amplitude[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.AMPLITUDE_TAG, DialogueConstants.WOBBLE_DEFAULT_AMPLITUDE);
+                effectIdx++;
             }
+        }
+
+        public override void StopAnimation()
+        {
+            base.StopAnimation();
+            _speed.Clear();
+            _amplitude.Clear();
         }
 
         public override void UpdateEffect()
@@ -31,6 +37,7 @@ namespace DUJAL.Systems.Dialogue.Animations
                 return;
             }
 
+            int effectIdx = 0;
             foreach (EffectInstance effect in _effects) 
             {
                 for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
@@ -46,10 +53,11 @@ namespace DUJAL.Systems.Dialogue.Animations
                     for (int j = 0; j < 4; ++j)
                     {
                         int vertexIdx = charInfo.vertexIndex + j;
-                        float newOrigY = Mathf.Sin(Time.time * _speed + verts[vertexIdx].x * 0.01f) * _amplitude;
+                        float newOrigY = Mathf.Sin(Time.time * _speed[effectIdx] + verts[vertexIdx].x * 0.01f) * _amplitude[effectIdx];
                         verts[vertexIdx] = verts[vertexIdx] + new Vector3(0f, newOrigY, 0f);
                     }
                 }
+                effectIdx++;
             }
         }
     }

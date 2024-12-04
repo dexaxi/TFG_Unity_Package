@@ -8,12 +8,12 @@ namespace DUJAL.Systems.Dialogue.Animations
 
     public class FadeInText : TextEffect
     {
-        private bool _hasFinished;
-        private Dictionary<Vector2Int, float> _progress = new();
-        private Dictionary<Vector2Int, Color32> _targetColor = new();
-        private Dictionary<Vector2Int, Color32> _transparentColor = new();
-        private Dictionary<Vector2Int, int> _progressCount = new();
+        private readonly Dictionary<Vector2Int, Color32> _targetColor = new();
+        private readonly Dictionary<Vector2Int, Color32> _transparentColor = new();
+        private readonly Dictionary<Vector2Int, float> _progress = new();
+        private readonly Dictionary<Vector2Int, int> _progressCount = new();
 
+        private bool _hasFinished;
         private float _speed = 0.005f;
 
         public override void StartAnimation()

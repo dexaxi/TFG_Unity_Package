@@ -52,13 +52,15 @@ namespace DUJAL.Systems.Dialogue.Animations.Utils
         public static float GetParamFromTag(EffectInstance effect, string searchTag, float defaultValue) 
         {
             string tag = effect.Tag;
-            int paramIdx = tag.IndexOf(searchTag);
-            if (paramIdx != -1)
+            int tagStartIdx = tag.IndexOf(searchTag);
+            if (tagStartIdx != -1)
             {
-                int paramEndIdx = tag.IndexOf("\"", paramIdx);
+                int tagEndIdx = tagStartIdx + searchTag.Length;
+                int paramEndIdx = tag.IndexOf("\"", tagEndIdx);
                 if (paramEndIdx != -1)
                 {
-                    string param = tag.Substring(paramIdx + searchTag.Length, (paramEndIdx -1) - paramIdx);
+                    int paramStartIdx = tagStartIdx + searchTag.Length;
+                    string param = tag.Substring(paramStartIdx, paramEndIdx - paramStartIdx);
                     return float.Parse(param);
                 }
             }

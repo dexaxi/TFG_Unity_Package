@@ -7,18 +7,29 @@ namespace DUJAL.Systems.Dialogue.Animations
     using DUJAL.Systems.Utils;
     using DUJAL.Systems.Dialogue.Constants;
     using DUJAL.Systems.Dialogue.Types;
+    using DUJAL.Systems.Dialogue.Animations.Utils;
 
     public class RainbowText : TextEffect
     {
-        private const int _minColor = 0;
-        private const int _maxColor = 255;
+        private readonly Dictionary<int, float> _speed = new();
+        private readonly Dictionary<int, Color32> _prevColor = new();
+        private readonly Dictionary<int,int> _currentIdxToUpdate = new();
+        private readonly Dictionary<int, bool> _allowUpdate = new();
+
         private int _endIdx = 0;
         private int _effectIdx = 0;
-        private bool _allowUpdate = true;
-        private float _speed = 0.025f;
-
-        private Dictionary<int, Color32> _prevColor = new();
-        private Dictionary<int,int> _currentIdxToUpdate = new();
+        
+        public override void GetParamsFromTag()
+        {
+            base.GetParamsFromTag();
+            int effectIdx = 0;
+            foreach (EffectInstance effect in _effects) 
+            {
+                _speed[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.SPEED_TAG, DialogueConstants.RAINBOW_DEFAULT_SPEED);
+                _allowUpdate[effectIdx] = true;
+                effectIdx++;
+            }
+        }
 
         public override void StartAnimation()
         {
@@ -28,9 +39,10 @@ namespace DUJAL.Systems.Dialogue.Animations
         public override void StopAnimation()
         {
             base.StopAnimation();
-            _allowUpdate = true;
+            _allowUpdate.Clear();
             _prevColor.Clear();
             _currentIdxToUpdate.Clear();
+            _speed.Clear();
         }
 
         public override void UpdateData(EffectInstance effect, TextMeshProUGUI textComponent, TextAnimationHandler animatorInspector)
@@ -51,13 +63,12 @@ namespace DUJAL.Systems.Dialogue.Animations
             {
                 return;
             }
-            _effectIdx = -1;
+            _effectIdx = 0;
             foreach (EffectInstance effect in _effects)
             {
-                _effectIdx++;
                 _endIdx = effect.GetTextEndIndex();
-                int _;
-                if (!_currentIdxToUpdate.TryGetValue(_effectIdx, out _))
+                
+                if (!_currentIdxToUpdate.TryGetValue(_effectIdx, out var _))
                 {
                     _currentIdxToUpdate[_effectIdx] = effect.TextStartIdx;
                 }
@@ -79,13 +90,13 @@ namespace DUJAL.Systems.Dialogue.Animations
                         _prevColor[i] = color;
                     }
 
-                    if (_allowUpdate && _currentIdxToUpdate[_effectIdx] == i)
+                    if (_allowUpdate[_effectIdx] && _currentIdxToUpdate[_effectIdx] == i)
                     {
                         color = GetRandomColor();
                         _prevColor[i] = color;
                         _currentIdxToUpdate[_effectIdx] = CalculateNextIdx(effect);
-                        _allowUpdate = false;
-                        StartCoroutine(RunTimer());
+                        _allowUpdate[_effectIdx] = false;
+                        StartCoroutine(RunTimer(_effectIdx));
                     }
 
                     for (int j = 0; j < 4; ++j)
@@ -94,12 +105,8 @@ namespace DUJAL.Systems.Dialogue.Animations
                         meshInfo.colors32[vertexIdx] = color;
                     }
                 }
+                _effectIdx++;
             }
-        }
-
-        private void Update()
-        {
- 
         }
 
         private int CalculateNextIdx(EffectInstance effect) 
@@ -126,10 +133,10 @@ namespace DUJAL.Systems.Dialogue.Animations
             }
         }
 
-        private IEnumerator RunTimer()
+        private IEnumerator RunTimer(int effectIdx)
         {
-            yield return new WaitForSeconds(_speed);
-            _allowUpdate = true;
+            yield return new WaitForSeconds(_speed[effectIdx]);
+            _allowUpdate[effectIdx] = true;
         }
 
         private Color32 GetRandomColor() 

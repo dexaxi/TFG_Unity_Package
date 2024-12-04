@@ -301,7 +301,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _dialogueSO
       value: 
-      objectReference: {fileID: 11400000, guid: f87e14b45ed4cc046be7b643df184499,
+      objectReference: {fileID: 11400000, guid: 91054f17406be40489b433b09d87ddc5,
         type: 2}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
@@ -316,7 +316,7 @@ PrefabInstance:
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
       propertyPath: _selectedDialogue
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
@@ -332,7 +332,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _dialogueContainerSO
       value: 
-      objectReference: {fileID: 11400000, guid: c41e173930df7814c8c0caa558293fdc,
+      objectReference: {fileID: 11400000, guid: a4a102ee8cabc26429d3252e5d8bca9e,
         type: 2}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
@@ -1457,7 +1457,6 @@ GameObject:
   - component: {fileID: 1034911332}
   - component: {fileID: 1034911331}
   - component: {fileID: 1034911330}
-  - component: {fileID: 1034911329}
   m_Layer: 0
   m_Name: TextMeshPro Text
   m_TagString: Untagged
@@ -1485,18 +1484,6 @@ RectTransform:
   m_AnchoredPosition: {x: 518, y: 61}
   m_SizeDelta: {x: 670.1, y: 357.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1034911329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1034911327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b8ba3d52e041fab2d0e0f169855539, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1034911330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,7 +1491,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034911327}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ed57967c52645d390a89dcf8f61ba73, type: 3}
   m_Name: 
