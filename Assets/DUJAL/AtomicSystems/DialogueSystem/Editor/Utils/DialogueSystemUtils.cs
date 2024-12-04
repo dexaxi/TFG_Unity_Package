@@ -7,6 +7,8 @@ namespace DUJAL.Systems.Dialogue.Utils
     using UnityEditor.Experimental.GraphView;
     using UnityEngine.UIElements;
     using DUJAL.Systems.Utils;
+    using UnityEditorInternal;
+
     public static class DialogueSystemUtils
     {
         //Node Utils

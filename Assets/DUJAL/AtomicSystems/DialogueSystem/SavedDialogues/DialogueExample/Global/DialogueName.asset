@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6855f3c16f7a49c4580dc3c94a532dec, type: 3}
+  m_Name: DialogueName
+  m_EditorClassIdentifier: 
+  <DialogueName>k__BackingField: DialogueName
+  <Text>k__BackingField: Simple <color=yellow>example</color> of text created with
+    <#80ff80>TextMesh</color><#8080ff>Pro</color>! <wobble>Look! I'm Sonic and I'm
+    Tripping!</> <rainbow>Woooooow</> <wobble speed="15">Gotta go fast!</> <wobble>Viva
+    la vida!</> <color=yellow>Tails must be over here somewhere...</color>
+  <Choices>k__BackingField:
+  - <Text>k__BackingField: Next Dialogue
+    <NextDialogue>k__BackingField: {fileID: 11400000, guid: b3443a8da1ede6840a880f770d5b08c5,
+      type: 2}
+  <DialogueType>k__BackingField: 0
+  <IsStartingDialogue>k__BackingField: 1
+  <VoiceLine>k__BackingField: {fileID: 8300000, guid: cde7c0f6d89fe9146b8f54f4aa0504bb,
+    type: 3}
+  <SpeakerSprite>k__BackingField: {fileID: 21300000, guid: fc546eb95d0385540b11d601ec67cf31,
+    type: 3}
+  <DialogueColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706, a: 1}

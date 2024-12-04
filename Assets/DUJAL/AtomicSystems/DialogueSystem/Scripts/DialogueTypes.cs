@@ -15,6 +15,7 @@ namespace DUJAL.Systems.Dialogue.Types
 
     public enum DialogueChoice
     {
+        NoChoice = -1,
         Choice1 = 0,
         Choice2 = 1,
         Choice3 = 2,
@@ -40,6 +41,7 @@ namespace DUJAL.Systems.Dialogue.Types
             tagType = TextEffects.Invalid;
             RemainingText = "";
             CutoffIdx = -1;
+            PendingDeletion = false;
         }
 
         public int TextStartIdx;
@@ -48,6 +50,8 @@ namespace DUJAL.Systems.Dialogue.Types
         public TextEffects tagType;
         public string RemainingText;
         public int CutoffIdx;
+        public bool PendingDeletion;
+
         public int GetTextEndIndex()
         {
             return CutoffIdx != -1 ? CutoffIdx : TextStartIdx + Text.Length;

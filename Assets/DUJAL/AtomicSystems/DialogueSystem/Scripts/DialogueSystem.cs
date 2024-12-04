@@ -54,17 +54,19 @@ namespace DUJAL.Systems.Dialogue
 
         [HideInInspector] public List<EffectInstance> EffectInstances = new();
 
-        private int _currentChoiceIdx;
+        private DialogueChoice _currentChoiceIdx;
 
         private float _previousTextSpeed;
 
         private bool _performNextDialogue;
         private bool _waitingForPerformNextDialogue;
         private bool _previousDialogueAutoText;
+        private bool _isChoiceInputEnabled;
 
         private DialogueInputActions _dialogueInputActions;
         private TextAnimationHandler _animationHandler;
 
+        #region MONOBEHAVIOUR
 
         private void Start()
         {
@@ -72,16 +74,20 @@ namespace DUJAL.Systems.Dialogue
             if (_isStartingDialogue) _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
             ToggleIndividualChoiceButtonVisibility(false);
 
-            Enter.AddListener(HandleMultipleChoiceButtons);
+            Enter.AddListener(HandleMultipleChoiceButtonsTextEnter);
+            OnTextboxFull.AddListener(HandleMultipleChoiceTextExit);
             Exit.AddListener(HandleTextboxEnd);
 
             AssignAudioType();
 
-            _currentChoiceIdx = 0;
+            _currentChoiceIdx = DialogueChoice.NoChoice;
             HandleInput();
             OpenDialogueObject();
         }
 
+        #endregion //Monobehaviour
+
+        #region INPUT
         private void HandleInput()
         {
             for (int i = 0; i < _choiceButtons.Count; i++)
@@ -94,11 +100,13 @@ namespace DUJAL.Systems.Dialogue
 
             _dialogueInputActions.TextBoxActionMap.NextDialogue.performed += ctx =>
             {
-                if (_waitingForPerformNextDialogue)
-                    _performNextDialogue = true;
-                else if (!_autoText)
+                if (_waitingForPerformNextDialogue) 
                 {
-                    ModifyTextSpeed(0);
+                    _performNextDialogue = true;
+                }
+                if (!_autoText) 
+                {
+                    UpdateTextSpeed(0);
                     SkipAudio();
                     OnTextSkipped.Invoke();
                 }
@@ -128,15 +136,133 @@ namespace DUJAL.Systems.Dialogue
 
         private void TriggerSelectChoice(DialogueChoice choice)
         {
+            if (!_isChoiceInputEnabled) return;
             if ((int)choice >= _currentPlayedDialogue.Choices.Count) return;
-            _currentChoiceIdx = (int)choice;
-            _performNextDialogue = true;
+            _currentChoiceIdx = choice;
+            OnTextBoxPassed.Invoke();
+            Exit.Invoke();
         }
 
+        private void HandleMultipleChoiceButtonsTextEnter()
+        {
+            switch (_currentPlayedDialogue.DialogueType)
+            {
+                case DialogueType.MultipleChoice:
+                    _previousDialogueAutoText = _autoText;
+                    ToggleIndividualChoiceButtonVisibility(true);
+                    _dialogueInputActions.TextBoxActionMap.NextDialogue.Enable();
+                    return;
+
+                case DialogueType.SingleChoice:
+                    _autoText = _previousDialogueAutoText;
+                    ToggleIndividualChoiceButtonVisibility(false);
+                    _currentChoiceIdx = DialogueChoice.NoChoice;
+                    _dialogueInputActions.TextBoxActionMap.NextDialogue.Enable();
+                    return;
+            }
+        }
+
+        private void HandleMultipleChoiceTextExit()
+        {
+            switch (_currentPlayedDialogue.DialogueType)
+            {
+                case DialogueType.MultipleChoice:
+                    ToggleIndividualChoiceButtonVisibility(true);
+                    EnableChoiceInputs();
+                    return;
+
+                case DialogueType.SingleChoice:
+                    ToggleIndividualChoiceButtonVisibility(false);
+                    _currentChoiceIdx = DialogueChoice.NoChoice;
+                    DisableChoiceInputs();
+                    return;
+            }
+        }
+
+        private void EnableChoiceInputs()
+        {
+            _isChoiceInputEnabled = true;
+            _dialogueInputActions.TextBoxActionMap.SelectChoice1.Enable();
+            _dialogueInputActions.TextBoxActionMap.SelectChoice2.Enable();
+            _dialogueInputActions.TextBoxActionMap.SelectChoice3.Enable();
+            _dialogueInputActions.TextBoxActionMap.SelectChoice4.Enable();
+        }
+
+        private void DisableChoiceInputs()
+        {
+            _isChoiceInputEnabled = false;
+            _dialogueInputActions.TextBoxActionMap.SelectChoice1.Disable();
+            _dialogueInputActions.TextBoxActionMap.SelectChoice2.Disable();
+            _dialogueInputActions.TextBoxActionMap.SelectChoice3.Disable();
+            _dialogueInputActions.TextBoxActionMap.SelectChoice4.Disable();
+        }
+
+        private void ToggleIndividualChoiceButtonVisibility(bool vis)
+        {
+            for (int i = 0; i < _choiceButtons.Count; i++)
+            {
+                if (vis && i >= _currentPlayedDialogue.Choices.Count) return;
+                _choiceButtons[i].GetComponent<CanvasGroup>().alpha = vis ? 1 : 0;
+                _choiceButtons[i].GetComponent<CanvasGroup>().blocksRaycasts = vis;
+                _choiceButtons[i].GetComponent<CanvasGroup>().interactable = vis;
+                if (vis) _choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = _currentPlayedDialogue.Choices[i].Text;
+            }
+        }
+
+        #endregion //Input
+
+        #region TEXTFLOWCONTROL
         public void PlayText()
         {
             ResetDialogueSystem();
             StartCoroutine(TextDisplayLoop());
+        }
+
+        public void OpenDialogueObject()
+        {
+            InputHanlder.Instance.UnlockCursor();
+            InputHanlder.Instance.LockInput();
+            _currentChoiceIdx = DialogueChoice.NoChoice;
+            _dialogueCanvasGroup.alpha = 1;
+            _dialogueCanvasGroup.interactable = true;
+            _dialogueCanvasGroup.blocksRaycasts = true;
+        }
+        
+        public void CloseDialogueObject()
+        {
+            InputHanlder.Instance.LockCursor();
+            InputHanlder.Instance.UnlockInput();
+            DisableChoiceInputs();
+            _dialogueInputActions.TextBoxActionMap.NextDialogue.Disable();
+            ToggleIndividualChoiceButtonVisibility(false);
+            _currentChoiceIdx = DialogueChoice.NoChoice;
+            _dialogueCanvasGroup.alpha = 0;
+            _dialogueCanvasGroup.interactable = false;
+            _dialogueCanvasGroup.blocksRaycasts = false;
+        }
+        
+        public void UpdateTextSpeed(float newValue)
+        {
+            _textSpeed = newValue;
+        }
+
+        public void UpdateSpeakerSprite()
+        {
+            if (_currentPlayedDialogue.SpeakerSprite == null)
+            {
+                _speakerImage.color = Color.clear;
+            }
+            else
+            {
+                _speakerImage.color = Color.white;
+                _speakerImage.sprite = _currentPlayedDialogue.SpeakerSprite;
+            }
+        }
+
+        public void UpdateAutoText(bool newValue)
+        {
+            _autoText = newValue;
+            _previousDialogueAutoText = newValue;
         }
 
         private void ResetDialogueSystem()
@@ -147,6 +273,175 @@ namespace DUJAL.Systems.Dialogue
             _previousDialogueAutoText = _autoText;
             EffectInstances.Clear();
         }
+
+        private IEnumerator TextDisplayLoop()
+        {
+            ClearText();
+            Enter.Invoke();
+
+            //Handle Pre Loop
+            PreParseTextTags();
+
+            _text.text = _currentPlayedDialogue.Text;
+            _text.maxVisibleCharacters = 0;
+            _text.maxVisibleLines = _maxLineCount;
+            _text.ForceMeshUpdate();
+
+            SetEffectIndexes();
+            UpdateSpeakerSprite();
+            HandleTextEffects();
+
+            for (int i = 0; i < _text.textInfo.characterCount; i++)
+            {
+                if (CheckOverflow(i))
+                {
+                    if (!_autoText)
+                    {
+                        _waitingForPerformNextDialogue = true;
+                        yield return new WaitUntil(() => _performNextDialogue);
+                        _performNextDialogue = false;
+                        _waitingForPerformNextDialogue = false;
+                    }
+
+                    UpdateTextSpeed(_previousTextSpeed);
+                    string extraText = "";
+                    int overflowIdx = GetOverflowIndex(i, out extraText);
+                    HandleCutoffCustomTags(i);
+                    string textLeft = _text.text[overflowIdx..];
+                    int textToRemoveStartIdx = textLeft.IndexOf(extraText);
+                    int textToRemoveEndIdx = textToRemoveStartIdx + extraText.Length;
+                    textLeft = textLeft[..textToRemoveStartIdx] + textLeft[textToRemoveEndIdx..];
+                    ClearText(textLeft);
+                    _text.ForceMeshUpdate();
+                    UpdateTextEffectIndexes(i);
+                    i = 0;
+                    OnTextboxFull.Invoke();
+                }
+
+                if (!_text.textInfo.characterInfo[i].character.IsWhitespace()) LetterRevealed.Invoke();
+                _text.maxVisibleCharacters++;
+
+                yield return new WaitForSeconds(_textSpeed);
+            }
+
+            if (!_autoText)
+            {
+                _waitingForPerformNextDialogue = true;
+                yield return new WaitUntil(() => _performNextDialogue);
+                _performNextDialogue = false;
+                _waitingForPerformNextDialogue = false;
+                OnTextBoxPassed.Invoke();
+            }
+
+            Exit.Invoke();
+        }
+
+        private bool CheckOverflow(int currentTextboxIdx)
+        {
+            var isOverflow = false;
+            if (currentTextboxIdx < _text.textInfo.characterCount)
+            {
+                if (_text.textInfo.characterInfo[currentTextboxIdx].lineNumber >= _text.maxVisibleLines)
+                {
+                    isOverflow = true;
+                }
+            }
+            else
+            {
+                Debug.Log("Error: Textbox index out of bounds");
+            }
+            return isOverflow;
+        }
+
+        private int GetOverflowIndex(int currentIdx, out string textToRemove)
+        {
+            int overflowIdx = _text.textInfo.characterInfo[currentIdx].index;
+            textToRemove = "";
+
+            string overflowCandidate = _text.text[overflowIdx..];
+            int tagOpenIdx = overflowCandidate.IndexOf('<');
+            int tagCloseIdx = overflowCandidate.IndexOf("</");
+
+            if (tagCloseIdx != -1 && tagCloseIdx <= tagOpenIdx)
+            {
+                bool foundCloseTag = false;
+                while (overflowIdx != 0)
+                {
+                    if (_text.text[overflowIdx] == '<')
+                    {
+                        break;
+                    }
+                    overflowIdx--;
+                    if (_text.text[overflowIdx] == '>')
+                    {
+                        foundCloseTag = true;
+                    }
+
+                    if (!foundCloseTag)
+                    {
+                        textToRemove = textToRemove + _text.text[overflowIdx];
+                    }
+                }
+            }
+            var array = textToRemove.ToCharArray();
+            Array.Reverse(array);
+            textToRemove = new string(array);
+            return overflowIdx;
+        }
+
+        private void HandleTextboxEnd()
+        {
+            StopTextEffects();
+            if (_currentPlayedDialogue.Choices[0].NextDialogue != null)
+            {
+                if (FindNextDialogue())
+                {
+                    UpdateTextSpeed(_previousTextSpeed);
+                    PlayText();
+                }
+            }
+            else
+            {
+                if (_nextDialogueObject != null)
+                {
+                    _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_nextDialogueObject._dialogueSO, _currentPlayedDialogue);
+                    _nextDialogueObject.PlayText();
+                }
+                else CloseDialogueObject();
+            }
+        }
+
+        private bool FindNextDialogue()
+        {
+            // Single choice dialogue
+            if (_currentChoiceIdx == DialogueChoice.NoChoice && _currentPlayedDialogue.Choices.Count == 1)
+            {
+                _currentChoiceIdx = DialogueChoice.Choice1;
+                DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[(int)_currentChoiceIdx].NextDialogue;
+                DialogueScriptableObject.CopyInto(nextDialogue, _currentPlayedDialogue);
+                _currentChoiceIdx = DialogueChoice.NoChoice;
+                return true;
+            }
+            // Multiple choice
+            else if (_currentChoiceIdx > DialogueChoice.NoChoice && _currentPlayedDialogue.Choices.Count > 1)
+            {
+                DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[(int)_currentChoiceIdx].NextDialogue;
+                DialogueScriptableObject.CopyInto(nextDialogue, _currentPlayedDialogue);
+                return true;
+            }
+            //Multiple choice but no choice selected
+            return false;
+        }
+
+        private void ClearText(string s = "")
+        {
+            _text.text = s;
+            _text.maxVisibleCharacters = 1;
+        }
+
+        #endregion //Text Flow Control
+
+        #region TEXTEFFECTS
 
         private void PreParseTextTags()
         {
@@ -231,101 +526,6 @@ namespace DUJAL.Systems.Dialogue
 #endif
         }
 
-    private IEnumerator TextDisplayLoop()
-    {
-        ClearText();
-        Enter.Invoke();
-
-        //Handle Pre Loop
-        PreParseTextTags();
-        
-        _text.text = _currentPlayedDialogue.Text;
-        _text.maxVisibleCharacters = 0;
-        _text.maxVisibleLines = _maxLineCount;
-        _text.ForceMeshUpdate();
-        
-        SetEffectIndexes();
-        UpdateSpeakerSprite();
-        HandleTextEffects();
-
-        for (int i = 0; i < _text.textInfo.characterCount; i++)
-        {
-            if (CheckOverflow(i))
-            {
-                if (!_autoText)
-                {
-                    _waitingForPerformNextDialogue = true;
-                    yield return new WaitUntil(() => _performNextDialogue);
-                    _performNextDialogue = false;
-                    _waitingForPerformNextDialogue = false;
-                }
-
-                ModifyTextSpeed(_previousTextSpeed);
-                int overflowIdx = GetOverflowIndex(i);
-                HandleCutoffCustomTags(i);
-                string textLeft = _text.text[overflowIdx..];
-                ClearText(textLeft);
-                _text.ForceMeshUpdate();
-                UpdateTextEffectIndexes();
-                i = 0;
-                OnTextboxFull.Invoke();
-            }
-
-            if (!_text.textInfo.characterInfo[i].character.IsWhitespace()) LetterRevealed.Invoke();
-            _text.maxVisibleCharacters++;
-
-            yield return new WaitForSeconds(_textSpeed);
-        }
-
-        if (!_autoText)
-        {
-            _waitingForPerformNextDialogue = true;
-            yield return new WaitUntil(() => _performNextDialogue);
-            _performNextDialogue = false;
-            _waitingForPerformNextDialogue = false;
-            OnTextBoxPassed.Invoke();
-        }
-
-        Exit.Invoke();
-    }
-
-        private int GetOverflowIndex(int currentIdx)
-        {
-            int overflowIdx = _text.textInfo.characterInfo[currentIdx].index;
-            string overflowCandidate = _text.text[overflowIdx..];
-            int tagOpenIdx = overflowCandidate.IndexOf('<');
-            int tagCloseIdx = overflowCandidate.IndexOf("</");
-            if (tagCloseIdx != -1 && tagCloseIdx <= tagOpenIdx)
-            {
-                while (overflowIdx != 0)
-                {
-                    if (_text.text[overflowIdx] == '<')
-                    {
-                        break;
-                    }
-                    overflowIdx--;
-                }
-            }
-            return overflowIdx;
-        }
-
-        private bool CheckOverflow(int currentTextboxIdx)
-        {
-            var isOverflow = false;
-            if (currentTextboxIdx < _text.textInfo.characterCount)
-            {
-                if (_text.textInfo.characterInfo[currentTextboxIdx].lineNumber >= _text.maxVisibleLines)
-                {
-                    isOverflow = true;
-                }
-            }
-            else
-            {
-                Debug.Log("Error: Textbox index out of bounds");
-            }
-            return isOverflow;
-        }
-
         private void HandleTextEffects()
         {
             _animationHandler.HandleTextEffects(EffectInstances, _text);
@@ -336,8 +536,17 @@ namespace DUJAL.Systems.Dialogue
             _animationHandler.StopTextEffects();
         }
 
-        private void UpdateTextEffectIndexes() 
+        private void UpdateTextEffectIndexes(int curentTextBoxIdx) 
         {
+            foreach(EffectInstance effect in EffectInstances)
+            {
+                int currentEndIdx = effect.TextStartIdx + effect.Text.Length;
+                if (currentEndIdx < curentTextBoxIdx && effect.RemainingText == "")
+                {
+                    effect.PendingDeletion = true;
+                }
+            }
+
             int currentEffectIdx = 0;
             string parsedText = _text.GetParsedText();
             foreach (EffectInstance effect in EffectInstances)
@@ -349,6 +558,7 @@ namespace DUJAL.Systems.Dialogue
                     effect.TextStartIdx = newTextIdx;
                     effect.CutoffIdx = cutoffIdx;
                     currentEffectIdx = effect.CutoffIdx;
+                    effect.RemainingText = "";
                 }
                 else 
                 {
@@ -360,52 +570,42 @@ namespace DUJAL.Systems.Dialogue
                     }
                 }
             }
+
             StopTextEffects();
+
+            if (EffectInstances.Count == 0) return;
+            bool finishedDeletion = false;
+            EffectInstance currentEffect = EffectInstances[0];
+            while (EffectInstances.Count != 0 && finishedDeletion == false) 
+            {
+                if (currentEffect.PendingDeletion)
+                {
+                    EffectInstances.Remove(currentEffect);
+                    if (EffectInstances.Count > 0) currentEffect = EffectInstances[0];
+                }
+                else 
+                {
+                    finishedDeletion = true;
+                }
+            }
+
             HandleTextEffects();
         }
 
         private void HandleCutoffCustomTags(int currentTextBoxIdx)
         {
-            if (EffectInstances.Count < 1) return;
-            var currentEffect = EffectInstances[0];
-            
-            if (currentTextBoxIdx < currentEffect.TextStartIdx || currentTextBoxIdx > currentEffect.GetTextEndIndex()) return;
-
-            int diff = currentTextBoxIdx - currentEffect.TextStartIdx;
-            currentEffect.RemainingText = currentEffect.Text.Substring(0, diff);
-        }
-
-        private void HandleTextboxEnd()
-        {
-            StopTextEffects();
-            if (_currentPlayedDialogue.Choices[0].NextDialogue != null)
+            foreach (EffectInstance effect in EffectInstances) 
             {
-                FindNextDialogue();
-                ModifyTextSpeed(_previousTextSpeed);
-                PlayText();
-            }
-            else
-            {
-                if (_nextDialogueObject != null)
-                {
-                    _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_nextDialogueObject._dialogueSO, _currentPlayedDialogue);
-                    _nextDialogueObject.PlayText();
-                }
-                else CloseDialogueObject();
+                if (currentTextBoxIdx < effect.TextStartIdx || currentTextBoxIdx > effect.GetTextEndIndex()) continue;
+
+                int diff = currentTextBoxIdx - effect.TextStartIdx;
+                effect.RemainingText = effect.Text[diff..];
             }
         }
 
-        private void FindNextDialogue()
-        {
-            DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[_currentChoiceIdx].NextDialogue;
-            DialogueScriptableObject.CopyInto(nextDialogue, _currentPlayedDialogue);
-        }
+        #endregion // Text Effects
 
-        private void ClearText(string s = "")
-        {
-            _text.text = s;
-            _text.maxVisibleCharacters = 1;
-        }
+        #region AUDIO
 
         private void SkipAudio()
         {
@@ -423,12 +623,7 @@ namespace DUJAL.Systems.Dialogue
             }
         }
 
-        public void ModifyTextSpeed(float newValue)
-        {
-            _textSpeed = newValue;
-        }
-
-        private void AssignAudioType()
+        public void AssignAudioType()
         {
             switch (_audioStyle)
             {
@@ -447,111 +642,6 @@ namespace DUJAL.Systems.Dialogue
             }
         }
 
-        private void HandleMultipleChoiceButtons()
-        {
-            switch (_currentPlayedDialogue.DialogueType)
-            {
-                case DialogueType.MultipleChoice:
-                    _previousDialogueAutoText = _autoText;
-                    _autoText = false;
-                    ToggleIndividualChoiceButtonVisibility(true);
-                    _dialogueInputActions.TextBoxActionMap.NextDialogue.Disable();
-                    EnableChoiceInputs();
-                    return;
-
-                case DialogueType.SingleChoice:
-                    _autoText = _previousDialogueAutoText;
-                    ToggleIndividualChoiceButtonVisibility(false);
-                    _currentChoiceIdx = 0;
-                    _dialogueInputActions.TextBoxActionMap.NextDialogue.Enable();
-                    DisableChoiceInputs();
-                    return;
-            }
-        }
-
-        private void EnableChoiceInputs()
-        {
-            _dialogueInputActions.TextBoxActionMap.SelectChoice1.Enable();
-            _dialogueInputActions.TextBoxActionMap.SelectChoice2.Enable();
-            _dialogueInputActions.TextBoxActionMap.SelectChoice3.Enable();
-            _dialogueInputActions.TextBoxActionMap.SelectChoice4.Enable();
-        }
-
-        private void DisableChoiceInputs()
-        {
-            _dialogueInputActions.TextBoxActionMap.SelectChoice1.Disable();
-            _dialogueInputActions.TextBoxActionMap.SelectChoice2.Disable();
-            _dialogueInputActions.TextBoxActionMap.SelectChoice3.Disable();
-            _dialogueInputActions.TextBoxActionMap.SelectChoice4.Disable();
-        }
-
-        private void ToggleIndividualChoiceButtonVisibility(bool vis)
-        {
-            for (int i = 0; i < _choiceButtons.Count; i++)
-            {
-                if (vis && i >= _currentPlayedDialogue.Choices.Count) return;
-                _choiceButtons[i].GetComponent<CanvasGroup>().alpha = vis ? 1 : 0;
-                _choiceButtons[i].GetComponent<CanvasGroup>().blocksRaycasts = vis;
-                _choiceButtons[i].GetComponent<CanvasGroup>().interactable = vis;
-                if (vis) _choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = _currentPlayedDialogue.Choices[i].Text;
-            }
-        }
-
-        private void UpdateSpeakerSprite() 
-        {
-            if (_currentPlayedDialogue.SpeakerSprite == null)
-            {
-                _speakerImage.color = Color.clear;
-            }
-            else
-            {
-                _speakerImage.color = Color.white;
-               _speakerImage.sprite = _currentPlayedDialogue.SpeakerSprite;
-            }
-        }
-
-        public void CloseDialogueObject()
-        {
-            InputHanlder.Instance.LockCursor();
-            InputHanlder.Instance.UnlockInput();
-            DisableChoiceInputs();
-            _dialogueInputActions.TextBoxActionMap.NextDialogue.Disable();
-            ToggleIndividualChoiceButtonVisibility(false);
-            _currentChoiceIdx = 0;
-            _dialogueCanvasGroup.alpha = 0;
-            _dialogueCanvasGroup.interactable = false;
-            _dialogueCanvasGroup.blocksRaycasts = false;
-        }
-
-        public void OpenDialogueObject()
-        {
-            InputHanlder.Instance.UnlockCursor();
-            InputHanlder.Instance.LockInput();
-            _currentChoiceIdx = 0;
-            _dialogueCanvasGroup.alpha = 1;
-            _dialogueCanvasGroup.interactable = true;
-            _dialogueCanvasGroup.blocksRaycasts = true;
-        }
-
-        public void UpdateAutoText(bool newValue) 
-        {
-            _autoText = newValue;
-            _previousDialogueAutoText = newValue;
-        }
+        #endregion //Audio
     }
 }
-
-/*
-Simple <color=yellow>example</color> of text created with <#80ff80>TextMesh</color><#8080ff>Pro</color>! 
-<wobble>pollas 
-
-pollas</> 
-
-<rainbow>pollas pollas</> 
-
-<wobble>pollas pollas</> 
-
-<wobble>pollas pollas</> 
-
-<color=yellow>cipote</color>
- */

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9e8dba58d0b724c85c554208761ff5, type: 3}
+  m_Name: FadeInExampleGraph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: FadeInExample
+  <Groups>k__BackingField: []
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: 72af0874-3926-4fb0-aba9-be9330c77488
+    <Name>k__BackingField: DialogueName
+    <Text>k__BackingField: <fadein>This should fade in</> this should not :)
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: fc379d2a-d479-4f6c-b62b-57c6ae2ea51f
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 311, y: 172}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  - <ID>k__BackingField: fc379d2a-d479-4f6c-b62b-57c6ae2ea51f
+    <Name>k__BackingField: DialogueName1
+    <Text>k__BackingField: testing lolololol
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 728, y: 195}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  <PreviousGroupTitles>k__BackingField: []
+  <UngroupedNodesPreviousNames>k__BackingField:
+  - DialogueName
+  - DialogueName1
+  <GroupedNodesPreviousNames>k__BackingField:
+    list: []

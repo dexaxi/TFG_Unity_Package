@@ -107,6 +107,7 @@ namespace DUJAL.Systems.Dialogue.Animations
                 }
                 _effectIdx++;
             }
+            _effectIdx = 0;
         }
 
         private int CalculateNextIdx(EffectInstance effect) 
