@@ -199,13 +199,23 @@ PrefabInstance:
         type: 3}
       propertyPath: _dialogueSO
       value: 
-      objectReference: {fileID: 11400000, guid: b8b38321aae68ca4e81d04b0097bd97f,
+      objectReference: {fileID: 11400000, guid: 74423ae1d7273e741b3c5a7fb4e80333,
         type: 2}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _maxLineCount
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
       propertyPath: _speakerImage
       value: 
       objectReference: {fileID: 1365497163}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _selectedDialogue
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
       propertyPath: _dialogueCanvasGroup
@@ -215,7 +225,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _dialogueContainerSO
       value: 
-      objectReference: {fileID: 11400000, guid: c06439e8cbb0a7342996bd3849e502d0,
+      objectReference: {fileID: 11400000, guid: 764afa52a4655654097ea9325242ebb6,
         type: 2}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}

@@ -18,7 +18,9 @@ namespace DUJAL.Systems.Dialogue.Animations
         public void HandleTextEffects(List<EffectInstance> effectInstances, TextMeshProUGUI text) 
         {
             _textComponent = text;
+            
             TextInfo = _textComponent.textInfo;
+            
             foreach (EffectInstance effect in effectInstances)
             {
                 Type type = TextEffectUtils.GetTypeFromEffect(effect.tagType);
@@ -64,7 +66,6 @@ namespace DUJAL.Systems.Dialogue.Animations
         {
             if (_textComponent == null || TextInfo == null) return;
 
-            _textComponent.ForceMeshUpdate();
             foreach (TextEffect effect in _effectReferences) 
             {
                 effect.UpdateEffect();
@@ -82,7 +83,6 @@ namespace DUJAL.Systems.Dialogue.Animations
                 if (_meshInfo.mesh == null) continue;
                 _meshInfo.mesh.vertices = _meshInfo.vertices;
                 _meshInfo.mesh.colors32 = _meshInfo.colors32;
-                _textComponent.UpdateGeometry(_meshInfo.mesh, i);
             }
         }
 

@@ -23,7 +23,7 @@ namespace DUJAL.Systems.Dialogue.Animations
         {
             base.GetParamsFromTag();
             int effectIdx = 0;
-            foreach (EffectInstance effect in _effects) 
+            foreach (EffectInstance effect in effects) 
             {
                 _speed[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.SPEED_TAG, DialogueConstants.RAINBOW_DEFAULT_SPEED);
                 _allowUpdate[effectIdx] = true;
@@ -49,22 +49,23 @@ namespace DUJAL.Systems.Dialogue.Animations
         {
             base.UpdateData(effect, textComponent, animatorInspector);
             int effIdx = 0;
-            foreach (EffectInstance eff in _effects) 
+            foreach (EffectInstance eff in effects) 
             {
                 _currentIdxToUpdate[effIdx] = eff.TextStartIdx;
                 effIdx++;
             }
-            _endIdx = _effects[_effectIdx].GetTextEndIndex();
+            _endIdx = effects[_effectIdx].GetTextEndIndex();
         }
 
         public override void UpdateEffect()
         {
-            if (!_doAnimate || _animationHandler.TextInfo == null)
+            if (!doAnimate || animationHandler.TextInfo == null)
             {
                 return;
             }
+
             _effectIdx = 0;
-            foreach (EffectInstance effect in _effects)
+            foreach (EffectInstance effect in effects)
             {
                 _endIdx = effect.GetTextEndIndex();
                 
@@ -75,13 +76,13 @@ namespace DUJAL.Systems.Dialogue.Animations
 
                 for (int i = effect.TextStartIdx; i < _endIdx; i++)
                 {
-                    var charInfo = _animationHandler.TextInfo.characterInfo[i];
+                    var charInfo = animationHandler.TextInfo.characterInfo[i];
                     if (!charInfo.isVisible)
                     {
                         continue;
                     }
 
-                    var meshInfo = _animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
+                    var meshInfo = animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
                     Color32 color;
                     bool hasValue = _prevColor.TryGetValue(i, out color);
                     if (!hasValue) 
@@ -123,7 +124,7 @@ namespace DUJAL.Systems.Dialogue.Animations
                 nextIdx = currentIdx + 1;
             }
 
-            if (_animationHandler.TextInfo.characterInfo[nextIdx].character.IsWhitespace())
+            if (animationHandler.TextInfo.characterInfo[nextIdx].character.IsWhitespace())
             {
                 _currentIdxToUpdate[_effectIdx]++;
                 return CalculateNextIdx(effect);

@@ -7,28 +7,30 @@ namespace DUJAL.Systems.Dialogue.Animations
 
     public class TextEffect : MonoBehaviour
     {
-        protected List<EffectInstance> _effects = new();
-        protected TextMeshProUGUI _textComponent;
-        protected bool _doAnimate;
-        protected TextAnimationHandler _animationHandler;
+        protected List<EffectInstance> effects = new();
+        protected TextMeshProUGUI textComponent;
+        protected bool doAnimate;
+        protected TextAnimationHandler animationHandler;
+        
+        public bool PauseUpdate { get; private set; }
 
         public virtual void UpdateData(EffectInstance effect, TextMeshProUGUI textComponent, TextAnimationHandler animatorInspector)
         {
-            _effects.Add(effect);
-            _textComponent = textComponent;
-            _animationHandler = animatorInspector;
+            effects.Add(effect);
+            this.textComponent = textComponent;
+            animationHandler = animatorInspector;
             GetParamsFromTag();
         }
 
         public virtual void StartAnimation()
         {
-            _doAnimate = true;
+            doAnimate = true;
         }
 
         public virtual void StopAnimation()
         {
-            _doAnimate = false;
-            _effects.Clear();
+            doAnimate = false;
+            effects.Clear();
         }
         
         public virtual void GetParamsFromTag() { }

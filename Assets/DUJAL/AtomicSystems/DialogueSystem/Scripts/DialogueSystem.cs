@@ -75,7 +75,7 @@ namespace DUJAL.Systems.Dialogue
             ToggleIndividualChoiceButtonVisibility(false);
 
             Enter.AddListener(HandleMultipleChoiceButtonsTextEnter);
-            OnTextboxFull.AddListener(HandleMultipleChoiceTextExit);
+            OnTextBoxPassed.AddListener(HandleMultipleChoiceTextExit);
             Exit.AddListener(HandleTextboxEnd);
 
             AssignAudioType();
@@ -328,6 +328,10 @@ namespace DUJAL.Systems.Dialogue
             if (!_autoText)
             {
                 _waitingForPerformNextDialogue = true;
+                if (_currentPlayedDialogue.DialogueType == DialogueType.MultipleChoice)
+                {
+                    _performNextDialogue = true; 
+                }
                 yield return new WaitUntil(() => _performNextDialogue);
                 _performNextDialogue = false;
                 _waitingForPerformNextDialogue = false;

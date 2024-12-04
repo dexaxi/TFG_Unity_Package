@@ -121,9 +121,10 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const float WOBBLE_DEFAULT_SPEED = 2f;
         public const float WOBBLE_DEFAULT_AMPLITUDE = 10f;
         public const float RAINBOW_DEFAULT_SPEED = 0.05f;
-        public const float FADEIN_DEFAULT_SPEED = 0.025f;
-        public const float JITTER_DEFAULT_SPEED = 1.0f;
-        public const float JITTER_DEFAULT_ANGLE = 1.0f;
-        public const float JITTER_DEFAULT_CURVE = 25f;
+        public const float FADEIN_DEFAULT_SPEED = 0.01f;
+        public const float JITTER_DEFAULT_SPEED = 0.1f;
+        public const float JITTER_DEFAULT_ANGLE = 1f;
+        public const float JITTER_DEFAULT_CURVE = 5f;
+        public const float JITTER_DEFAULT_AMPLITUDE = 1f;
     }
 }

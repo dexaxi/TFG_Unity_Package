@@ -16,7 +16,7 @@ MonoBehaviour:
   <Groups>k__BackingField:
   - <ID>k__BackingField: 0aae234e-4aac-44c3-afcd-d8a8d2152c9e
     <Name>k__BackingField: DialogueGroup
-    <Position>k__BackingField: {x: 590, y: 368}
+    <Position>k__BackingField: {x: 589.99994, y: 368}
   <Nodes>k__BackingField:
   - <ID>k__BackingField: 00c4389d-ff84-46c6-9d52-0164b892ca39
     <Name>k__BackingField: DialogueName2
@@ -67,8 +67,8 @@ MonoBehaviour:
     <Name>k__BackingField: DialogueName
     <Text>k__BackingField: Simple <color=yellow>example</color> of text created with
       <#80ff80>TextMesh</color><#8080ff>Pro</color>! <wobble>Look! I'm Sonic and
-      I'm Tripping!</> <rainbow>Woooooow</> <wobble speed="15">Gotta go fast!</>
-      <wobble>Viva la vida!</> <color=yellow>Tails must be over here somewhere...</color>
+      I'm Tripping!</> <rainbow>Woooooow</> <wobble speed="15">Gotta go fast!</><wobble>Viva
+      la vida!</> <color=yellow>Tails must be over here somewhere...</color>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: ca40afcf-f4ae-4c3f-8217-52be279763d5
@@ -85,6 +85,8 @@ MonoBehaviour:
     <Name>k__BackingField: DialogueName1
     <Text>k__BackingField: <rainbow>This dialogue is located inside a group!</> Check
       the <color=yellow>Dialogue Graph Editor</color> to see how they can be useful!
+      <jitter>By the way! Text can jitter!</> and it can <fadein> also fade in if
+      you want it to.</>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: 00c4389d-ff84-46c6-9d52-0164b892ca39

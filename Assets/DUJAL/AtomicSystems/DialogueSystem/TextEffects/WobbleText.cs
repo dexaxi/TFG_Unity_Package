@@ -15,7 +15,7 @@ namespace DUJAL.Systems.Dialogue.Animations
         {
             base.GetParamsFromTag();
             int effectIdx = 0;
-            foreach (EffectInstance effect in _effects)
+            foreach (EffectInstance effect in effects)
             {
                 _speed[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.SPEED_TAG, DialogueConstants.WOBBLE_DEFAULT_SPEED);
                 _amplitude[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.AMPLITUDE_TAG, DialogueConstants.WOBBLE_DEFAULT_AMPLITUDE);
@@ -32,23 +32,25 @@ namespace DUJAL.Systems.Dialogue.Animations
 
         public override void UpdateEffect()
         {
-            if (!_doAnimate || _animationHandler.TextInfo == null) 
+            if (!doAnimate || animationHandler.TextInfo == null) 
             {
                 return;
             }
 
+            textComponent.ForceMeshUpdate();
+
             int effectIdx = 0;
-            foreach (EffectInstance effect in _effects) 
+            foreach (EffectInstance effect in effects) 
             {
                 for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
                 {
-                    var charInfo = _animationHandler.TextInfo.characterInfo[i];
+                    var charInfo = animationHandler.TextInfo.characterInfo[i];
                     if (!charInfo.isVisible)
                     {
                         continue;
                     }
                     
-                    var meshInfo = _animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
+                    var meshInfo = animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
                     var verts = meshInfo.vertices;
                     for (int j = 0; j < 4; ++j)
                     {

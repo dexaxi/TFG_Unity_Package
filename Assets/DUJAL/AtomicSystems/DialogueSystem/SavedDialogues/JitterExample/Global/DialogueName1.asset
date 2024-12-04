@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6855f3c16f7a49c4580dc3c94a532dec, type: 3}
-  m_Name: DialogueName5
+  m_Name: DialogueName1
   m_EditorClassIdentifier: 
-  <DialogueName>k__BackingField: DialogueName5
-  <Text>k__BackingField: Option1
+  <DialogueName>k__BackingField: DialogueName1
+  <Text>k__BackingField: <jitter speed="0.01">Super Speedy Jitter!</>
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
     <NextDialogue>k__BackingField: {fileID: 0}

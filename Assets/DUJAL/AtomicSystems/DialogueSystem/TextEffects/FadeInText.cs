@@ -21,7 +21,7 @@ namespace DUJAL.Systems.Dialogue.Animations
         {
             base.GetParamsFromTag();
             int effectIdx = 0;
-            foreach (EffectInstance effect in _effects)
+            foreach (EffectInstance effect in effects)
             {
                 _speed[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.SPEED_TAG, DialogueConstants.FADEIN_DEFAULT_SPEED);
                 _hasFinished[effectIdx] = false;
@@ -48,13 +48,13 @@ namespace DUJAL.Systems.Dialogue.Animations
 
         public override void UpdateEffect()
         {
-            if (!_doAnimate || _animationHandler.TextInfo == null)
+            if (!doAnimate || animationHandler.TextInfo == null)
             {
                 return;
             }
 
             int effectIdx = 0;
-            foreach (EffectInstance effect in _effects)
+            foreach (EffectInstance effect in effects)
             {
                 if (_hasFinished[effectIdx]) 
                 {
@@ -64,14 +64,13 @@ namespace DUJAL.Systems.Dialogue.Animations
 
                 for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
                 {
-                    var charInfo = _animationHandler.TextInfo.characterInfo[i];
+                    var charInfo = animationHandler.TextInfo.characterInfo[i];
                     if (!charInfo.isVisible)
                     {
                         continue;
                     }
 
-                    var meshInfo = _animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
-                    var verts = meshInfo.vertices;
+                    var meshInfo = animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
 
                     for (int j = 0; j < 4; ++j)
                     {

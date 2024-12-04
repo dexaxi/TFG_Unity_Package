@@ -16,16 +16,16 @@ MonoBehaviour:
   <Text>k__BackingField: Choose an option!
   <Choices>k__BackingField:
   - <Text>k__BackingField: Choice1
-    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 7fe8f6c563b21c146a59f8a3328c5467,
+    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 1ad7c542b335edd4d9ed0e06eca83422,
       type: 2}
   - <Text>k__BackingField: Choice2
-    <NextDialogue>k__BackingField: {fileID: 11400000, guid: e330d34f29cc16a41879388b044a21c6,
+    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 623dcd801fc59244ca223aa112a02d6d,
       type: 2}
   - <Text>k__BackingField: Choice 3
-    <NextDialogue>k__BackingField: {fileID: 11400000, guid: b64495d562465bd45a07d3446788ec6f,
+    <NextDialogue>k__BackingField: {fileID: 11400000, guid: b7847e60896ae2a4894df3d805830761,
       type: 2}
   - <Text>k__BackingField: Choice 4
-    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 8e8c2986930495b46a44349a35fd3cf1,
+    <NextDialogue>k__BackingField: {fileID: 11400000, guid: 2138eb1171eb18e48b1eed9cc4bf31b7,
       type: 2}
   <DialogueType>k__BackingField: 1
   <IsStartingDialogue>k__BackingField: 0

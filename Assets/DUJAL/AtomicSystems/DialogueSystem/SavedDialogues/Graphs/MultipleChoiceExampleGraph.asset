@@ -10,14 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa9e8dba58d0b724c85c554208761ff5, type: 3}
-  m_Name: DialogueGraph2Graph
+  m_Name: MultipleChoiceExampleGraph
   m_EditorClassIdentifier: 
-  <FileName>k__BackingField: DialogueGraph2
+  <FileName>k__BackingField: MultipleChoiceExample
   <Groups>k__BackingField:
   - <ID>k__BackingField: 275cf526-2d7c-4d6b-940c-fbaf8b0099e0
     <Name>k__BackingField: DialogueGroup
-    <Position>k__BackingField: {x: 1046.9999, y: 210}
+    <Position>k__BackingField: {x: 891, y: 209}
   <Nodes>k__BackingField:
+  - <ID>k__BackingField: e9fd4636-a4f5-4b95-819d-de48c3dedad4
+    <Name>k__BackingField: DialogueName
+    <Text>k__BackingField: This is a new Dialogue!
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 9092c267-8aaf-49bf-bbe3-28567cb22163
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: -75, y: 268}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
   - <ID>k__BackingField: 9092c267-8aaf-49bf-bbe3-28567cb22163
     <Name>k__BackingField: DialogueName2
     <Text>k__BackingField: I hope this does not break!
@@ -26,7 +39,7 @@ MonoBehaviour:
       <NodeID>k__BackingField: afc651fe-4fc0-491b-b41c-5025dabbc868
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 542, y: 268}
+    <Position>k__BackingField: {x: 410, y: 268}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -39,20 +52,7 @@ MonoBehaviour:
       <NodeID>k__BackingField: 0a7c0aec-5f06-4ae7-805a-9c81227351e2
     <GroupID>k__BackingField: 275cf526-2d7c-4d6b-940c-fbaf8b0099e0
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 1072, y: 269}
-    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
-      a: 1}
-    <VoiceLine>k__BackingField: {fileID: 0}
-    <SpeakerSprite>k__BackingField: {fileID: 0}
-  - <ID>k__BackingField: e9fd4636-a4f5-4b95-819d-de48c3dedad4
-    <Name>k__BackingField: DialogueName
-    <Text>k__BackingField: This is a new Dialogue!
-    <Choices>k__BackingField:
-    - <Text>k__BackingField: Next Dialogue
-      <NodeID>k__BackingField: 9092c267-8aaf-49bf-bbe3-28567cb22163
-    <GroupID>k__BackingField: 
-    <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 108, y: 202}
+    <Position>k__BackingField: {x: 916, y: 268}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -71,7 +71,20 @@ MonoBehaviour:
       <NodeID>k__BackingField: d2446963-3bf3-46c7-8e4b-d94e21779835
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 1
-    <Position>k__BackingField: {x: 1577, y: 255}
+    <Position>k__BackingField: {x: 1445, y: 263}
+    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
+      a: 1}
+    <VoiceLine>k__BackingField: {fileID: 0}
+    <SpeakerSprite>k__BackingField: {fileID: 0}
+  - <ID>k__BackingField: 91468908-2dd5-4b5d-82c8-7d95daa215c1
+    <Name>k__BackingField: DialogueName5
+    <Text>k__BackingField: Option 1
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 2196, y: -138}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -84,20 +97,7 @@ MonoBehaviour:
       <NodeID>k__BackingField: 
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 2477, y: 299}
-    <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
-      a: 1}
-    <VoiceLine>k__BackingField: {fileID: 0}
-    <SpeakerSprite>k__BackingField: {fileID: 0}
-  - <ID>k__BackingField: 91468908-2dd5-4b5d-82c8-7d95daa215c1
-    <Name>k__BackingField: DialogueName5
-    <Text>k__BackingField: Option1
-    <Choices>k__BackingField:
-    - <Text>k__BackingField: Next Dialogue
-      <NodeID>k__BackingField: 
-    <GroupID>k__BackingField: 
-    <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 2026, y: 64}
+    <Position>k__BackingField: {x: 2196, y: 139}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
       <NodeID>k__BackingField: 
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 2099, y: 428}
+    <Position>k__BackingField: {x: 2196, y: 414}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
       <NodeID>k__BackingField: 
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 2063, y: 789}
+    <Position>k__BackingField: {x: 2196, y: 708}
     <BackgroundColor>k__BackingField: {r: 0.11372549, g: 0.11372549, b: 0.11764706,
       a: 1}
     <VoiceLine>k__BackingField: {fileID: 0}
@@ -133,11 +133,11 @@ MonoBehaviour:
   <PreviousGroupTitles>k__BackingField:
   - DialogueGroup
   <UngroupedNodesPreviousNames>k__BackingField:
-  - DialogueName2
   - DialogueName
+  - DialogueName2
   - DialogueName4
-  - DialogueName7
   - DialogueName5
+  - DialogueName7
   - DialogueName6
   - DialogueName8
   <GroupedNodesPreviousNames>k__BackingField:

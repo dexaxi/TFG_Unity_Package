@@ -15,6 +15,8 @@ MonoBehaviour:
   <DialogueName>k__BackingField: DialogueName1
   <Text>k__BackingField: <rainbow>This dialogue is located inside a group!</> Check
     the <color=yellow>Dialogue Graph Editor</color> to see how they can be useful!
+    <jitter>By the way! Text can jitter!</> and it can <fadein> also fade in if you
+    want it to.</>
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
     <NextDialogue>k__BackingField: {fileID: 11400000, guid: 9d7afb1749c6abb468f65f91108543de,

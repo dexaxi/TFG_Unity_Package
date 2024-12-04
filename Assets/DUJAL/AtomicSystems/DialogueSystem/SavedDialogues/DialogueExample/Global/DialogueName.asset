@@ -15,7 +15,7 @@ MonoBehaviour:
   <DialogueName>k__BackingField: DialogueName
   <Text>k__BackingField: Simple <color=yellow>example</color> of text created with
     <#80ff80>TextMesh</color><#8080ff>Pro</color>! <wobble>Look! I'm Sonic and I'm
-    Tripping!</> <rainbow>Woooooow</> <wobble speed="15">Gotta go fast!</> <wobble>Viva
+    Tripping!</> <rainbow>Woooooow</> <wobble speed="15">Gotta go fast!</><wobble>Viva
     la vida!</> <color=yellow>Tails must be over here somewhere...</color>
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
