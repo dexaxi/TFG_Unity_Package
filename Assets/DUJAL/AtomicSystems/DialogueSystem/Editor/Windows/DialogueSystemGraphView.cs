@@ -2,12 +2,13 @@
 
 namespace DUJAL.Systems.Dialogue
 {
-    using System;
-    using UnityEditor.Experimental.GraphView;
-    using UnityEngine.UIElements;
     using DUJAL.Systems.Dialogue.Utils;
     using DUJAL.Systems.Utils;
     using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Types;
+    using UnityEngine.UIElements;
+    using System;
+    using UnityEditor.Experimental.GraphView;
     using System.Collections.Generic;
     using UnityEngine;
     public class DialogueSystemGraphView : GraphView

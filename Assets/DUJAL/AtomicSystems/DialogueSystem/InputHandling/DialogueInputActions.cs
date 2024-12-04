@@ -289,13 +289,13 @@ public partial class @DialogueInputActions : IInputActionCollection2, IDisposabl
         }
     }
     public TextBoxActionMapActions @TextBoxActionMap => new TextBoxActionMapActions(this);
-    private int m_DefaultControlSchemeSchemeIndex = -1;
+    private int m_DefaultControlSchemeSchemeIdx = -1;
     public InputControlScheme DefaultControlSchemeScheme
     {
         get
         {
-            if (m_DefaultControlSchemeSchemeIndex == -1) m_DefaultControlSchemeSchemeIndex = asset.FindControlSchemeIndex("DefaultControlScheme");
-            return asset.controlSchemes[m_DefaultControlSchemeSchemeIndex];
+            if (m_DefaultControlSchemeSchemeIdx == -1) m_DefaultControlSchemeSchemeIdx = asset.FindControlSchemeIndex("DefaultControlScheme");
+            return asset.controlSchemes[m_DefaultControlSchemeSchemeIdx];
         }
     }
     public interface ITextBoxActionMapActions

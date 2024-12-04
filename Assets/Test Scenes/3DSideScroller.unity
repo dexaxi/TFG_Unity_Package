@@ -204,7 +204,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _dialogueSO
       value: 
-      objectReference: {fileID: 11400000, guid: f87e14b45ed4cc046be7b643df184499,
+      objectReference: {fileID: 11400000, guid: 1e399b3bf2bb62e4a9b7455fa0832a91,
         type: 2}
     - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
         type: 3}
@@ -219,7 +219,7 @@ PrefabInstance:
     - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
         type: 3}
       propertyPath: _selectedDialogue
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
         type: 3}
@@ -235,7 +235,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _dialogueContainerSO
       value: 
-      objectReference: {fileID: 11400000, guid: c41e173930df7814c8c0caa558293fdc,
+      objectReference: {fileID: 11400000, guid: 441bdd24244271642a734798c6236a40,
         type: 2}
     - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
         type: 3}
@@ -285,6 +285,78 @@ PrefabInstance:
     - target: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
         type: 3}
       propertyPath: _choiceButtons.Array.data[7]
+      value: 
+      objectReference: {fileID: 1365497159}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _text
+      value: 
+      objectReference: {fileID: 1365497164}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _textSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _dialogueSO
+      value: 
+      objectReference: {fileID: 11400000, guid: f87e14b45ed4cc046be7b643df184499,
+        type: 2}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _maxLineCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _speakerImage
+      value: 
+      objectReference: {fileID: 1365497163}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _selectedDialogue
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _isStartingDialogue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _dialogueCanvasGroup
+      value: 
+      objectReference: {fileID: 1365497158}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _dialogueContainerSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c41e173930df7814c8c0caa558293fdc,
+        type: 2}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _choiceButtons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _choiceButtons.Array.data[0]
+      value: 
+      objectReference: {fileID: 1365497162}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _choiceButtons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1365497161}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _choiceButtons.Array.data[2]
+      value: 
+      objectReference: {fileID: 1365497160}
+    - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+        type: 3}
+      propertyPath: _choiceButtons.Array.data[3]
       value: 
       objectReference: {fileID: 1365497159}
     m_RemovedComponents: []
@@ -573,8 +645,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 359621251}
-        m_TargetAssemblyTypeName: DUJAL.Systems.Dialogue.InspectorDialogue, Assembly-CSharp
+      - m_Target: {fileID: 845374204}
+        m_TargetAssemblyTypeName: DUJAL.Systems.Dialogue.DialogueSystem, Assembly-CSharp
         m_MethodName: PlayText
         m_Mode: 1
         m_Arguments:
@@ -748,18 +820,6 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
---- !u!114 &359621251 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 467125163724767271, guid: cb65507599307494a94795b417d7580d,
-    type: 3}
-  m_PrefabInstance: {fileID: 18521121}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d32496eb18f16740b52e6f3137f402c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &412922574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,6 +1224,32 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828886717}
+  m_CullTransparentMesh: 1
+--- !u!1 &845374201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 467125163724767265, guid: cb65507599307494a94795b417d7580d,
+    type: 3}
+  m_PrefabInstance: {fileID: 18521121}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &845374204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
+    type: 3}
+  m_PrefabInstance: {fileID: 18521121}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845374201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f537b2f82bf6ae84cbd8e548ef0627a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!222 &845374205
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845374201}
   m_CullTransparentMesh: 1
 --- !u!1 &869475209
 GameObject:

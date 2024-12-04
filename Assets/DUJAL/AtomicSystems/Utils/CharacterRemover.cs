@@ -53,9 +53,9 @@ namespace DUJAL.Systems.Utils
 
             int currentWhitespacelessTextLength = 0;
 
-            for (int currentCharacterIndex = 0; currentCharacterIndex < textLength; ++currentCharacterIndex)
+            for (int currentCharacterIdx = 0; currentCharacterIdx < textLength; ++currentCharacterIdx)
             {
-                char currentTextCharacter = textCharacters[currentCharacterIndex];
+                char currentTextCharacter = textCharacters[currentCharacterIdx];
 
                 if (currentTextCharacter.IsWhitespace())
                 {
@@ -76,9 +76,9 @@ namespace DUJAL.Systems.Utils
 
             int currentWhitespacelessTextLength = 0;
 
-            for (int currentCharacterIndex = 0; currentCharacterIndex < textLength; ++currentCharacterIndex)
+            for (int currentCharacterIdx = 0; currentCharacterIdx < textLength; ++currentCharacterIdx)
             {
-                char currentTextCharacter = textCharacters[currentCharacterIndex];
+                char currentTextCharacter = textCharacters[currentCharacterIdx];
 
                 if (!char.IsLetterOrDigit(currentTextCharacter) && !currentTextCharacter.IsWhitespace())
                 {

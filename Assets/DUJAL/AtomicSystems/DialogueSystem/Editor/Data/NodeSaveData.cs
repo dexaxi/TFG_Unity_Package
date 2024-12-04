@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace DUJAL.Systems.Dialogue 
 {
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using DUJAL.Systems.Dialogue.Types;
+
     [Serializable]
     public class NodeSaveData
     {

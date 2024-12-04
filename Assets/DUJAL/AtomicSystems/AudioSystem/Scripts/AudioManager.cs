@@ -30,7 +30,7 @@ namespace DUJAL.Systems.Audio
         [SerializeField]
         private AudioMixerGroup sfx;
 
-        private int _randomSoundIndex;
+        private int _randomSoundIdx;
         private float _lastRandomSoundTime;
 
         private void Awake()
@@ -205,10 +205,10 @@ namespace DUJAL.Systems.Audio
         /// </summary>
         public void PlayRandomMusic()
         {
-            randomMusicList[_randomSoundIndex].audioSource.Stop();
+            randomMusicList[_randomSoundIdx].audioSource.Stop();
             _lastRandomSoundTime = 0f;
-            _randomSoundIndex = UnityEngine.Random.Range(0, randomMusicList.Length);
-            Play(randomMusicList[_randomSoundIndex].name);
+            _randomSoundIdx = UnityEngine.Random.Range(0, randomMusicList.Length);
+            Play(randomMusicList[_randomSoundIdx].name);
         }
 
         /// <summary>
@@ -216,9 +216,9 @@ namespace DUJAL.Systems.Audio
         /// </summary>
         public void PauseLastRandomMusicClip()
         {
-            Sound currentSound = randomMusicList[_randomSoundIndex];
+            Sound currentSound = randomMusicList[_randomSoundIdx];
             _lastRandomSoundTime = currentSound.audioSource.time;
-            randomMusicList[_randomSoundIndex].audioSource.Pause();
+            randomMusicList[_randomSoundIdx].audioSource.Pause();
         }
 
         /// <summary>
@@ -226,8 +226,8 @@ namespace DUJAL.Systems.Audio
         /// </summary>
         public void StopLastRandomMusicClip()
         {
-            Sound currentSound = randomMusicList[_randomSoundIndex];
-            randomMusicList[_randomSoundIndex].audioSource.Stop();
+            Sound currentSound = randomMusicList[_randomSoundIdx];
+            randomMusicList[_randomSoundIdx].audioSource.Stop();
         }
 
 
@@ -236,8 +236,8 @@ namespace DUJAL.Systems.Audio
         /// </summary>
         public void ResumeLastRandomMusicClip()
         {
-            Sound currentSound = randomMusicList[_randomSoundIndex];
-            randomMusicList[_randomSoundIndex].audioSource.Play();
+            Sound currentSound = randomMusicList[_randomSoundIdx];
+            randomMusicList[_randomSoundIdx].audioSource.Play();
             if (_lastRandomSoundTime != 0 && _lastRandomSoundTime != -1)
             {
                 currentSound.audioSource.time = _lastRandomSoundTime;

@@ -1,36 +1,49 @@
-namespace DUJAL.Systems.Dialogue
+namespace DUJAL.Systems.Dialogue.Animations
 {
     using System.Collections;
     using System.Collections.Generic;
-    using Unity.VisualScripting;
     using UnityEngine;
-    using UnityEngine.XR;
-    using Cysharp.Threading.Tasks;
     using TMPro;
     using DUJAL.Systems.Utils;
+    using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Types;
 
     public class RainbowText : TextEffect
     {
-        private const float stop = 0.05f;
-        private const int minColor = 0;
-        private const int maxColor = 255;
-        private float timer = stop + 1.0f;
-        private Dictionary<int, Color32> prevColor = new();
-        private Dictionary<int,int> currentIndexToUpdate = new();
-        private int endIndex = 0;
-        private int effectIndex = 0;
-        public override void UpdateData(EffectInstance effect, TextMeshProUGUI textComponent, TextAnimatorInspector animatorInspector)
+        private const int _minColor = 0;
+        private const int _maxColor = 255;
+        private int _endIdx = 0;
+        private int _effectIdx = 0;
+        private bool _allowUpdate = true;
+        private float _speed = 0.025f;
+
+        private Dictionary<int, Color32> _prevColor = new();
+        private Dictionary<int,int> _currentIdxToUpdate = new();
+
+        public override void StartAnimation()
+        {
+            base.StartAnimation();
+        }
+
+        public override void StopAnimation()
+        {
+            base.StopAnimation();
+            _allowUpdate = true;
+            _prevColor.Clear();
+            _currentIdxToUpdate.Clear();
+        }
+
+        public override void UpdateData(EffectInstance effect, TextMeshProUGUI textComponent, TextAnimationHandler animatorInspector)
         {
             base.UpdateData(effect, textComponent, animatorInspector);
             int effIdx = 0;
             foreach (EffectInstance eff in _effects) 
             {
-                currentIndexToUpdate[effIdx] = eff.TextStartIndex;
+                _currentIdxToUpdate[effIdx] = eff.TextStartIdx;
                 effIdx++;
             }
-            endIndex = _effects[effectIndex].GetTextEndIndex();
+            _endIdx = _effects[_effectIdx].GetTextEndIndex();
         }
-
 
         public override void UpdateEffect()
         {
@@ -38,20 +51,19 @@ namespace DUJAL.Systems.Dialogue
             {
                 return;
             }
-            effectIndex = -1;
+            _effectIdx = -1;
             foreach (EffectInstance effect in _effects)
             {
-                effectIndex++;
-                endIndex = effect.GetTextEndIndex();
+                _effectIdx++;
+                _endIdx = effect.GetTextEndIndex();
                 int _;
-                if (!currentIndexToUpdate.TryGetValue(effectIndex, out _))
+                if (!_currentIdxToUpdate.TryGetValue(_effectIdx, out _))
                 {
-                    currentIndexToUpdate[effectIndex] = effect.TextStartIndex;
+                    _currentIdxToUpdate[_effectIdx] = effect.TextStartIdx;
                 }
 
-                for (int i = effect.TextStartIndex; i < endIndex; i++)
+                for (int i = effect.TextStartIdx; i < _endIdx; i++)
                 {
-                    timer += Time.deltaTime;
                     var charInfo = _animationHandler.TextInfo.characterInfo[i];
                     if (!charInfo.isVisible)
                     {
@@ -60,64 +72,72 @@ namespace DUJAL.Systems.Dialogue
 
                     var meshInfo = _animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
                     Color32 color;
-                    bool hasValue = prevColor.TryGetValue(i, out color);
+                    bool hasValue = _prevColor.TryGetValue(i, out color);
                     if (!hasValue) 
                     {
                         color = GetRandomColor();
-                        prevColor[i] = color;
+                        _prevColor[i] = color;
                     }
 
-                    if (timer >= stop && currentIndexToUpdate[effectIndex] == i)
+                    if (_allowUpdate && _currentIdxToUpdate[_effectIdx] == i)
                     {
                         color = GetRandomColor();
-                        prevColor[i] = color;
-                        currentIndexToUpdate[effectIndex] = CalculateNextIdx(effect);
+                        _prevColor[i] = color;
+                        _currentIdxToUpdate[_effectIdx] = CalculateNextIdx(effect);
+                        _allowUpdate = false;
+                        StartCoroutine(RunTimer());
                     }
 
                     for (int j = 0; j < 4; ++j)
                     {
-                        int vertexIndex = charInfo.vertexIndex + j;
-                        meshInfo.colors32[vertexIndex] = color;
-                    }
-
-                    if (timer > stop)
-                    {
-                        timer = 0;
+                        int vertexIdx = charInfo.vertexIndex + j;
+                        meshInfo.colors32[vertexIdx] = color;
                     }
                 }
             }
         }
 
+        private void Update()
+        {
+ 
+        }
+
         private int CalculateNextIdx(EffectInstance effect) 
         {
-            int currentIndex = currentIndexToUpdate[effectIndex];
-            int nextIndex;
-            if (currentIndex + 1 >= endIndex)
+            int currentIdx = _currentIdxToUpdate[_effectIdx];
+            int nextIdx;
+            if (currentIdx + 1 >= _endIdx)
             {
-                nextIndex = effect.TextStartIndex;
+                nextIdx = effect.TextStartIdx;
             }
             else
             {
-                nextIndex = currentIndex + 1;
+                nextIdx = currentIdx + 1;
             }
 
-            if (_animationHandler.TextInfo.characterInfo[nextIndex].character.IsWhitespace())
+            if (_animationHandler.TextInfo.characterInfo[nextIdx].character.IsWhitespace())
             {
-                currentIndexToUpdate[effectIndex]++;
+                _currentIdxToUpdate[_effectIdx]++;
                 return CalculateNextIdx(effect);
             }
             else 
             {
-                return nextIndex;
+                return nextIdx;
             }
+        }
+
+        private IEnumerator RunTimer()
+        {
+            yield return new WaitForSeconds(_speed);
+            _allowUpdate = true;
         }
 
         private Color32 GetRandomColor() 
         {
-            Color32[] colors = { Color.red, Color.blue, Color.magenta, Color.yellow, Color.blue, Color.cyan, Color.green};
+            Color32[] colors = DialogueConstants.RainbowOptions;
             int idx1 = Random.Range(0, colors.Length);
             int idx2 = Random.Range(0, colors.Length);
-            int lerpVal = Random.Range(0, 1);
+            float lerpVal = Random.Range(0.0f, 1.0f);
             return Color32.Lerp(colors[idx1], colors[idx2], lerpVal);
         }
     }

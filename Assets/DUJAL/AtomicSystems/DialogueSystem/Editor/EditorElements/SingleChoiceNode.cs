@@ -2,6 +2,7 @@ namespace DUJAL.Systems.Dialogue
 {
     using DUJAL.Systems.Dialogue.Constants;
     using DUJAL.Systems.Dialogue.Utils;
+    using DUJAL.Systems.Dialogue.Types;
     using UnityEditor.Experimental.GraphView;
     using UnityEngine;
     public class SingleChoiceNode : BaseNode

@@ -4,7 +4,7 @@ namespace DUJAL.Systems.Dialogue
     using UnityEditor;
     using DUJAL.Systems.Dialogue.Constants;
     using DUJAL.Systems.Dialogue.Utils;
-    [CustomEditor(typeof(InspectorDialogue))]
+    [CustomEditor(typeof(DialogueSystem))]
     public class CustomInspector : Editor
     {
         //SOs
@@ -163,12 +163,12 @@ namespace DUJAL.Systems.Dialogue
         {
             DialogueSystemUtils.DrawHeader(DialogueConstants.CustomInspectorGroup);
 
-            int previousIndex = _selectedGroupProperty.intValue;
+            int previousIdx = _selectedGroupProperty.intValue;
             GroupScriptableObject oldGroup = (GroupScriptableObject)_groupSOProperty.objectReferenceValue;
             bool isOldGroupNull = oldGroup == null;
             string oldGroupName = isOldGroupNull ? "" : oldGroup.GroupName;
 
-            _selectedGroupProperty.UpdateIndexOnNameListChange(groupNames, previousIndex, oldGroupName, isOldGroupNull);
+            _selectedGroupProperty.UpdateIndexOnNameListChange(groupNames, previousIdx, oldGroupName, isOldGroupNull);
 
             _selectedGroupProperty.intValue = DialogueSystemUtils.DrawPopup(DialogueConstants.CustomInspectorGroup, _selectedGroupProperty, groupNames.ToArray());
            
@@ -187,12 +187,12 @@ namespace DUJAL.Systems.Dialogue
         {
             DialogueSystemUtils.DrawHeader(DialogueConstants.CustomInspectorDialogue);
 
-            int previousIndex = _selectedDialogueProperty.intValue;
+            int previousIdx = _selectedDialogueProperty.intValue;
             DialogueScriptableObject oldDialogue = (DialogueScriptableObject)_dialogueSOProperty.objectReferenceValue;
             bool isOldDialogueNull = oldDialogue == null;
             string oldDialogueName = isOldDialogueNull ? "" : oldDialogue.DialogueName;
             
-            _selectedDialogueProperty.UpdateIndexOnNameListChange(dialogueNames, previousIndex, oldDialogueName, isOldDialogueNull);
+            _selectedDialogueProperty.UpdateIndexOnNameListChange(dialogueNames, previousIdx, oldDialogueName, isOldDialogueNull);
             
             _selectedDialogueProperty.intValue = DialogueSystemUtils.DrawPopup(DialogueConstants.CustomInspectorDialogue, _selectedDialogueProperty, dialogueNames.ToArray());
 

@@ -145,15 +145,15 @@ namespace DUJAL.Systems.Dialogue.Utils
         }
 
         //Update property Index in custom editor 
-        public static void UpdateIndexOnNameListChange(this SerializedProperty selectedIndexProperty, List<string> options, int previousIndex, string oldName, bool isOldNull)
+        public static void UpdateIndexOnNameListChange(this SerializedProperty selectedIndexProperty, List<string> options, int previousIdx, string oldName, bool isOldNull)
         {
             if (isOldNull)
             {
                 selectedIndexProperty.intValue = 0;
                 return;
             }
-            bool prevIndexOOB = previousIndex > options.Count - 1;
-            bool notCurrentName = prevIndexOOB || oldName != options[previousIndex];
+            bool prevIdxOOB = previousIdx > options.Count - 1;
+            bool notCurrentName = prevIdxOOB || oldName != options[previousIdx];
             if (notCurrentName)
             {
                 if (options.Contains(oldName))

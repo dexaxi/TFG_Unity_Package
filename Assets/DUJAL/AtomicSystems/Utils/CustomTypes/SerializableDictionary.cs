@@ -172,20 +172,20 @@ namespace DUJAL.Systems.Utils
 
         public bool Contains(KeyValuePair<TKey, TValue> kvp) => KeyPositions.ContainsKey(kvp.Key);
 
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIdx)
         {
             int numKeys = list.Count;
 
-            if (array.Length - arrayIndex < numKeys)
+            if (array.Length - arrayIdx < numKeys)
             {
                 throw new ArgumentException("arrayIndex");
             }
 
-            for (int i = 0; i < numKeys; ++i, ++arrayIndex)
+            for (int i = 0; i < numKeys; ++i, ++arrayIdx)
             {
                 SerializableKeyValuePair entry = list[i];
 
-                array[arrayIndex] = new KeyValuePair<TKey, TValue>(entry.Key, entry.Value);
+                array[arrayIdx] = new KeyValuePair<TKey, TValue>(entry.Key, entry.Value);
             }
         }
 

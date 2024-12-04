@@ -79,6 +79,8 @@
 	border-left-width: var(--ds-metrics-quote-tf-border-left-width);
 	padding: var(--ds-metrics-quote-tf-padding);
 	max-width: var(--ds-metrics-quote-tf-max-width);
+	white-space: normal;
+	overflow: visible;
 }
 
 .ds-n-quote-tf < .unity-text-field__input:hover

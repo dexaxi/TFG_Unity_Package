@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 467125163724767264}
-  - component: {fileID: 467125163724767271}
+  - component: {fileID: 5351280431904491741}
   - component: {fileID: 4801643848584073560}
   m_Layer: 0
   m_Name: DialogueSystem
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &467125163724767271
+--- !u!114 &5351280431904491741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,32 +42,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 467125163724767265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d32496eb18f16740b52e6f3137f402c, type: 3}
+  m_Script: {fileID: 11500000, guid: f537b2f82bf6ae84cbd8e548ef0627a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dialogueContainerSO: {fileID: 11400000, guid: c41e173930df7814c8c0caa558293fdc,
+  _dialogueContainerSO: {fileID: 11400000, guid: 441bdd24244271642a734798c6236a40,
     type: 2}
-  _groupSO: {fileID: 11400000, guid: ffe4350143849944497a383e5a826dc5, type: 2}
-  _dialogueSO: {fileID: 11400000, guid: 3c8373e4939d93a47985349f199a395e, type: 2}
+  _groupSO: {fileID: 0}
+  _dialogueSO: {fileID: 11400000, guid: 1e399b3bf2bb62e4a9b7455fa0832a91, type: 2}
   _currentPlayedDialogue: {fileID: 11400000, guid: e1640ffbd1dba1944abe190324a26be2,
     type: 2}
   _startingDialogueFilter: 0
   _groupedDialogueFilter: 0
   _selectedGroup: 0
-  _selectedDialogue: 1
-  _audioStyle: 1
-  _textSpeed: 0.1
-  _maxLineCount: 2
+  _selectedDialogue: 0
+  _audioStyle: 0
+  _textSpeed: 0
+  _maxLineCount: 0
   _autoText: 0
   _isStartingDialogue: 0
   _dialogueCanvasGroup: {fileID: 0}
   _text: {fileID: 0}
   _speakerImage: {fileID: 0}
-  _choiceButtons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _choiceButtons: []
   _nextDialogueObject: {fileID: 0}
   Enter:
     m_PersistentCalls:
@@ -99,3 +95,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f72a9916500c54199c0afac27b3343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TextInfo:
+    textComponent: {fileID: 0}
+    characterCount: 0
+    spriteCount: 0
+    spaceCount: 0
+    wordCount: 0
+    linkCount: 0
+    lineCount: 0
+    pageCount: 0
+    materialCount: 0

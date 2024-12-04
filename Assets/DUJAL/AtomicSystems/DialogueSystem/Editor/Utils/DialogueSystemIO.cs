@@ -2,10 +2,12 @@
 
 namespace DUJAL.Systems.Dialogue.Utils 
 {
+    using DUJAL.Systems.Dialogue.Types;
+    using DUJAL.Systems.Dialogue.Constants;
+
     using System.Collections.Generic;
     using UnityEditor;
     using UnityEngine;
-    using DUJAL.Systems.Dialogue.Constants;
     using System.Linq;
     using DUJAL.Systems.Utils;
     using UnityEditor.Experimental.GraphView;

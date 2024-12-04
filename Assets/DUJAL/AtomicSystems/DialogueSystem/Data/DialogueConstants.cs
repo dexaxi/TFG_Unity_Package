@@ -36,7 +36,7 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string ClearAssetButonText = "Clear";
         public const string ResetAssetButonText = "Reset";
         public const string MinimapButonText = "Minimap";
-        
+
         //Node Info data
         public const string AddSingleChoiceText = "Add Single Choice Node";
         public const string AddMultiplechoiceText = "Add Multiple Choice Node";
@@ -44,15 +44,15 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string NewGroupDefaultName = "DialogueGroup";
         public const string DisconnectInputText = "Disconnect Input Ports";
         public const string DisconnectOutputText = "Disconnect Output Ports";
-        
+
         public const string NodeFirstChoicDefaultText = "Next Dialogue";
-        
-        public const string MultipleChoiceAddChoicDefaultText= "Add Choice";
-        public const string MultipleChoiceNewChoicDefaultText= "New choice";
+
+        public const string MultipleChoiceAddChoicDefaultText = "Add Choice";
+        public const string MultipleChoiceNewChoicDefaultText = "New choice";
         public const string MultipleChoiceXText = "X";
-        
+
         public const string BaseNodeDefaultNodeName = "DialogueName";
-        
+
         public const string BaseNodeQuoteTitle = "Dialogue Text";
         public const string BaseNodeDialogueConnectionDefaultValue = "Dialogue Connection";
         public const string BaseNodeVoiceLinetitle = "Voice Line";
@@ -87,7 +87,7 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string ObjectFieldStyleSheet = "ds-n-of";
         public const string ColorFieldStyleSheet = "ds-n-cf";
 
-        public static Color DefaultNodeBackgroundColor = new Color(29f/255f, 29f / 255f, 30f / 255f);
+        public static Color DefaultNodeBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
 
         //Custom Inspector
         public const string CustomInspectorDialogueContainer = "Dialogue Container";
@@ -99,14 +99,16 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string CustomInspectorGroupHelpBox = "There are no Dialogue Groups in this Dialogue Container.";
         public const string CustomInspectorGroupedDialogueHelpBox1 = "Missing";
         public const string CustomInspectorGroupedStartingDialogueHelpBox = "Starting";
-        public const string CustomInspectorGroupedDialogueHelpBox2= "Dialogues in this Dialogue Group.";
+        public const string CustomInspectorGroupedDialogueHelpBox2 = "Dialogues in this Dialogue Group.";
         public const string CustomInspectorUnGroupedDialogueHelpBox = "Global Dialogues in this Dialogue Dialogue Container.";
         public const string CustomInspectorNoDialogueWarn = "A Dialogue must be selected ofr this component to work.";
 
         //Text effects
+        public static Color32[] RainbowOptions = { Color.red, Color.blue, Color.green };
+        public const string WobbleTag = "<wobble";
+        public const string RainbowTag = "<rainbow";
+        public const string FadeInTag = "<fadein";
+        public const string VertexJitterTag = "<jitter";
         public const string CloseTag = "</>";
-        public const string wobbleTag = "<wobble>";
-        public const string rainbowTag = "<rainbow>";
-
     }
 }

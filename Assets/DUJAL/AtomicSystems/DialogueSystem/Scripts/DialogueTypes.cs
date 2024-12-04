@@ -1,4 +1,4 @@
-namespace DUJAL.Systems.Dialogue 
+namespace DUJAL.Systems.Dialogue.Types
 {
     public enum DialogueType
     {
@@ -25,36 +25,38 @@ namespace DUJAL.Systems.Dialogue
     {
         Invalid = -1,
         Wobble,
-        Rainbow
+        Rainbow,
+        Jitter,
+        FadeIn,
     }
 
     public class EffectInstance
     {
         public EffectInstance()
         {
-            TextStartIndex = -1;
+            TextStartIdx = -1;
             Tag = "";
             Text = "";
             tagType = TextEffects.Invalid;
             RemainingText = "";
-            CutoffIndex = -1;
+            CutoffIdx = -1;
         }
 
-        public int TextStartIndex;
+        public int TextStartIdx;
         public string Tag;
         public string Text;
         public TextEffects tagType;
         public string RemainingText;
-        public int CutoffIndex;
+        public int CutoffIdx;
         public int GetTextEndIndex()
         {
-            return CutoffIndex != -1 ? CutoffIndex : TextStartIndex + Text.Length;
+            return CutoffIdx != -1 ? CutoffIdx : TextStartIdx + Text.Length;
         }
 
         public bool IsValid() 
         {
             if (tagType == TextEffects.Invalid) return false;
-            if (TextStartIndex == -1) return false;
+            if (TextStartIdx == -1) return false;
             if (Tag.Length == 0) return false;
             if (Text.Length == 0) return false;
             return true;

@@ -1,15 +1,18 @@
-namespace DUJAL.Systems.Dialogue
+namespace DUJAL.Systems.Dialogue.Animations
 {
     using System;
     using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
+    using DUJAL.Systems.Dialogue.Types;
+    using DUJAL.Systems.Dialogue.Animations.Utils;
+   
 
-    public class TextAnimatorInspector : MonoBehaviour
+    public class TextAnimationHandler : MonoBehaviour
     {
         private TextMeshProUGUI _textComponent;
         private List<TextEffect> _effectReferences = new();
-        
+        private TMP_MeshInfo _meshInfo;
         public TMP_TextInfo TextInfo;
 
         public void HandleTextEffects(List<EffectInstance> effectInstances, TextMeshProUGUI text) 
@@ -47,9 +50,9 @@ namespace DUJAL.Systems.Dialogue
             textEffect.StartAnimation();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            if(_textComponent == null || TextInfo == null) return;
+            if (_textComponent == null || TextInfo == null) return;
 
             _textComponent.ForceMeshUpdate();
             foreach (TextEffect effect in _effectReferences) 
@@ -57,16 +60,28 @@ namespace DUJAL.Systems.Dialogue
                 effect.UpdateEffect();
             }
 
+            PreUpdateEffectGeometry();
             UpdateGeometry();
         }
-        public void UpdateGeometry()
+
+        public void PreUpdateEffectGeometry()
         {
             for (int i = 0; i < TextInfo.meshInfo.Length; ++i)
             {
-                TMP_MeshInfo meshInfo = TextInfo.meshInfo[i];
-                meshInfo.mesh.vertices = meshInfo.vertices;
-                meshInfo.mesh.colors32 = meshInfo.colors32;
-                _textComponent.UpdateGeometry(meshInfo.mesh, i);
+                _meshInfo = TextInfo.meshInfo[i];
+                if (_meshInfo.mesh == null) continue;
+                _meshInfo.mesh.vertices = _meshInfo.vertices;
+                _meshInfo.mesh.colors32 = _meshInfo.colors32;
+                _textComponent.UpdateGeometry(_meshInfo.mesh, i);
+            }
+        }
+
+        public void UpdateGeometry()
+        {
+            if (_meshInfo.mesh == null) return;
+            for (int i = 0; i < TextInfo.meshInfo.Length; ++i)
+            {
+                _textComponent.UpdateGeometry(_meshInfo.mesh, i);
             }
         }
     }

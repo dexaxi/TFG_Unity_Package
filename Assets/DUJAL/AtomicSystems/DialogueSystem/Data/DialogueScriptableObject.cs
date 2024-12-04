@@ -1,6 +1,7 @@
 namespace DUJAL.Systems.Dialogue
 {
     using System.Collections.Generic;
+    using DUJAL.Systems.Dialogue.Types;
     using UnityEngine;
 
     public class DialogueScriptableObject : ScriptableObject

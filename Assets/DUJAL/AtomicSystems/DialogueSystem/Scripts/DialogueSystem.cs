@@ -4,17 +4,19 @@ namespace DUJAL.Systems.Dialogue
     using DUJAL.MovementComponents;
     using DUJAL.Systems.Audio;
     using DUJAL.Systems.Utils;
+    using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Animations;
+    using DUJAL.Systems.Dialogue.Types;
+    using DUJAL.Systems.Dialogue.Animations.Utils;
+    
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
     using UnityEngine.Events;
-    using UnityEngine.UI;
     using System;
-    using DUJAL.Systems.Dialogue.Constants;
-    using UnityEngine.UIElements;
 
-    public class InspectorDialogue : MonoBehaviour
+    public class DialogueSystem : MonoBehaviour
     {
         //SO
         [SerializeField] private DialogueContainerScriptableObject _dialogueContainerSO;
@@ -41,7 +43,7 @@ namespace DUJAL.Systems.Dialogue
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private UnityEngine.UI.Image _speakerImage;
         [SerializeField] private List<UnityEngine.UI.Button> _choiceButtons;
-        [SerializeField] private InspectorDialogue _nextDialogueObject;
+        [SerializeField] private DialogueSystem _nextDialogueObject;
 
         [SerializeField] public UnityEvent Enter = new UnityEvent();
         [SerializeField] public UnityEvent Exit = new UnityEvent();
@@ -52,7 +54,7 @@ namespace DUJAL.Systems.Dialogue
 
         [HideInInspector] public List<EffectInstance> EffectInstances = new();
 
-        private int _currentChoiceIndex;
+        private int _currentChoiceIdx;
 
         private float _previousTextSpeed;
 
@@ -61,12 +63,12 @@ namespace DUJAL.Systems.Dialogue
         private bool _previousDialogueAutoText;
 
         private DialogueInputActions _dialogueInputActions;
-        private TextAnimatorInspector _animationHandler;
+        private TextAnimationHandler _animationHandler;
 
 
-        private void Awake()
+        private void Start()
         {
-            _animationHandler = GetComponent<TextAnimatorInspector>();
+            _animationHandler = GetComponent<TextAnimationHandler>();
             if (_isStartingDialogue) _currentPlayedDialogue = DialogueScriptableObject.CopyInto(_dialogueSO, _currentPlayedDialogue);
             ToggleIndividualChoiceButtonVisibility(false);
 
@@ -75,7 +77,7 @@ namespace DUJAL.Systems.Dialogue
 
             AssignAudioType();
 
-            _currentChoiceIndex = 0;
+            _currentChoiceIdx = 0;
             HandleInput();
             OpenDialogueObject();
         }
@@ -127,7 +129,7 @@ namespace DUJAL.Systems.Dialogue
         private void TriggerSelectChoice(DialogueChoice choice)
         {
             if ((int)choice >= _currentPlayedDialogue.Choices.Count) return;
-            _currentChoiceIndex = (int)choice;
+            _currentChoiceIdx = (int)choice;
             _performNextDialogue = true;
         }
 
@@ -148,35 +150,35 @@ namespace DUJAL.Systems.Dialogue
 
         private void PreParseTextTags()
         {
-            int nextCloseTagEndIndex = -1;
+            int nextCloseTagEndIdx = -1;
 
             for (int i = 0; i < _currentPlayedDialogue.Text.Length; i++)
             {
                 if (_currentPlayedDialogue.Text[i].IsWhitespace()) continue;
 
-                int nextOpenTagStartIndex = _currentPlayedDialogue.Text.IndexOf('<', i);
-                int nextOpenTagEndIndex = _currentPlayedDialogue.Text.IndexOf('>', i);
+                int nextOpenTagStartIdx = _currentPlayedDialogue.Text.IndexOf('<', i);
+                int nextOpenTagEndIdx = _currentPlayedDialogue.Text.IndexOf('>', i);
 
-                if (nextOpenTagStartIndex == -1) continue;
+                if (nextOpenTagStartIdx == -1) continue;
 
-                int tagsize = (nextOpenTagEndIndex + 1) - nextOpenTagStartIndex;
+                int tagsize = (nextOpenTagEndIdx + 1) - nextOpenTagStartIdx;
 
                 if (tagsize < 1)
                 {
                     Debug.Log("Invalid tag size");
                 }
 
-                string tag = _currentPlayedDialogue.Text.Substring(nextOpenTagStartIndex, tagsize);
+                string tag = _currentPlayedDialogue.Text.Substring(nextOpenTagStartIdx, tagsize);
 
                 bool isCustomTag = TextEffectUtils.IsCustomTag(tag);
 
-                if (isCustomTag && nextCloseTagEndIndex < i && nextOpenTagStartIndex != -1)
+                if (isCustomTag && nextCloseTagEndIdx < i && nextOpenTagStartIdx != -1)
                 {
-                    int nextCloseTagStartIndex = _currentPlayedDialogue.Text.IndexOf(DialogueConstants.CloseTag, i);
-                    nextCloseTagEndIndex = nextCloseTagStartIndex + DialogueConstants.CloseTag.Length - 1;
-                    int textStartIndex = nextOpenTagEndIndex + 1;
-                    int textEndIndex = nextCloseTagStartIndex;
-                    string text = _currentPlayedDialogue.Text.Substring(textStartIndex, textEndIndex - textStartIndex);
+                    int nextCloseTagStartIdx = _currentPlayedDialogue.Text.IndexOf(DialogueConstants.CloseTag, i);
+                    nextCloseTagEndIdx = nextCloseTagStartIdx + DialogueConstants.CloseTag.Length - 1;
+                    int textStartIdx = nextOpenTagEndIdx + 1;
+                    int textEndIdx = nextCloseTagStartIdx;
+                    string text = _currentPlayedDialogue.Text.Substring(textStartIdx, textEndIdx - textStartIdx);
 
                     EffectInstance effectInstance = new()
                     {
@@ -185,11 +187,11 @@ namespace DUJAL.Systems.Dialogue
                     };
                     EffectInstances.Add(effectInstance);
 
-                    i = nextCloseTagEndIndex;
+                    i = nextCloseTagEndIdx;
                 }
                 else
                 {
-                    i = nextOpenTagEndIndex;
+                    i = nextOpenTagEndIdx;
                 }
             }
 
@@ -213,18 +215,18 @@ namespace DUJAL.Systems.Dialogue
         private void SetEffectIndexes()
         {
             string parsedText = _text.GetParsedText();
-            int prevEffectIndex = 0;
+            int prevEffectIdx = 0;
             for (int i = 0; i < EffectInstances.Count; i++)
             {
-                int textStartIndex = parsedText.IndexOf(EffectInstances[i].Text, prevEffectIndex);
-                EffectInstances[i].TextStartIndex = textStartIndex;
+                int textStartIdx = parsedText.IndexOf(EffectInstances[i].Text, prevEffectIdx);
+                EffectInstances[i].TextStartIdx = textStartIdx;
                 EffectInstances[i].tagType = TextEffectUtils.GetEnumFromTag(EffectInstances[i].Tag);
-                prevEffectIndex = EffectInstances[i].GetTextEndIndex();
+                prevEffectIdx = EffectInstances[i].GetTextEndIndex();
             }
 #if DEBUG
             foreach (EffectInstance effect in EffectInstances)
             {
-                Debug.Assert(effect.IsValid(), "Invalid Effect Instance " + effect.Tag + ": " + effect.Text + " StartIndex: " + effect.TextStartIndex);
+                Debug.Assert(effect.IsValid(), "Invalid Effect Instance " + effect.Tag + ": " + effect.Text + " StartIndex: " + effect.TextStartIdx);
             }
 #endif
         }
@@ -235,20 +237,19 @@ namespace DUJAL.Systems.Dialogue
         Enter.Invoke();
 
         //Handle Pre Loop
+        PreParseTextTags();
+        
+        _text.text = _currentPlayedDialogue.Text;
         _text.maxVisibleCharacters = 0;
         _text.maxVisibleLines = _maxLineCount;
-        PreParseTextTags();
-        _text.text = _currentPlayedDialogue.Text;
         _text.ForceMeshUpdate();
-        SetEffectIndexes();
         
+        SetEffectIndexes();
         UpdateSpeakerSprite();
         HandleTextEffects();
 
         for (int i = 0; i < _text.textInfo.characterCount; i++)
         {
-            _text.ForceMeshUpdate();
-
             if (CheckOverflow(i))
             {
                 if (!_autoText)
@@ -260,9 +261,9 @@ namespace DUJAL.Systems.Dialogue
                 }
 
                 ModifyTextSpeed(_previousTextSpeed);
-                int overflowIndex = GetOverflowIndex(i);
+                int overflowIdx = GetOverflowIndex(i);
                 HandleCutoffCustomTags(i);
-                string textLeft = _text.text[overflowIndex..];
+                string textLeft = _text.text[overflowIdx..];
                 ClearText(textLeft);
                 _text.ForceMeshUpdate();
                 UpdateTextEffectIndexes();
@@ -288,32 +289,32 @@ namespace DUJAL.Systems.Dialogue
         Exit.Invoke();
     }
 
-        private int GetOverflowIndex(int currentIndex)
+        private int GetOverflowIndex(int currentIdx)
         {
-            int overflowIndex = _text.textInfo.characterInfo[currentIndex].index;
-            string overflowCandidate = _text.text[overflowIndex..];
-            int indexOfTagOpen = overflowCandidate.IndexOf('<');
-            int indexOfTagClose = overflowCandidate.IndexOf("</");
-            if (indexOfTagClose != -1 && indexOfTagClose <= indexOfTagOpen)
+            int overflowIdx = _text.textInfo.characterInfo[currentIdx].index;
+            string overflowCandidate = _text.text[overflowIdx..];
+            int tagOpenIdx = overflowCandidate.IndexOf('<');
+            int tagCloseIdx = overflowCandidate.IndexOf("</");
+            if (tagCloseIdx != -1 && tagCloseIdx <= tagOpenIdx)
             {
-                while (overflowIndex != 0)
+                while (overflowIdx != 0)
                 {
-                    if (_text.text[overflowIndex] == '<')
+                    if (_text.text[overflowIdx] == '<')
                     {
                         break;
                     }
-                    overflowIndex--;
+                    overflowIdx--;
                 }
             }
-            return overflowIndex;
+            return overflowIdx;
         }
 
-        private bool CheckOverflow(int currentTextboxIndex)
+        private bool CheckOverflow(int currentTextboxIdx)
         {
             var isOverflow = false;
-            if (currentTextboxIndex < _text.textInfo.characterCount)
+            if (currentTextboxIdx < _text.textInfo.characterCount)
             {
-                if (_text.textInfo.characterInfo[currentTextboxIndex].lineNumber >= _text.maxVisibleLines)
+                if (_text.textInfo.characterInfo[currentTextboxIdx].lineNumber >= _text.maxVisibleLines)
                 {
                     isOverflow = true;
                 }
@@ -337,41 +338,40 @@ namespace DUJAL.Systems.Dialogue
 
         private void UpdateTextEffectIndexes() 
         {
-            int currentEffectIndex = 0;
+            int currentEffectIdx = 0;
             string parsedText = _text.GetParsedText();
             foreach (EffectInstance effect in EffectInstances)
             {
                 if (effect.RemainingText.Length != 0)
                 {
-                    int newTextIndex = parsedText.IndexOf(effect.RemainingText, currentEffectIndex);
-                    int cutoffIndex = newTextIndex + effect.RemainingText.Length;
-                    effect.TextStartIndex = newTextIndex;
-                    effect.CutoffIndex = cutoffIndex;
-                    currentEffectIndex = cutoffIndex;
+                    int newTextIdx = parsedText.IndexOf(effect.RemainingText, currentEffectIdx);
+                    int cutoffIdx = newTextIdx + effect.RemainingText.Length;
+                    effect.TextStartIdx = newTextIdx;
+                    effect.CutoffIdx = cutoffIdx;
+                    currentEffectIdx = effect.CutoffIdx;
                 }
                 else 
                 {
-                    int newTextIndex = parsedText.IndexOf(effect.Text, currentEffectIndex);
-                    if (newTextIndex != -1) 
+                    int newTextIdx = parsedText.IndexOf(effect.Text, currentEffectIdx);
+                    if (newTextIdx != -1) 
                     {
-                        effect.TextStartIndex = newTextIndex;
-                        currentEffectIndex = effect.GetTextEndIndex();
+                        effect.TextStartIdx = newTextIdx;
+                        currentEffectIdx = effect.GetTextEndIndex();
                     }
                 }
-                string currentString = parsedText.Substring(currentEffectIndex);
             }
             StopTextEffects();
             HandleTextEffects();
         }
 
-        private void HandleCutoffCustomTags(int currentTextBoxIndex)
+        private void HandleCutoffCustomTags(int currentTextBoxIdx)
         {
             if (EffectInstances.Count < 1) return;
             var currentEffect = EffectInstances[0];
             
-            if (currentTextBoxIndex < currentEffect.TextStartIndex || currentTextBoxIndex > currentEffect.GetTextEndIndex()) return;
+            if (currentTextBoxIdx < currentEffect.TextStartIdx || currentTextBoxIdx > currentEffect.GetTextEndIndex()) return;
 
-            int diff = currentTextBoxIndex - currentEffect.TextStartIndex;
+            int diff = currentTextBoxIdx - currentEffect.TextStartIdx;
             currentEffect.RemainingText = currentEffect.Text.Substring(0, diff);
         }
 
@@ -397,7 +397,7 @@ namespace DUJAL.Systems.Dialogue
 
         private void FindNextDialogue()
         {
-            DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[_currentChoiceIndex].NextDialogue;
+            DialogueScriptableObject nextDialogue = _currentPlayedDialogue.Choices[_currentChoiceIdx].NextDialogue;
             DialogueScriptableObject.CopyInto(nextDialogue, _currentPlayedDialogue);
         }
 
@@ -462,7 +462,7 @@ namespace DUJAL.Systems.Dialogue
                 case DialogueType.SingleChoice:
                     _autoText = _previousDialogueAutoText;
                     ToggleIndividualChoiceButtonVisibility(false);
-                    _currentChoiceIndex = 0;
+                    _currentChoiceIdx = 0;
                     _dialogueInputActions.TextBoxActionMap.NextDialogue.Enable();
                     DisableChoiceInputs();
                     return;
@@ -517,7 +517,7 @@ namespace DUJAL.Systems.Dialogue
             DisableChoiceInputs();
             _dialogueInputActions.TextBoxActionMap.NextDialogue.Disable();
             ToggleIndividualChoiceButtonVisibility(false);
-            _currentChoiceIndex = 0;
+            _currentChoiceIdx = 0;
             _dialogueCanvasGroup.alpha = 0;
             _dialogueCanvasGroup.interactable = false;
             _dialogueCanvasGroup.blocksRaycasts = false;
@@ -527,7 +527,7 @@ namespace DUJAL.Systems.Dialogue
         {
             InputHanlder.Instance.UnlockCursor();
             InputHanlder.Instance.LockInput();
-            _currentChoiceIndex = 0;
+            _currentChoiceIdx = 0;
             _dialogueCanvasGroup.alpha = 1;
             _dialogueCanvasGroup.interactable = true;
             _dialogueCanvasGroup.blocksRaycasts = true;

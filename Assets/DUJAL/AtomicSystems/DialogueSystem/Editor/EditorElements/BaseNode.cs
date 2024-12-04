@@ -1,8 +1,10 @@
 namespace DUJAL.Systems.Dialogue
 {
     using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Types;
     using DUJAL.Systems.Dialogue.Utils;
     using DUJAL.Systems.Utils;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;

@@ -8,7 +8,7 @@ namespace DUJAL.Systems.Dialogue
     public class DialogueInputs : MonoBehaviour
     {
         DialogueInputActions dialogueInputActions;
-        InspectorDialogue dialogue;
+        DialogueSystem dialogue;
 
         private void Start()
         {

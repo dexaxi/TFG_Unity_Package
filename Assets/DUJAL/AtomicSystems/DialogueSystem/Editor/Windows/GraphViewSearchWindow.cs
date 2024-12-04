@@ -2,6 +2,7 @@
 namespace DUJAL.Systems.Dialogue 
 {
     using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Dialogue.Types;
     using System.Collections.Generic;
     using UnityEditor.Experimental.GraphView;
     using UnityEngine;
