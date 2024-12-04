@@ -239,6 +239,7 @@ namespace DUJAL.Systems.Dialogue
             _dialogueCanvasGroup.alpha = 0;
             _dialogueCanvasGroup.interactable = false;
             _dialogueCanvasGroup.blocksRaycasts = false;
+            _animationHandler.EndAnimationHandling();
         }
         
         public void UpdateTextSpeed(float newValue)

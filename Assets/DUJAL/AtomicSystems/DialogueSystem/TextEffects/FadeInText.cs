@@ -5,16 +5,29 @@ namespace DUJAL.Systems.Dialogue.Animations
     using System.Collections;
     using System.Collections.Generic;
     using System;
+    using DUJAL.Systems.Dialogue.Animations.Utils;
+    using DUJAL.Systems.Dialogue.Constants;
 
     public class FadeInText : TextEffect
     {
-        private readonly Dictionary<Vector2Int, Color32> _targetColor = new();
-        private readonly Dictionary<Vector2Int, Color32> _transparentColor = new();
-        private readonly Dictionary<Vector2Int, float> _progress = new();
-        private readonly Dictionary<Vector2Int, int> _progressCount = new();
+        private readonly Dictionary<Vector3Int, Color32> _targetColor = new();
+        private readonly Dictionary<Vector3Int, Color32> _transparentColor = new();
+        private readonly Dictionary<Vector3Int, float> _progress = new();
+        private readonly Dictionary<Vector3Int, int> _finishedCount = new();
+        private readonly Dictionary<int, bool> _hasFinished = new();
+        private readonly Dictionary<int, float> _speed = new();
 
-        private bool _hasFinished;
-        private float _speed = 0.005f;
+        public override void GetParamsFromTag()
+        {
+            base.GetParamsFromTag();
+            int effectIdx = 0;
+            foreach (EffectInstance effect in _effects)
+            {
+                _speed[effectIdx] = TextEffectUtils.GetParamFromTag(effect, DialogueConstants.SPEED_TAG, DialogueConstants.FADEIN_DEFAULT_SPEED);
+                _hasFinished[effectIdx] = false;
+                effectIdx++;
+            }
+        }
 
         public override void StartAnimation()
         {
@@ -24,24 +37,31 @@ namespace DUJAL.Systems.Dialogue.Animations
         public override void StopAnimation()
         {
             base.StopAnimation();
-            _hasFinished = false;
-            _progressCount.Clear();
+            StopAllCoroutines();
+            _hasFinished.Clear();
+            _finishedCount.Clear();
             _targetColor.Clear();
             _transparentColor.Clear();
             _progress.Clear();
+            _speed.Clear();
         }
 
         public override void UpdateEffect()
         {
-            if (_hasFinished) return;
-
             if (!_doAnimate || _animationHandler.TextInfo == null)
             {
                 return;
             }
 
+            int effectIdx = 0;
             foreach (EffectInstance effect in _effects)
             {
+                if (_hasFinished[effectIdx]) 
+                {
+                    effectIdx++;
+                    continue;
+                }
+
                 for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
                 {
                     var charInfo = _animationHandler.TextInfo.characterInfo[i];
@@ -58,7 +78,7 @@ namespace DUJAL.Systems.Dialogue.Animations
                         int vertexIdx = charInfo.vertexIndex + j;
                         Color32 originalColor = meshInfo.colors32[vertexIdx];
 
-                        Vector2Int instanceIdx = new (i, vertexIdx);
+                        Vector3Int instanceIdx = new (effectIdx, i, vertexIdx);
 
                         if (!_progress.TryGetValue(instanceIdx, out var _)) 
                         {
@@ -67,15 +87,15 @@ namespace DUJAL.Systems.Dialogue.Animations
 
                         if (_progress.TryGetValue(instanceIdx, out float progress) && progress > 1.0f)
                         {
-                            _progressCount[instanceIdx] = 0;
-                            if (_progressCount.Keys.Count == _progress.Keys.Count)
+                            _finishedCount[instanceIdx] = 0;
+                            if (_finishedCount.Keys.Count == _progress.Keys.Count)
                             {
-                                _hasFinished = true;    
+                                _hasFinished[effectIdx] = true;    
                             }
                             continue;
                         }
 
-                        StartCoroutine(UpdateProgress(instanceIdx));
+                        StartCoroutine(UpdateProgress(instanceIdx, effectIdx));
 
                         if (!_targetColor.TryGetValue(instanceIdx, out var _)) 
                         {
@@ -91,13 +111,14 @@ namespace DUJAL.Systems.Dialogue.Animations
                         meshInfo.colors32[vertexIdx] = newColor;
                     }
                 }
+                effectIdx++;
             }
         }
 
-        private IEnumerator UpdateProgress(Vector2Int instanceIdx) 
+        private IEnumerator UpdateProgress(Vector3Int instanceIdx, int effectIdx) 
         {
-            yield return new WaitForSeconds(_speed);
-            _progress[instanceIdx] += _speed;
+            yield return new WaitForSeconds(_speed[effectIdx]);
+            _progress[instanceIdx] += _speed[effectIdx];
         }
     }
 }

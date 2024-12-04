@@ -17,7 +17,7 @@ MonoBehaviour:
   <Nodes>k__BackingField:
   - <ID>k__BackingField: 72af0874-3926-4fb0-aba9-be9330c77488
     <Name>k__BackingField: DialogueName
-    <Text>k__BackingField: <fadein>This should fade in</> this should not :)
+    <Text>k__BackingField: <fadein>This should fade in</> but this should not :)
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: fc379d2a-d479-4f6c-b62b-57c6ae2ea51f
@@ -30,7 +30,8 @@ MonoBehaviour:
     <SpeakerSprite>k__BackingField: {fileID: 0}
   - <ID>k__BackingField: fc379d2a-d479-4f6c-b62b-57c6ae2ea51f
     <Name>k__BackingField: DialogueName1
-    <Text>k__BackingField: testing lolololol
+    <Text>k__BackingField: We have <fadein speed="0.005">Slow fade...</> and also
+      <fadein speed="0.01"> Quick fade! </> we can also mix with some <rainbow>rainbooooooow</>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: 

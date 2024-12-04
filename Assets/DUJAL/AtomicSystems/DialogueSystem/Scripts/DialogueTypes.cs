@@ -66,4 +66,10 @@ namespace DUJAL.Systems.Dialogue.Types
             return true;
         }
     }
+    public struct VertexAnim
+    {
+        public float AngleRange;
+        public float Angle;
+        public float Speed;
+    }
 }

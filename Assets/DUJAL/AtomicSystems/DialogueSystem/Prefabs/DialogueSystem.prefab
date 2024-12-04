@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 467125163724767264}
   - component: {fileID: 5351280431904491741}
   - component: {fileID: 4801643848584073560}
+  - component: {fileID: 845374205}
   m_Layer: 0
   m_Name: DialogueSystem
   m_TagString: Untagged
@@ -45,10 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f537b2f82bf6ae84cbd8e548ef0627a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dialogueContainerSO: {fileID: 11400000, guid: 441bdd24244271642a734798c6236a40,
+  _dialogueContainerSO: {fileID: 11400000, guid: 8b4f7eaf749cb7042ad7c5772a72ce3f,
     type: 2}
   _groupSO: {fileID: 0}
-  _dialogueSO: {fileID: 11400000, guid: 1e399b3bf2bb62e4a9b7455fa0832a91, type: 2}
+  _dialogueSO: {fileID: 11400000, guid: 2b37d359bcfb989429765aee62c9a0d3, type: 2}
   _currentPlayedDialogue: {fileID: 11400000, guid: e1640ffbd1dba1944abe190324a26be2,
     type: 2}
   _startingDialogueFilter: 0
@@ -56,14 +57,18 @@ MonoBehaviour:
   _selectedGroup: 0
   _selectedDialogue: 0
   _audioStyle: 0
-  _textSpeed: 0
-  _maxLineCount: 0
+  _textSpeed: 0.052
+  _maxLineCount: 2
   _autoText: 0
-  _isStartingDialogue: 0
+  _isStartingDialogue: 1
   _dialogueCanvasGroup: {fileID: 0}
   _text: {fileID: 0}
   _speakerImage: {fileID: 0}
-  _choiceButtons: []
+  _choiceButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _nextDialogueObject: {fileID: 0}
   Enter:
     m_PersistentCalls:
@@ -105,3 +110,11 @@ MonoBehaviour:
     lineCount: 0
     pageCount: 0
     materialCount: 0
+--- !u!222 &845374205
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467125163724767265}
+  m_CullTransparentMesh: 1

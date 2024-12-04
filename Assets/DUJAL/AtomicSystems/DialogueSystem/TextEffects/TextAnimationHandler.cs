@@ -35,6 +35,16 @@ namespace DUJAL.Systems.Dialogue.Animations
             }
         }
 
+        public void EndAnimationHandling()
+        {
+            while (_effectReferences.Count > 0)
+            {
+                var currEffect = _effectReferences[0];
+                _effectReferences.Remove(currEffect);
+                Destroy(currEffect);
+            }
+        }
+
         private void HandleEffect(EffectInstance effectInstance, Type effectType) 
         {
             //apply effect to substring
