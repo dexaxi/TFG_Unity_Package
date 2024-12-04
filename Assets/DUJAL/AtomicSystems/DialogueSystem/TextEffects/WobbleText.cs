@@ -1,39 +1,39 @@
 namespace DUJAL.Systems.Dialogue 
 {
+    using Cysharp.Threading.Tasks;
+    using System.Globalization;
+    using System.Threading;
     using UnityEngine;
 
     public class WobbleText : TextEffect
     {
-        private void Update()
+        public override void UpdateEffect()
         {
-            if (!_doAnimate) 
+            if (!_doAnimate || _animationHandler.TextInfo == null) 
             {
                 return;
             }
 
-            _textComponent.ForceMeshUpdate();
-            var textInfo = _textComponent.textInfo;
             foreach (EffectInstance effect in _effects) 
             {
                 for (int i = effect.TextStartIndex; i < effect.GetTextEndIndex(); ++i)
                 {
-                    var charInfo = textInfo.characterInfo[i];
+                    var charInfo = _animationHandler.TextInfo.characterInfo[i];
                     if (!charInfo.isVisible)
                     {
                         continue;
                     }
-
-                    var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+                    
+                    var meshInfo = _animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
+                    var verts = meshInfo.vertices;
                     for (int j = 0; j < 4; ++j)
                     {
-                        var orig = verts[charInfo.vertexIndex + j];
-                        float newOrigY = Mathf.Sin(Time.time * 2f + orig.x * 0.01f) * 10f;
-                        verts[charInfo.vertexIndex + j] = orig + new Vector3(0f, newOrigY, 0f);
+                        int vertexIndex = charInfo.vertexIndex + j;
+                        float newOrigY = Mathf.Sin(Time.time * 2f + verts[vertexIndex].x * 0.01f) * 10f;
+                        verts[vertexIndex] = verts[vertexIndex] + new Vector3(0f, newOrigY, 0f);
                     }
                 }
             }
-
-            UpdateGeometry(textInfo);
         }
     }
 }

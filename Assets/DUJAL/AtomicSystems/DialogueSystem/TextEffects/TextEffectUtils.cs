@@ -21,7 +21,7 @@ namespace DUJAL.Systems.Dialogue
                     return typeof(WobbleText);
 
                 case TextEffects.Rainbow:
-                    return null;
+                    return typeof(RainbowText);
 
                 default:
                     return null;

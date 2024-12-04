@@ -48,8 +48,7 @@ namespace DUJAL.Systems.Dialogue
         public int CutoffIndex;
         public int GetTextEndIndex()
         {
-            int textStartIdx = CutoffIndex != -1 ? CutoffIndex : TextStartIndex;
-            return textStartIdx + Text.Length;
+            return CutoffIndex != -1 ? CutoffIndex : TextStartIndex + Text.Length;
         }
 
         public bool IsValid() 

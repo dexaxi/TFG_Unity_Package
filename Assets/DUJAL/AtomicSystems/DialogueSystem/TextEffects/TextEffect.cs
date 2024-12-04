@@ -3,16 +3,20 @@ namespace DUJAL.Systems.Dialogue
     using System.Collections.Generic;
     using UnityEngine;
     using TMPro;
+    using Cysharp.Threading.Tasks;
+
     public class TextEffect : MonoBehaviour
     {
         protected List<EffectInstance> _effects = new();
         protected TextMeshProUGUI _textComponent;
         protected bool _doAnimate;
+        protected TextAnimatorInspector _animationHandler;
 
-        public void UpdateData(EffectInstance effect, TextMeshProUGUI textComponent)
+        public virtual void UpdateData(EffectInstance effect, TextMeshProUGUI textComponent, TextAnimatorInspector animatorInspector)
         {
             _effects.Add(effect);
             _textComponent = textComponent;
+            _animationHandler = animatorInspector;
         }
 
         public void StartAnimation()
@@ -26,14 +30,6 @@ namespace DUJAL.Systems.Dialogue
             _effects.Clear();
         }
 
-        protected void UpdateGeometry(TMP_TextInfo textInfo) 
-        {
-            for (int i = 0; i < textInfo.meshInfo.Length; ++i)
-            {
-                var meshInfo = textInfo.meshInfo[i];
-                meshInfo.mesh.vertices = meshInfo.vertices;
-                _textComponent.UpdateGeometry(meshInfo.mesh, i);
-            }
-        }
+        public virtual void UpdateEffect() { }
     }
 }
