@@ -17,7 +17,7 @@ MonoBehaviour:
   <Nodes>k__BackingField:
   - <ID>k__BackingField: ecae0d49-dc8a-494c-a575-77974efe2655
     <Name>k__BackingField: DialogueName1
-    <Text>k__BackingField: <jitter speed="0.01">Super Speedy Jitter!</>
+    <Text>k__BackingField: <jitter speed="10000">Super Speedy Jitter!</>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: 
@@ -30,9 +30,8 @@ MonoBehaviour:
     <SpeakerSprite>k__BackingField: {fileID: 0}
   - <ID>k__BackingField: f0753a41-7711-4990-9c26-deb3d7a6a815
     <Name>k__BackingField: DialogueName
-    <Text>k__BackingField: <jitter speed="0.2",amplitude="5",curve="3",angle="2">Animating
-      Vertex Attributes</> This Text is Stable <jitter curve="0.2",angle="2">This
-      is a rotating jitter.</>
+    <Text>k__BackingField: <jitter speed="10",amplitude="5">Animating Vertex Attributes</>
+      This Text is Stable <jitter speed="2">This is a slow jitter.</>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
       <NodeID>k__BackingField: ecae0d49-dc8a-494c-a575-77974efe2655

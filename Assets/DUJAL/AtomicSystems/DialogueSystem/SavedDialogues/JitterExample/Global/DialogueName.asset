@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: DialogueName
   m_EditorClassIdentifier: 
   <DialogueName>k__BackingField: DialogueName
-  <Text>k__BackingField: <jitter speed="0.2",amplitude="5",curve="3",angle="2">Animating
-    Vertex Attributes</> This Text is Stable <jitter curve="0.2",angle="2">This is
-    a rotating jitter.</>
+  <Text>k__BackingField: <jitter speed="10",amplitude="5">Animating Vertex Attributes</>
+    This Text is Stable <jitter speed="2">This is a slow jitter.</>
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
     <NextDialogue>k__BackingField: {fileID: 11400000, guid: 6cacaf26c6c94b64f8972b0e314cb2b5,

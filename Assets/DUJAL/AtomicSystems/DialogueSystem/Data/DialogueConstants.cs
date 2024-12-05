@@ -114,17 +114,13 @@ namespace DUJAL.Systems.Dialogue.Constants
         //Text effect parameter tags
         public const string SPEED_TAG = "speed=\"";
         public const string AMPLITUDE_TAG = "amplitude=\"";
-        public const string ANGLE_TAG = "angle=\"";
-        public const string CURVE_TAG = "curve=\"";
         
         //Text effect parameter default values
         public const float WOBBLE_DEFAULT_SPEED = 2f;
         public const float WOBBLE_DEFAULT_AMPLITUDE = 10f;
         public const float RAINBOW_DEFAULT_SPEED = 0.05f;
         public const float FADEIN_DEFAULT_SPEED = 0.01f;
-        public const float JITTER_DEFAULT_SPEED = 0.1f;
-        public const float JITTER_DEFAULT_ANGLE = 1f;
-        public const float JITTER_DEFAULT_CURVE = 5f;
-        public const float JITTER_DEFAULT_AMPLITUDE = 1f;
+        public const float JITTER_DEFAULT_SPEED = 20f;
+        public const float JITTER_DEFAULT_AMPLITUDE = 10f;
     }
 }

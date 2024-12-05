@@ -63,7 +63,6 @@ namespace DUJAL.Systems.Dialogue.Animations
             {
                 return;
             }
-
             _effectIdx = 0;
             foreach (EffectInstance effect in effects)
             {

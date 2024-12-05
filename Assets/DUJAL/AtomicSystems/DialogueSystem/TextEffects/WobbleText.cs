@@ -37,8 +37,6 @@ namespace DUJAL.Systems.Dialogue.Animations
                 return;
             }
 
-            textComponent.ForceMeshUpdate();
-
             int effectIdx = 0;
             foreach (EffectInstance effect in effects) 
             {
