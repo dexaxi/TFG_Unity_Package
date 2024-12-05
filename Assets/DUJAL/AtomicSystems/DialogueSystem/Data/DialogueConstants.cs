@@ -104,7 +104,6 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string CustomInspectorNoDialogueWarn = "A Dialogue must be selected ofr this component to work.";
 
         //Text effects
-        public static Color32[] RainbowOptions = { Color.red, Color.blue, Color.green };
         public const string WobbleTag = "<wobble";
         public const string RainbowTag = "<rainbow";
         public const string FadeInTag = "<fadein";
@@ -116,9 +115,11 @@ namespace DUJAL.Systems.Dialogue.Constants
         public const string AMPLITUDE_TAG = "amplitude=\"";
         
         //Text effect parameter default values
+        public static Color32[] RainbowOptions = { Color.red, Color.blue, Color.green };
+        
         public const float WOBBLE_DEFAULT_SPEED = 2f;
         public const float WOBBLE_DEFAULT_AMPLITUDE = 10f;
-        public const float RAINBOW_DEFAULT_SPEED = 0.05f;
+        public const float RAINBOW_DEFAULT_SPEED = 0.15f;
         public const float FADEIN_DEFAULT_SPEED = 0.01f;
         public const float JITTER_DEFAULT_SPEED = 20f;
         public const float JITTER_DEFAULT_AMPLITUDE = 10f;

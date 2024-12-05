@@ -17,7 +17,7 @@ MonoBehaviour:
   <Nodes>k__BackingField:
   - <ID>k__BackingField: e646faee-682e-47cb-9153-3283e39f952e
     <Name>k__BackingField: DialogueName
-    <Text>k__BackingField: <rainbow speed="0.05">Fast Rainbow!</> No rainbow :( <rainbow
+    <Text>k__BackingField: <rainbow speed="0.15">Fast Rainbow!</> No rainbow :( <rainbow
       speed="0.5">Slow Rainbow?</>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue

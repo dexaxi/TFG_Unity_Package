@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DialogueName
   m_EditorClassIdentifier: 
   <DialogueName>k__BackingField: DialogueName
-  <Text>k__BackingField: <rainbow speed="0.05">Fast Rainbow!</> No rainbow :( <rainbow
+  <Text>k__BackingField: <rainbow speed="0.15">Fast Rainbow!</> No rainbow :( <rainbow
     speed="0.5">Slow Rainbow?</>
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue
