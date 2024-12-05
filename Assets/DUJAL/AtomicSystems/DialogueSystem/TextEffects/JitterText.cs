@@ -82,7 +82,6 @@ namespace DUJAL.Systems.Dialogue.Animations
 
         IEnumerator AnimateVertexColors(EffectInstance effect, int effectIdx)
         {
-            textComponent.ForceMeshUpdate();
             Matrix4x4 matrix;
             hasTextChanged = true;
             TMP_MeshInfo[] cachedMeshInfo = textComponent.textInfo.CopyMeshInfoVertexData();
@@ -129,6 +128,7 @@ namespace DUJAL.Systems.Dialogue.Animations
                         destinationVertices[vIdx] += offset;
                     }
                 }
+
                 yield return new WaitForSeconds(_speed[effectIdx]);
             }
         }

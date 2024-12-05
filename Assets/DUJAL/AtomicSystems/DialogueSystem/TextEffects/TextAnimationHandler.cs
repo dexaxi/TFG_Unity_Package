@@ -60,11 +60,15 @@ namespace DUJAL.Systems.Dialogue.Animations
 
             textEffect.UpdateData(effectInstance, _textComponent, this);
             textEffect.StartAnimation();
+
         }
 
         private void LateUpdate()
         {
             if (_textComponent == null || TextInfo == null) return;
+
+            _textComponent.ForceMeshUpdate(true, false);
+            ;
 
             foreach (TextEffect effect in _effectReferences) 
             {
