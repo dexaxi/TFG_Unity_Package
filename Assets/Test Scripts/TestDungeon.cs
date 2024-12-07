@@ -1,6 +1,6 @@
 using UnityEngine;
-using DUJAL.Systems.Dungeons;
-using DUJAL.Systems.Dungeons.Types;
+using DUJAL.DungeonCreator;
+using DUJAL.DungeonCreator.Types;
 using DUJAL.Systems.Loading;
 
 public class TestDungeon : MonoBehaviour

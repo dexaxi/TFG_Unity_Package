@@ -1,7 +1,7 @@
-﻿namespace DUJAL.Systems.Dungeons
+﻿namespace DUJAL.DungeonCreator
 {
-    using Dungeons.Types;
-    using Dungeons.Utils;
+    using DungeonCreator.Types;
+    using DungeonCreator.Utils;
     using System.Collections.Generic;
     using UnityEngine;
 

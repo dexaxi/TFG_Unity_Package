@@ -1,4 +1,4 @@
-namespace DUJAL.Systems.Dungeons.Types
+namespace DUJAL.DungeonCreator.Types
 {
     public enum GenerationAlgorithm
     {

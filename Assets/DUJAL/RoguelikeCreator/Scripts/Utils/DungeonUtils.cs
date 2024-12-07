@@ -1,6 +1,6 @@
-namespace DUJAL.Systems.Dungeons.Utils 
+namespace DUJAL.DungeonCreator.Utils 
 {
-    using Dungeons.Types;
+    using DungeonCreator.Types;
     using UnityEngine;
 
     public static class DungeonUtils

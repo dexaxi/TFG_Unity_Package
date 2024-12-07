@@ -1,4 +1,4 @@
-﻿namespace DUJAL.Systems.Dungeons.Utils
+﻿namespace DUJAL.DungeonCreator.Utils
 {
     using UnityEngine;
     using System.Collections.Generic;

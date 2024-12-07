@@ -1,4 +1,4 @@
-﻿namespace DUJAL.Systems.Dungeons.Types 
+﻿namespace DUJAL.DungeonCreator.Types 
 {
     using System;
     using System.Collections.Generic;
