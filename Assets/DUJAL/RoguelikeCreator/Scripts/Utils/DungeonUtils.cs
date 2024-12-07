@@ -18,6 +18,5 @@ namespace DUJAL.Systems.Dungeons.Utils
             position += direction.Vector;
             return IsValidDungeonPosition(position, size) ? position : InvalidVector;
         }
-
     }
 }

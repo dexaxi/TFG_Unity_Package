@@ -1,10 +1,12 @@
 namespace DUJAL.Systems.Dialogue.Animations
 {
+    using Dialogue.Types;
+    using Dialogue.Constants;
+    using Dialogue.Animations.Utils;
+
     using UnityEngine;
-    using DUJAL.Systems.Dialogue.Types;
-    using DUJAL.Systems.Dialogue.Animations.Utils;
+
     using System.Collections.Generic;
-    using DUJAL.Systems.Dialogue.Constants;
 
     public class WobbleText : TextEffect
     {

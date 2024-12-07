@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DUJAL.Debug.DrawColliders
 {
+    using System.Collections.Generic;
+    using UnityEngine;
+
     /// <summary>
     //  Class Component that allows you to print a PolygonCollider2D in game using a LineRenderer
     /// </summary>

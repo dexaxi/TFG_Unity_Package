@@ -2,12 +2,15 @@
 
 namespace DUJAL.Systems.Dialogue
 {
-    using UnityEditor;
-    using UnityEngine.UIElements;
-    using UnityEditor.UIElements;
     using DUJAL.Systems.Utils;
-    using DUJAL.Systems.Dialogue.Utils;
-    using DUJAL.Systems.Dialogue.Constants;
+    
+    using Dialogue.Constants;
+    using Dialogue.Utils;
+    
+    using UnityEditor;
+    using UnityEditor.UIElements;
+    
+    using UnityEngine.UIElements;
     using System.IO;
 
     public class DialogueSystemEditorWindow : EditorWindow

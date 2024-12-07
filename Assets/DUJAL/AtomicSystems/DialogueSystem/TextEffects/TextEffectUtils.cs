@@ -1,9 +1,11 @@
 namespace DUJAL.Systems.Dialogue.Animations.Utils
 {
-    using DUJAL.Systems.Dialogue.Constants;
-    using DUJAL.Systems.Dialogue.Types;
-    using System;
+    using Dialogue.Types;
+    using Dialogue.Constants;
+
     using UnityEngine;
+
+    using System;
 
     public static class TextEffectUtils 
     {

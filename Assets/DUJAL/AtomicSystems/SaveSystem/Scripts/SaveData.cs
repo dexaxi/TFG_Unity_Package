@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DUJAL.Systems.Saving
 {
     using DUJAL.Systems.Utils;
+    using System.Collections.Generic;
+    using UnityEngine;
 
     [System.Serializable]
     public class SaveSlot

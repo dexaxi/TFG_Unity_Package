@@ -3,7 +3,7 @@ namespace DUJAL.Systems.Dialogue
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using DUJAL.Systems.Dialogue.Types;
+    using Dialogue.Types;
 
     [Serializable]
     public class NodeSaveData

@@ -2,8 +2,9 @@ namespace DUJAL.Systems.Dialogue
 {
     using System.Collections.Generic;
     using UnityEditor;
-    using DUJAL.Systems.Dialogue.Constants;
-    using DUJAL.Systems.Dialogue.Utils;
+    using Dialogue.Constants;
+    using Dialogue.Utils;
+
     [CustomEditor(typeof(DialogueSystem))]
     public class CustomInspector : Editor
     {

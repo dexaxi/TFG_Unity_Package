@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DUJAL.Systems.Saving
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
 
     /// <summary>

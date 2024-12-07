@@ -1,12 +1,13 @@
 namespace DUJAL.Systems.Dialogue.Animations
 {
+    using Dialogue.Types;
+    using Dialogue.Constants;
+    using Dialogue.Animations.Utils;
+
     using UnityEngine;
-    using DUJAL.Systems.Dialogue.Types;
-    using System.Collections.Generic;
-    using DUJAL.Systems.Dialogue.Animations.Utils;
-    using DUJAL.Systems.Dialogue.Constants;
-    using System.Collections;
     using TMPro;
+
+    using System.Collections.Generic;
 
     public class JitterText : TextEffect
     {

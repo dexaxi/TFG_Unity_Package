@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 
 namespace DUJAL.IndependentComponents.Floater
 {
+    using UnityEngine;
+
     /// <summary>
     //  Unity Component to make objects float and move in the 3 axis.
     /// </summary>

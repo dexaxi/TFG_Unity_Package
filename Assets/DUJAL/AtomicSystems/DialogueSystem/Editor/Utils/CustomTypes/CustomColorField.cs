@@ -1,7 +1,7 @@
 namespace DUJAL.Systems.Utils 
 {
     using UnityEngine;
-    using DUJAL.Systems.Dialogue.Constants;
+    using Dialogue.Constants;
     using UnityEditor.UIElements;
 
     public class CustomColorField : ColorField

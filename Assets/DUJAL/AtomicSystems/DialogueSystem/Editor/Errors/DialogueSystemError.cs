@@ -9,7 +9,5 @@ namespace DUJAL.Systems.Dialogue
         {
             Color = Color.red;
         }
-
-
     }
 }

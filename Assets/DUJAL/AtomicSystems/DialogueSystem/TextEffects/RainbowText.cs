@@ -1,13 +1,14 @@
 namespace DUJAL.Systems.Dialogue.Animations
 {
-    using System.Collections;
-    using System.Collections.Generic;
+    using Dialogue.Types;
+    using Dialogue.Constants;
+    using Dialogue.Animations.Utils;
+
     using UnityEngine;
     using TMPro;
-    using DUJAL.Systems.Utils;
-    using DUJAL.Systems.Dialogue.Constants;
-    using DUJAL.Systems.Dialogue.Types;
-    using DUJAL.Systems.Dialogue.Animations.Utils;
+
+    using System.Collections.Generic;
+    using System.Collections;
 
     public class RainbowText : TextEffect
     {

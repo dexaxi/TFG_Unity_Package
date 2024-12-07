@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 
 namespace DUJAL.IndependentComponents.ScreenShake
 {
+    using System.Collections.Generic;
+    using UnityEngine;
 
     /// <summary>
     //  Animation Curve Types to select.

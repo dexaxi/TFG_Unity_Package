@@ -1,9 +1,11 @@
 namespace DUJAL.Systems.Dialogue.Animations
 {
-    using System.Collections.Generic;
+    using Dialogue.Types;
+
     using UnityEngine;
     using TMPro;
-    using DUJAL.Systems.Dialogue.Types;
+
+    using System.Collections.Generic;
 
     public class TextEffect : MonoBehaviour
     {

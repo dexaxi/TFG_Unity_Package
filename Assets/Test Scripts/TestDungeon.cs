@@ -1,6 +1,7 @@
 using UnityEngine;
 using DUJAL.Systems.Dungeons;
 using DUJAL.Systems.Dungeons.Types;
+using DUJAL.Systems.Loading;
 
 public class TestDungeon : MonoBehaviour
 {
@@ -33,6 +34,22 @@ public class TestDungeon : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             GenerateDFSLabyrinths();
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SceneLoader.Instance.LoadScene(SceneIndex.ExampleScene1, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            SceneLoader.Instance.LoadScene(SceneIndex.ExampleScene2, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            SceneLoader.Instance.LoadScene(SceneIndex.ExampleScene3, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            SceneLoader.Instance.LoadScene(SceneIndex.ExampleScene4, 1);
         }
     }
 

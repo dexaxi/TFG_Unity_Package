@@ -1,13 +1,12 @@
-
 namespace DUJAL.Systems.Dialogue.Utils
 {
+    using DUJAL.Systems.Utils;
+    
     using System;
     using System.Collections.Generic;
     using UnityEditor;
     using UnityEditor.Experimental.GraphView;
     using UnityEngine.UIElements;
-    using DUJAL.Systems.Utils;
-    using UnityEditorInternal;
 
     public static class DialogueSystemUtils
     {

@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DUJAL.Systems.Dialogue
-
 {
+    using UnityEngine;
+
     public class DialogueInputs : MonoBehaviour
     {
-        DialogueInputActions dialogueInputActions;
-        DialogueSystem dialogue;
+        private DialogueInputActions _dialogueInputActions;
+        private DialogueSystem _dialogue;
 
         private void Start()
         {
-            dialogueInputActions = new DialogueInputActions();
-            dialogueInputActions.TextBoxActionMap.Enable();
+            _dialogueInputActions = new DialogueInputActions();
+            _dialogueInputActions.TextBoxActionMap.Enable();
 
-            dialogueInputActions.TextBoxActionMap.NextDialogue.performed += ctx =>
+            _dialogueInputActions.TextBoxActionMap.NextDialogue.performed += ctx =>
             {
 
             };  

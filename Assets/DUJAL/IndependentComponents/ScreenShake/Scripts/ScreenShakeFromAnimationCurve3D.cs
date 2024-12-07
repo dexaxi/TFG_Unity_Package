@@ -3,6 +3,7 @@ namespace DUJAL.IndependentComponents.ScreenShake
 	using System.Collections;
 	using UnityEngine;
 	using Cinemachine;
+
 	/// <summary>
 	//	This class uses 3D rotation to shake the screen to prevent clipping and perspective issues. 
 	/// </summary>

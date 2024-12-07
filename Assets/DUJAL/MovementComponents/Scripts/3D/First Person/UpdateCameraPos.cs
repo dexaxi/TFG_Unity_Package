@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UpdateCameraPos : MonoBehaviour
+namespace DUJAL.MovementComponents.PhysicsBased3D 
 {
-    [SerializeField] private Transform _cameraPos;
-    // Update is called once per frame
-    void Update()
+    using UnityEngine;
+
+    public class UpdateCameraPos : MonoBehaviour
     {
-        transform.position = _cameraPos.position;
+        [SerializeField] private Transform _cameraPos;
+        // Update is called once per frame
+        void Update()
+        {
+            transform.position = _cameraPos.position;
+        }
     }
 }

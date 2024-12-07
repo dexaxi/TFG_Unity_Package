@@ -2,15 +2,16 @@
 
 namespace DUJAL.Systems.Dialogue.Utils 
 {
-    using DUJAL.Systems.Dialogue.Types;
-    using DUJAL.Systems.Dialogue.Constants;
+    using DUJAL.Systems.Utils;
+    
+    using Dialogue.Constants;
 
     using System.Collections.Generic;
     using UnityEditor;
     using UnityEngine;
     using System.Linq;
-    using DUJAL.Systems.Utils;
     using UnityEditor.Experimental.GraphView;
+    
     public class DialogueSystemIO
     {
         private static DialogueSystemGraphView _graphView;

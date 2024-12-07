@@ -1,49 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
-public class PriorityQueue<T> where T : IComparable<T>
+﻿namespace DUJAL.Systems.Dungeons.Types 
 {
-    private List<T> _priorityQueue;
-    public PriorityQueue() => _priorityQueue = new List<T>();
-    public T Peek() => _priorityQueue[0];
-    public int Count() => _priorityQueue.Count;
-    public void Clear() => _priorityQueue.Clear();
-    public void Release() => _priorityQueue = new List<T>();
-    public bool IsEmpty() => _priorityQueue.Count == 0;
+    using System;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-    public void Enqueue(T item)
+    public class PriorityQueue<T> where T : IComparable<T>
     {
-        _priorityQueue.Add(item);
-        _priorityQueue.Sort(Compare);
-    }
+        private List<T> _priorityQueue;
+        public PriorityQueue() => _priorityQueue = new List<T>();
+        public T Peek() => _priorityQueue[0];
+        public int Count() => _priorityQueue.Count;
+        public void Clear() => _priorityQueue.Clear();
+        public void Release() => _priorityQueue = new List<T>();
+        public bool IsEmpty() => _priorityQueue.Count == 0;
 
-    private int Compare(T item1, T item2) 
-    {
-        return item2.CompareTo(item1);
-    }
-
-    public T Dequeue()
-    {
-        if (_priorityQueue.Count == 0) 
+        public void Enqueue(T item)
         {
-            Debug.LogError("Queue is empty!");
-            return default;
+            _priorityQueue.Add(item);
+            _priorityQueue.Sort(Compare);
         }
-        T returnObj = _priorityQueue[0];
-        _priorityQueue.RemoveAt(0);
-        return returnObj;
-    }
 
-    public override string ToString()
-    {
-        string returnStr = "";
-        for (int i = 0; i < _priorityQueue.Count; i++)
-        { 
-            returnStr = returnStr + _priorityQueue[i].ToString() + " ";
+        private int Compare(T item1, T item2) 
+        {
+            return item2.CompareTo(item1);
         }
-        return returnStr + "count = " + _priorityQueue.Count;
+
+        public T Dequeue()
+        {
+            if (_priorityQueue.Count == 0) 
+            {
+                Debug.LogError("Queue is empty!");
+                return default;
+            }
+            T returnObj = _priorityQueue[0];
+            _priorityQueue.RemoveAt(0);
+            return returnObj;
+        }
+
+        public override string ToString()
+        {
+            string returnStr = "";
+            for (int i = 0; i < _priorityQueue.Count; i++)
+            { 
+                returnStr = returnStr + _priorityQueue[i].ToString() + " ";
+            }
+            return returnStr + "count = " + _priorityQueue.Count;
+        }
     }
 }

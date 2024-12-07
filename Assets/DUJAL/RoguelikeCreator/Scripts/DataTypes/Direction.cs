@@ -1,7 +1,7 @@
-using UnityEngine;
-
 namespace DUJAL.Systems.Dungeons.Types
 {
+    using UnityEngine;
+    
     public class Direction
     {
         public static int Count => (int) CardinalDirection.Count;

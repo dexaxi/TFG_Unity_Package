@@ -1,6 +1,7 @@
 namespace DUJAL.IndependentComponents.ScreenShake
 {
     using UnityEngine;
+
     /// <summary>
     //  Animation Curve Asset to store different types of curve.
     /// </summary>

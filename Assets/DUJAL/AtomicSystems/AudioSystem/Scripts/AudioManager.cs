@@ -1,9 +1,9 @@
-using System;
-using UnityEngine.Audio;
 
 namespace DUJAL.Systems.Audio
 {
+    using UnityEngine.Audio;
     using UnityEngine;
+    using System;
 
     /// <summary>
     //  Class that contains an Audio System to play music and Sound Effects in your game.
@@ -38,12 +38,12 @@ namespace DUJAL.Systems.Audio
             //Make Singleton
             if (Instance != null && Instance != this)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(this.gameObject);
+                DontDestroyOnLoad(gameObject);
             }
 
             //for each sound's audiosource, we modify it to contain the data in the Sound Scriptable Object

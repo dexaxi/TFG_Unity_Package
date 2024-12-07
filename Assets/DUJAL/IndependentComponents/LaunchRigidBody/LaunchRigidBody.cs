@@ -1,7 +1,5 @@
 namespace DUJAL.IndependentComponents.LaunchRigidBody 
 {
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public static class LaunchRigidBody

@@ -1,17 +1,20 @@
 namespace DUJAL.Systems.Dialogue
 {
-    using DUJAL.Systems.Dialogue.Constants;
-    using DUJAL.Systems.Dialogue.Types;
-    using DUJAL.Systems.Dialogue.Utils;
     using DUJAL.Systems.Utils;
+    
+    using Dialogue.Constants;
+    using Dialogue.Types;
+    using Dialogue.Utils;
 
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    
     using UnityEditor.Experimental.GraphView;
     using UnityEditor.UIElements;
     using UnityEngine;
     using UnityEngine.UIElements;
+    
     public class BaseNode : Node
     {
         protected DialogueSystemGraphView _graphView;

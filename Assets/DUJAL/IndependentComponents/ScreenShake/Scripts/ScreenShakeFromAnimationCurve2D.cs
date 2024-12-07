@@ -1,8 +1,9 @@
-using System.Collections;
-using UnityEngine;
 
 namespace DUJAL.IndependentComponents.ScreenShake
 {
+	using System.Collections;
+	using UnityEngine;
+
 	/// <summary>
 	//	This class uses 3D translation to shake the screen, as using rotation in 2D environment leads to janky movement. 
 	/// </summary>

@@ -1,12 +1,14 @@
 namespace DUJAL.Systems.Dialogue.Animations
 {
+    using Dialogue.Types;
+    using Dialogue.Constants;
+    using Dialogue.Animations.Utils;
+
+    using UnityEngine;
+    using TMPro;
+
     using System;
     using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
-    using DUJAL.Systems.Dialogue.Types;
-    using DUJAL.Systems.Dialogue.Animations.Utils;
-   
 
     public class TextAnimationHandler : MonoBehaviour
     {

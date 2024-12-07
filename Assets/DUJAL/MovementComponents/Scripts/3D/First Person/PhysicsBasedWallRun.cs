@@ -154,7 +154,7 @@ namespace DUJAL.MovementComponents.PhysicsBased3D
             if (UpwardsRunning) _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, _wallClimbSpeed, _rigidBody.velocity.z);
             if (DownwardsRunning) _rigidBody.velocity = new Vector3(_rigidBody.velocity.x, -_wallClimbSpeed, _rigidBody.velocity.z);
 
-            if (!(_wallLeft && _player.MovementInput.x > 0) && !(_wallRight && _player.MovementInput.x < 0)) _rigidBody.AddForce(-wallNormalVector * 100, ForceMode.Force);
+            if (!(_wallLeft && _player.MovementInput.x > 0) && !(_wallRight && _player.MovementInput.x < 0) && Mathf.Abs(_rigidBody.velocity.x) < 0.1f) _rigidBody.AddForce(-wallNormalVector * 100, ForceMode.Force);
 
             if (_useGravity) _rigidBody.AddForce(transform.up * _gravityCounterForce, ForceMode.Force);
         }

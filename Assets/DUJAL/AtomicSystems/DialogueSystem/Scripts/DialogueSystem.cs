@@ -4,10 +4,11 @@ namespace DUJAL.Systems.Dialogue
     using DUJAL.MovementComponents;
     using DUJAL.Systems.Audio;
     using DUJAL.Systems.Utils;
-    using DUJAL.Systems.Dialogue.Constants;
-    using DUJAL.Systems.Dialogue.Animations;
-    using DUJAL.Systems.Dialogue.Types;
-    using DUJAL.Systems.Dialogue.Animations.Utils;
+
+    using Dialogue.Constants;
+    using Dialogue.Animations;
+    using Dialogue.Types;
+    using Dialogue.Animations.Utils;
     
     using System.Collections;
     using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace DUJAL.Systems.Dialogue
         [SerializeField] private GroupScriptableObject _groupSO;
         [SerializeField] private DialogueScriptableObject _dialogueSO;
         [SerializeField] private DialogueScriptableObject _currentPlayedDialogue;
+
         //filter
         [SerializeField] private bool _startingDialogueFilter;
         [SerializeField] private bool _groupedDialogueFilter;
