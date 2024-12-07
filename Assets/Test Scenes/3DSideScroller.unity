@@ -204,7 +204,7 @@ PrefabInstance:
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
       propertyPath: _maxLineCount
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5351280431904491741, guid: cb65507599307494a94795b417d7580d,
         type: 3}
