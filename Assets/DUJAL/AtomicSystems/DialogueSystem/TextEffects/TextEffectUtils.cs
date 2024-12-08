@@ -9,6 +9,8 @@ namespace DUJAL.Systems.Dialogue.Animations.Utils
 
     public static class TextEffectUtils 
     {
+
+        // New enum values must be added here.
         public static TextEffects GetEnumFromTag(string tag)
         {
             if (tag.Contains(DialogueConstants.WobbleTag)) return TextEffects.Wobble;
@@ -18,6 +20,7 @@ namespace DUJAL.Systems.Dialogue.Animations.Utils
             return TextEffects.Invalid;
         }
 
+        // New Enum values + effect types must be added here
         public static Type GetTypeFromEffect(TextEffects effect)
         {
             switch (effect)

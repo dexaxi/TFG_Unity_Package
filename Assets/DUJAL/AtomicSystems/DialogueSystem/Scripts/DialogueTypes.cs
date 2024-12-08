@@ -22,6 +22,7 @@ namespace DUJAL.Systems.Dialogue.Types
         Choice4 = 3,
     }
 
+    // Add new text effects here.
     public enum TextEffects
     {
         Invalid = -1,
@@ -52,6 +53,7 @@ namespace DUJAL.Systems.Dialogue.Types
         public int CutoffIdx;
         public bool PendingDeletion;
 
+        // If text was cut off use the cutoff end idx,else use the start + length.
         public int GetTextEndIndex()
         {
             return CutoffIdx != -1 ? CutoffIdx : TextStartIdx + Text.Length;
@@ -65,11 +67,5 @@ namespace DUJAL.Systems.Dialogue.Types
             if (Text.Length == 0) return false;
             return true;
         }
-    }
-    public struct VertexAnim
-    {
-        public float AngleRange;
-        public float Angle;
-        public float Speed;
     }
 }

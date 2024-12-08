@@ -54,7 +54,8 @@ namespace DUJAL.Systems.Loading
             _previousQueuedItem = GetActiveScene();
         }
 
-        //Public function to load scene from index 
+        // Public function to load scene from index. Add new scenes to SceneIndex.cs.
+        // Wait is the time to wait before loading. Ignore loading screen hides the loading canvas (Useful for debugging).
         public void LoadScene(SceneIndex nextScene, int wait = 0, bool ignoreLoadingScreen = false)
         {
             if (_loadingQueue.Count == 0) _loadingProgress = 0.05f;
@@ -64,6 +65,65 @@ namespace DUJAL.Systems.Loading
             LoadSceneTask(nextScene, wait).Forget();
         }
 
+        // Load next scene in build index (given wait and ignore loding screen)
+        public void LoadNextScene(int wait = 0, bool ignoreLoadingScreen = false) { LoadScene(GetActiveScene() + 1, wait, ignoreLoadingScreen); }
+
+        // Load previous scene in build index (given wait and ignore loding screen)
+        public void LoadPreviousScene(int wait = 0, bool ignoreLoadingScreen = false) { LoadScene(GetActiveScene() - 1, wait ,ignoreLoadingScreen); }
+
+        // Reload active scene (given wait and ignore loding screen)
+        public void ReloadScene(int wait = 0, bool ignoreLoadingScreen = false)
+        {
+            LoadScene(GetActiveScene(), wait, ignoreLoadingScreen);
+        }
+
+        // Return loading progress from the current async operation.
+        public float GetLoadingProgress()
+        {
+            _loadingProgress = _sceneLoadOp != null && _loadingProgress < _sceneLoadOp.progress ? _sceneLoadOp.progress : _loadingProgress;
+            return _loadingProgress;
+        }
+
+        // Event called when scene has finished loading.
+        public void AddOnSceneLoadedEvent(UnityEvent func)
+        {
+            _onSceneLoaded.AddListener(func.Invoke);
+        }
+
+        public void RemoveOnSceneLoadedEvent(UnityEvent func)
+        {
+            _onSceneLoaded.RemoveListener(func.Invoke);
+        }
+
+        public void ClearOnSceneLoadedEvents() { _onSceneLoaded.RemoveAllListeners(); }
+
+        // Event called when scene has started loading.
+        public void AddOnScenePreloadedEvent(UnityEvent func)
+        {
+            _onScenePreloaded.AddListener(func.Invoke);
+        }
+
+        public void RemoveOnScenePreloadedEvent(UnityEvent func)
+        {
+            _onScenePreloaded.RemoveListener(func.Invoke);
+        }
+
+        public void ClearOnScenePreloadedEvents() { _onScenePreloaded.RemoveAllListeners(); }
+
+        // Event called when scene has finished unloading.
+        public void AddOnSceneUnloadedEvent(UnityEvent func)
+        {
+            _onSceneUnloaded.AddListener(func.Invoke);
+        }
+        public void RemoveOnSceneUnloadedEvent(UnityEvent func)
+        {
+            _onSceneUnloaded.RemoveListener(func.Invoke);
+        }
+
+        public void ClearOnSceneUnloadedEvents() { _onSceneUnloaded.RemoveAllListeners(); }
+        
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         private async UniTask LoadSceneTask(SceneIndex nextScene, int wait = 0)
         {
             HandleLoadingSceneLoad().Forget();
@@ -71,10 +131,6 @@ namespace DUJAL.Systems.Loading
             _loadingQueue.Enqueue(nextScene);
             LoadSceneFlow(wait).Forget();
         }
-
-        public void LoadNextScene() { LoadScene(GetActiveScene() + 1); }
-
-        public void LoadPreviousScene() { LoadScene(GetActiveScene() - 1); }
 
         //Coroutine
         private async UniTask LoadSceneFlow(int wait = 0)
@@ -219,68 +275,22 @@ namespace DUJAL.Systems.Loading
             return SceneManager.UnloadSceneAsync((int)index);
         }
 
-        public void ReloadScene(int wait = 0, bool ignoreLoadingScreen = false)
-        {
-            LoadScene(GetActiveScene(), wait, ignoreLoadingScreen);
-        }
-
-        public float GetLoadingProgress()
-        {
-            _loadingProgress = _sceneLoadOp != null && _loadingProgress < _sceneLoadOp.progress ? _sceneLoadOp.progress : _loadingProgress;
-            return _loadingProgress;
-        }
-
-        public void AddOnSceneLoadedEvent(UnityEvent func)
-        {
-            _onSceneLoaded.AddListener(func.Invoke);
-        }
-
-        public void RemoveOnSceneLoadedEvent(UnityEvent func)
-        {
-            _onSceneLoaded.RemoveListener(func.Invoke);
-        }
-
-        public void ClearOnSceneLoadedEvents() { _onSceneLoaded.RemoveAllListeners(); }
-
-        public void AddOnScenePreloadedEvent(UnityEvent func)
-        {
-            _onScenePreloaded.AddListener(func.Invoke);
-        }
-
-        public void RemoveOnScenePreloadedEvent(UnityEvent func)
-        {
-            _onScenePreloaded.RemoveListener(func.Invoke);
-        }
-
-        public void ClearOnScenePreloadedEvents() { _onScenePreloaded.RemoveAllListeners(); }
-
-        public void AddOnSceneUnloadedEvent(UnityEvent func)
-        {
-            _onSceneUnloaded.AddListener(func.Invoke);
-        }
-        public void RemoveOnSceneUnloadedEvent(UnityEvent func)
-        {
-            _onSceneUnloaded.RemoveListener(func.Invoke);
-        }
-
-        public void ClearOnSceneUnloadedEvents() { _onSceneUnloaded.RemoveAllListeners(); }
-
-        public void PrintLoadingScene(SceneIndex index)
+        private void PrintLoadingScene(SceneIndex index)
         {
             Debug.Log("[LOADING] " + index.String);
         }
 
-        public void PrintUnloadingScene(SceneIndex index)
+        private void PrintUnloadingScene(SceneIndex index)
         {
             Debug.Log("[UNLOADING] " + index.String);
         }
 
-        public void PrintLoadingFinished(SceneIndex index)
+        private void PrintLoadingFinished(SceneIndex index)
         {
             Debug.Log("[LOADING] " + index.String + " FINISHED");
         }
 
-        public void PrintUnloadingFinished(SceneIndex index)
+        private void PrintUnloadingFinished(SceneIndex index)
         {
             Debug.Log("[UNLOADING] " + index.String+ " FINISHED");
         }

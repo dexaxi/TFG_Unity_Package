@@ -17,6 +17,7 @@ namespace DUJAL.Systems.Dialogue
     using UnityEngine.Events;
     using System;
 
+    // Inspector dialogue class. Handles dialogue behaviour.
     public class DialogueSystem : MonoBehaviour
     {
         //SO
@@ -214,12 +215,15 @@ namespace DUJAL.Systems.Dialogue
         #endregion //Input
 
         #region TEXTFLOWCONTROL
+
+        // Start dialogue system loop. Will keep on reproducing dialogue until it ends or is interrupted.
         public void PlayText()
         {
             ResetDialogueSystem();
             StartCoroutine(TextDisplayLoop());
         }
 
+        // Show dialogue object
         public void OpenDialogueObject()
         {
             InputHanlder.Instance.UnlockCursor();
@@ -230,6 +234,7 @@ namespace DUJAL.Systems.Dialogue
             _dialogueCanvasGroup.blocksRaycasts = true;
         }
         
+        // Hide the dialogue object.
         public void CloseDialogueObject()
         {
             InputHanlder.Instance.LockCursor();
@@ -244,12 +249,20 @@ namespace DUJAL.Systems.Dialogue
             _animationHandler.EndAnimationHandling();
         }
         
+        // Change the text speed with a new value.
         public void UpdateTextSpeed(float newValue)
         {
             _textSpeed = newValue;
         }
 
-        public void UpdateSpeakerSprite()
+        // Change if the text reproduces automatically
+        public void UpdateAutoText(bool newValue)
+        {
+            _autoText = newValue;
+            _previousDialogueAutoText = newValue;
+        }
+        
+        private void UpdateSpeakerSprite()
         {
             if (_currentPlayedDialogue.SpeakerSprite == null)
             {
@@ -260,12 +273,6 @@ namespace DUJAL.Systems.Dialogue
                 _speakerImage.color = Color.white;
                 _speakerImage.sprite = _currentPlayedDialogue.SpeakerSprite;
             }
-        }
-
-        public void UpdateAutoText(bool newValue)
-        {
-            _autoText = newValue;
-            _previousDialogueAutoText = newValue;
         }
 
         private void ResetDialogueSystem()
@@ -630,6 +637,7 @@ namespace DUJAL.Systems.Dialogue
             }
         }
 
+        // Can be called to rassign the audio reproduction type.
         public void AssignAudioType()
         {
             switch (_audioStyle)

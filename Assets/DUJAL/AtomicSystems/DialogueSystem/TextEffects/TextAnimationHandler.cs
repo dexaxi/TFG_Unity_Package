@@ -23,6 +23,7 @@ namespace DUJAL.Systems.Dialogue.Animations
             
             TextInfo = _textComponent.textInfo;
             
+            // For each effect instance handle it.
             foreach (EffectInstance effect in effectInstances)
             {
                 Type type = TextEffectUtils.GetTypeFromEffect(effect.tagType);
@@ -31,6 +32,7 @@ namespace DUJAL.Systems.Dialogue.Animations
             }
         }
 
+        // Call to kill all text effects
         public void StopTextEffects() 
         {
             foreach (TextEffect effect in _effectReferences) 
@@ -39,6 +41,7 @@ namespace DUJAL.Systems.Dialogue.Animations
             }
         }
 
+        // Called when dialogue ends
         public void EndAnimationHandling()
         {
             while (_effectReferences.Count > 0)
@@ -49,14 +52,17 @@ namespace DUJAL.Systems.Dialogue.Animations
             }
         }
 
+        // handle a particular effect instance
         private void HandleEffect(EffectInstance effectInstance, Type effectType) 
         {
             //apply effect to substring
             var textEffect = gameObject.GetComponent(effectType) as TextEffect;
             
+            // If component does not exist add it.
             if (textEffect == null)
             {
                 textEffect = gameObject.AddComponent(effectType) as TextEffect;
+                // keep track of the references to destroy them later
                 _effectReferences.Add(textEffect);
             }
 
@@ -64,12 +70,14 @@ namespace DUJAL.Systems.Dialogue.Animations
             textEffect.StartAnimation();
         }
 
+        //Important to add it to the late update in order to correctly render TMPro info.
         private void LateUpdate()
         {
             if (_textComponent == null || TextInfo == null) return;
             
             _textComponent.ForceMeshUpdate();
             
+            // All effects can be updated from here.
             foreach (TextEffect effect in _effectReferences) 
             {
                 effect.UpdateEffect();
@@ -79,6 +87,7 @@ namespace DUJAL.Systems.Dialogue.Animations
             UpdateGeometry();
         }
 
+        // Update _meshInfo with the updated color and vertex data. (Can add normal data and etc.. if needed for new animations.
         public void PreUpdateEffectGeometry()
         {
             for (int i = 0; i < TextInfo.meshInfo.Length; ++i)
@@ -90,6 +99,7 @@ namespace DUJAL.Systems.Dialogue.Animations
             }
         }
 
+        // Mesh data is stored on a separate copy in "_meshInfo.mesh". Need to call UpdateGeometry to apply the changes gathered by the TextEffect system.
         public void UpdateGeometry()
         {
             if (_meshInfo.mesh == null) return;

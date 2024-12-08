@@ -26,6 +26,7 @@ namespace DUJAL.Systems.Loading
             Value = (SceneType) Scene;
         }
 
+        // Scene enum. Values here should match the build index. 
         public enum SceneType
         {
             No_Scene = -1,
@@ -42,6 +43,7 @@ namespace DUJAL.Systems.Loading
             Count,
         }
 
+        // New scene values should be added to this function too.
         private string GetSceneString() 
         {
             return Value switch
