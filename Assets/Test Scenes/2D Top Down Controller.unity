@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8282,7 +8282,7 @@ GameObject:
   - component: {fileID: 449302561}
   - component: {fileID: 449302560}
   m_Layer: 0
-  m_Name: Ring1
+  m_Name: Floater - Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20051,15 +20051,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81444c4bb302f8418814cc9c8559869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetTransform: {fileID: 0}
+  _targetTransform: {fileID: 1569420164}
   CameraFollowType: 0
-  FollowX: 0
-  FollowY: 0
+  FollowX: 1
+  FollowY: 1
   FollowZ: 0
   Offset: {x: 0, y: 0, z: 0}
   Constraints: {x: 0, y: 0, z: 0}
   Deadzone: {x: 0, y: 0, z: 0}
-  _smoothness: 20
+  _smoothness: 0.054
 --- !u!1 &1249778752
 GameObject:
   m_ObjectHideFlags: 0
@@ -25293,6 +25293,12 @@ Transform:
   m_Father: {fileID: 1605981873}
   m_RootOrder: 179
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1569420164 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1305954998925690904, guid: cdebe3959b7fef944bdbbd521c7e9229,
+    type: 3}
+  m_PrefabInstance: {fileID: 417018704}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1577422834
 GameObject:
   m_ObjectHideFlags: 0
@@ -26017,7 +26023,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1605981873}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Scenery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

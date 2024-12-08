@@ -1,24 +1,29 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using DUJAL.IndependentComponents.ScreenShake;
 using DUJAL.Systems.Audio;
 using DUJAL.Systems.Saving;
 using DUJAL.Systems.Utils;
-using DUJAL.IndependentComponents.LaunchRigidBody;
-using DUJAL.Systems.EXP;
 using DUJAL.MovementComponents.PhysicsBased3D;
+using DUJAL.MovementComponents.DiscreteBased3D;
+
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using Cinemachine;
+
 public class TestControls3D : MonoBehaviour, ISaveData
 {
-
     public Vector3 StartPos;
     public Vector3 EndPos;
     public bool Reverse;
     public int testInt;
     public SerializableDictionary<int, string> testDictionary;
     public List<string> testList;
+
     PhysicsBasedThirdPersonMovement3D tps;
+    ThirdPersonMovement3D tpsd;
+    PhysicsBasedFirstPersonMovement3D fps;
+    FirstPersonMovement3D fpsd;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +31,9 @@ public class TestControls3D : MonoBehaviour, ISaveData
         Reverse = false;
         testDictionary = new SerializableDictionary<int, string>();
         tps = FindObjectOfType<PhysicsBasedThirdPersonMovement3D>();
+        tpsd = FindObjectOfType<ThirdPersonMovement3D>();
+        fps = FindObjectOfType<PhysicsBasedFirstPersonMovement3D>();
+        fpsd = FindObjectOfType<FirstPersonMovement3D>();
         testList = new List<string>();
     }
 
@@ -43,11 +51,20 @@ public class TestControls3D : MonoBehaviour, ISaveData
         if (Input.GetKeyDown(KeyCode.P))
         {
             if (!ScreenShakeFromAnimationCurve3D.Instance.Shaking)
+            { 
                 AudioManager.Instance.Play("pop");
-            CinemachineFreeLook camera = tps.CurrentCamera.GetComponentInChildren<CinemachineFreeLook>();
-            //ScreenShakeFromAnimationCurve3D.Instance.ShakeScreenCinemachine(camera, AnimationCurveSelector.Instance.GetCurve(AnimationCurveType.Kick));
-            ScreenShakeFromAnimationCurve3D.Instance.ShakeScreenCinemachine(camera, null);
-
+            }
+            CinemachineFreeLook cinemachineCamera = GetCinemachineCamera();
+            Camera camera = GetCamera();
+            
+            if (cinemachineCamera != null) 
+            {
+                ScreenShakeFromAnimationCurve3D.Instance.ShakeScreenCinemachine(cinemachineCamera, null);
+            }
+            if (camera != null) 
+            {
+                ScreenShakeFromAnimationCurve3D.Instance.ShakeScreen();
+            }
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -89,10 +106,19 @@ public class TestControls3D : MonoBehaviour, ISaveData
         {
             SaveDataHandler.Instance.DeleteSlot(2);
         }
-        if (Input.GetKeyUp(KeyCode.Alpha3))
-        {
-            FindObjectOfType<Experience>().GrantExp(ExperienceMobHanlder.Instance.GetMobXp("TestMob"));
-        }
+    }
+
+    private CinemachineFreeLook GetCinemachineCamera() 
+    {
+        if (tps != null) return tps.CurrentCamera.GetComponentInChildren<CinemachineFreeLook>();
+        if (tpsd != null) return tpsd.CurrentCamera.GetComponentInChildren<CinemachineFreeLook>();
+        return null;
+    }
+    private Camera GetCamera() 
+    {
+        if (fps != null) return fps.Camera;
+        if (fpsd != null) return fpsd.Camera;
+        return null;
     }
 
     public void LoadData(SaveData data) 
