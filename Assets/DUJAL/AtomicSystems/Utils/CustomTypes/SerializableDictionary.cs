@@ -14,7 +14,7 @@ namespace DUJAL.Systems.Utils
     public class SerializableDictionary<TKey, TValue> : SerializableDictionary, IDictionary<TKey, TValue>, ISerializationCallbackReceiver
     {
         [SerializeField]
-        private List<SerializableKeyValuePair> list = new List<SerializableKeyValuePair>();
+        private List<SerializableKeyValuePair> list = new();
 
         [Serializable]
         public struct SerializableKeyValuePair

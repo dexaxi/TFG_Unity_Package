@@ -77,7 +77,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4263775096260128817
 Transform:
   m_ObjectHideFlags: 0
@@ -459,16 +459,16 @@ MonoBehaviour:
   _airDrag: 0
   _crouchMovementSpeed: 3.5
   _crouchScale: 0.5
-  _jumpForce: 15
+  _jumpForce: 10
   _jumpCooldown: 0.25
   _playerHeight: 2
   GroundCollisionLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 448
   _maxSlope: 40
   _speedLossMultiplier: 1
   _slopeMomentumDecreaseMultiplier: 2
-  _mouseSensitivity: {x: 10, y: 10}
+  _mouseSensitivity: {x: 15, y: 15}
   _controllerSensitivity: {x: 200, y: 200}
   Orientation: {fileID: 4263775097951435645}
   CameraHolder: {fileID: 4263775097712629738}

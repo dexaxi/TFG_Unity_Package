@@ -3,10 +3,8 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
     using DG.Tweening;
     using DUJAL.IndependentComponents.LaunchRigidBody;
     using System;
-    using System.Linq;
     using UnityEngine;
-    using UnityEngine.InputSystem;
-    using UnityEngine.InputSystem.Controls;
+    using static UnityEditor.Experimental.GraphView.GraphView;
 
     public enum FPS_Discrete
     {
@@ -59,10 +57,11 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         public bool IsCrouching { get; private set; }
         public bool IsRestricted { get; private set; }
         public bool IsExitingSlope { get; private set; }
+        public bool IsOnWall { get; private set; }
         
         private Rigidbody _rigidbody;
         private RaycastHit _slopeHit;
-        
+
         private Vector2 _cameraRotation;
         private Vector3 _moveDir;
 
@@ -70,7 +69,8 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
         private float _desiredMoveSpeed;
         private float _startingScale;
 
-        private bool _readyToJump;        
+        private bool _readyToJump;
+
 
         private void Awake()
         {
@@ -101,7 +101,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
         private void HandleDrag() 
         {
-            if (State == FPS_Discrete.FPS_Discrete_Walking|| State == FPS_Discrete.FPS_Discrete_Running || State == FPS_Discrete.FPS_Discrete_Crouching) _rigidbody.drag = _groundDrag;
+            if (State == FPS_Discrete.FPS_Discrete_Walking || State == FPS_Discrete.FPS_Discrete_Running || State == FPS_Discrete.FPS_Discrete_Crouching) _rigidbody.drag = _groundDrag;
             else _rigidbody.drag = _airDrag;
         }
 
@@ -221,7 +221,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
 
             if (CheckSlope() && !IsExitingSlope)
             {
-                _rigidbody.AddForce(CalculateNormalizedSlopeDirection(_moveDir) * _currentMoveSpeed * 20f, ForceMode.Force);
+                _rigidbody.AddForce(_currentMoveSpeed * 20f * CalculateNormalizedSlopeDirection(_moveDir), ForceMode.Force);
 
                 if (_rigidbody.velocity.y > 0) _rigidbody.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
@@ -247,7 +247,7 @@ namespace DUJAL.MovementComponents.DiscreteBased3D
             }
             else
             {
-                Vector3 groundVel = new Vector3(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
+                Vector3 groundVel = new(_rigidbody.velocity.x, 0f, _rigidbody.velocity.z);
 
                 if (groundVel.magnitude > _currentMoveSpeed)
                 {
