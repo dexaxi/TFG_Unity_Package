@@ -105,6 +105,8 @@ namespace DUJAL.DungeonCreator
                 }
             }
         }
+
+        // Get a leaves (Vector2) list. Useful to find rooms at the end of the dungeon
         public List<Vector2Int> GetLeaves()
         {
             if (!_isGenerated)
@@ -129,6 +131,7 @@ namespace DUJAL.DungeonCreator
             return leaves;
         }
 
+        // Returns dungeon description in graph format, useful to apply DFS or BFS and other graph properties
         public Graph GetGraphDescription()
         {
             if (!_isGenerated)
@@ -153,11 +156,14 @@ namespace DUJAL.DungeonCreator
             return graphDescription;
         }
 
+        //Translate graph vertex index into the Vector2Int to acess the matrix
         public Vector2Int GetPositionFromGraphAdyacency(int vertex) 
         {
             return DungeonUtils.Translate(vertex, Size);
         }
 
+
+        // Set of functions to check if the dungeon has an adyacency on a cardinal direciton
         public bool HasNorth(Vector2Int position)
         {
             return HasSide(position, Direction.North);

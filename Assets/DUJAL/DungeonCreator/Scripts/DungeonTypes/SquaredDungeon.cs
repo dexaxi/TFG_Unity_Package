@@ -24,6 +24,8 @@
             }
         }
 
+        // Generate function, starting position will be from where in the matrix the algoritm will start to generwate. Rooms is the total # of rooms and you can choose between Depth First Search and Prim to generate it.
+        // PSA: Prim tends to look better with small dungoen "The Binding of Isaac" style. DFS Tends to look better if you're using this to generate bigger terrain like the "Stardew Valley"."
         public void Generate(Vector2Int startingPosition, int rooms, GenerationAlgorithm method = GenerationAlgorithm.DFS)
         {
             _isGenerated = true;
@@ -39,6 +41,7 @@
             }
         }
 
+        // Returns tile description. int[,] is the coordinates. Assigns the value based on the number of adyacencies.
         public int[,] GetTileDescription()
         {
             int[,] tileDescription = new int[Size, Size];

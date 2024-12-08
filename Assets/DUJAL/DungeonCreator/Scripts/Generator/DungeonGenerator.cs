@@ -22,6 +22,7 @@ namespace DUJAL.DungeonCreator
 
         private readonly Dictionary<DirectionFlag, List<DungeonRoom>> _roomPermutations = new();
 
+        // All possible direction permutations. To fill with different rooms.
         private static readonly DirectionFlag[] _permutations =
         {
             new (false, false, false, false),   //N/A  -1, 
@@ -61,6 +62,7 @@ namespace DUJAL.DungeonCreator
             GeneratePrimDungeon();
         }
 
+        // Load all dungeon rooms from the Resources path. Then populate the dictionary with the relevant data.
         private void PrecalculateRoomPermutations() 
         {
             foreach (DirectionFlag permutation in _permutations)
@@ -74,6 +76,7 @@ namespace DUJAL.DungeonCreator
             }
         }
 
+        // Generate prim dungeon based on a Room Size,starting cell and a # of Rooms.
         public void GeneratePrimDungeon()
         {
             int dungeonSize = GetDungeonSize();
@@ -90,10 +93,13 @@ namespace DUJAL.DungeonCreator
             {
                 for (int y = 0; y < _squaredDungeon.Size; y++) 
                 {
+                    // If theres an adyacency we instantiate a tile.
+                    // We could check for "boss rooms" or "exit tiles" by checking for tiles[x,y] == 1. To pre get all of the possible exit tiles we could to _squaredDungeon.GetLeaves();
                     if (tiles[x,y] != 0)
                     {
                         Vector2Int currentPos = new(x,y);
-                        var roomToInstantiate = HandleRoomInstantiation(currentPos);
+                        // We try to find a possible room to instantiate (randomly from the loaded room list)
+                        var roomToInstantiate = GetRandomRoomToInstantiate(currentPos);
                         if (roomToInstantiate != null)
                         {
                             //Debug.Log("Instantiating room at x:" + x + " y: " + y + " Directions: " + roomToInstantiate.Directions);
@@ -104,7 +110,6 @@ namespace DUJAL.DungeonCreator
                             var roomInstance = roomGO.AddComponent<RoomInstance>();
                             roomInstance.DirectionFlag = roomToInstantiate.Directions;
                             RoomManager.Instance.Rooms.Add(roomInstance);
-
                         }
                         else 
                         {
@@ -120,13 +125,15 @@ namespace DUJAL.DungeonCreator
             OnRoomsInstantiated();
         }
 
+        //Here we should add the rest of the logic needed to generate dungeons.
         private void OnRoomsInstantiated()
         {
             Debug.Log("Dungeon generated! Invoking RoomHandler...");
             RoomManager.Instance.ToggleDoors();
         }
 
-        private DungeonRoom HandleRoomInstantiation(Vector2Int currentPos) 
+
+        private DungeonRoom GetRandomRoomToInstantiate(Vector2Int currentPos) 
         {
             List<Direction> availableDoors = new();
             
@@ -144,9 +151,12 @@ namespace DUJAL.DungeonCreator
             {
                 return null; 
             }
-
+            
+            // We get all of the possible rooms given the possible adyacencies. 
             List<DungeonRoom> validRooms = _roomPermutations[directionPermutation];
-
+            
+            // We return a random valid room. Bear in mind we could add rarities to the different rooms by adding a "Weight" parameter to DungeonRoom.cs.
+            // Then use the GetRandomElement(list, weightList) variant from ListUtil.
             return ListUtils<DungeonRoom>.GetRandomElement(validRooms);
         }
 

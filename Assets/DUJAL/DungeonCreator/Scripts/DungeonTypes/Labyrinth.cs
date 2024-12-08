@@ -28,6 +28,7 @@
             _isGenerated = false;
         }
 
+        // Generate function. Starting position is the vector from which the algorithm starts to generate. Method is the algorithm to use, Prim or Depth First Search.
         public void Generate(Vector2Int startingPosition, GenerationAlgorithm method = GenerationAlgorithm.Prim)
         {
             _isGenerated = true;
@@ -42,6 +43,7 @@
             }
         }
 
+        // Returns an int[,] representation of the labyrinth. Sets to 1 if there's a wall and 0 if there's a path.
         public int[,] GetTileDescription(out int descriptionSize)
         {
             if (!_isGenerated)
@@ -104,6 +106,7 @@
             return tileDescription;
         }
 
+        // Add n random loops to the labyrinth to make it "wider".
         public void AddEdges(int edgesCount)
         {
             for (int _ = 0; _ < edgesCount; ++_)

@@ -351,6 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rooms: 11
+  RoomSize: {x: 10, y: 10}
   StartingCell: {x: 0, y: 0}
 --- !u!114 &1356938104
 MonoBehaviour:

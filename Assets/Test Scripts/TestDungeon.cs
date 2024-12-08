@@ -5,6 +5,8 @@ using DUJAL.Systems.Loading;
 
 public class TestDungeon : MonoBehaviour
 {
+    private Camera Camera;
+
     private SquaredDungeon squareDungeon;
     private Labyrinth labyrinth;
 
@@ -14,6 +16,7 @@ public class TestDungeon : MonoBehaviour
     
     private void Start()
     {
+        Camera = FindObjectOfType<Camera>();
         GeneratePrimDungeons();
     }
 
@@ -57,6 +60,7 @@ public class TestDungeon : MonoBehaviour
     public void GeneratePrimDungeons()
     {
         Clean();
+        Camera.transform.position = new Vector3(10, 20, 10);
 
         squareDungeon = new(dungeonSize);
         float startingCoord = dungeonSize / 2.0f;
@@ -67,7 +71,6 @@ public class TestDungeon : MonoBehaviour
         floor.transform.position = new Vector3(startingCoord, -1.0f, startingCoord);
         floor.transform.localScale = new Vector3(labyrinthSize * 2, 1, labyrinthSize * 2);
 
-        Camera.main.transform.position = new Vector3(startingCoord, Camera.main.transform.position.y, startingCoord);
         for (int i = 0; i < squareDungeon.Size; i++)
         {
             for (int j = 0; j < squareDungeon.Size; j++)
@@ -87,6 +90,8 @@ public class TestDungeon : MonoBehaviour
     public void GenerateDFSDungeons()
     {
         Clean();
+        Camera.transform.position = new Vector3(10, 20, 10);
+
         float startingCoord = dungeonSize / 2.0f;
         squareDungeon = new (dungeonSize);
         squareDungeon.Generate(new Vector2Int((int) startingCoord, (int) startingCoord), dungeonRooms, GenerationAlgorithm.DFS);
@@ -117,6 +122,8 @@ public class TestDungeon : MonoBehaviour
     public void GeneratePrimLabyrinths()
     {
         Clean();
+        Camera.transform.position = new Vector3(15, 35, 15);
+
         labyrinth = new(labyrinthSize);
         float startingCoord = labyrinthSize / 2.0f;
         var floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -133,6 +140,7 @@ public class TestDungeon : MonoBehaviour
                 if (labyrinthTiles[i, j] != 0)
                 {
                     var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    cube.GetComponent<MeshRenderer>().material.color = Color.blue;
                     cube.transform.position = new Vector3(i, 0.5f, j);
                     cube.transform.localScale = new Vector3(cube.transform.localScale.x, 2, cube.transform.localScale.z);
                     cube.name = "Prim Labyrinth: (" + i + ", " + j + ")";
@@ -145,6 +153,8 @@ public class TestDungeon : MonoBehaviour
     public void GenerateDFSLabyrinths()
     {
         Clean();
+        Camera.transform.position = new Vector3(15, 35, 15);
+
         labyrinth = new(labyrinthSize);
         float startingCoord = labyrinthSize / 2.0f;
 
