@@ -1,4 +1,4 @@
-namespace DUJAL.IndependentComponents.SnapToGrid 
+namespace DUJAL.Debug.SnapToGrid 
 {
     using UnityEngine;
 
