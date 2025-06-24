@@ -58,7 +58,82 @@ UniTask\cite{UniTask} es una librería que ofrece una implementación de async/a
 En la siguiente sección se detallan los detalles técnicos acerca del paquete, explicando los detalles de implementación de las distintas secciones, módulos y componentes.
 
 \subsection{Sistema de Diálogos}
-Cosas de diálogos
+El sistema de diálogos está compuesto de tres subsistemas que hacen posible el renderizado de diálogo siguiendo los requisitos funcionales del proyecto. Estas tres partes son
+el sistema de editor de diálogos (Figura \ref{fig:dialogueEditorExample}) (incluyendo la lógica que exporta el contenido de un diálogo a un asset que se pueda abrir), el sistema que gestiona la lógica de pintar el 
+diálogo en el juego y el sistema que gestiona las animaciones del texto.
+
+El código del editor es en parte el más complejo, ya que hace uso de la herramienta de Grafos de Unity para poder definir clases para los nodos del editor como muestra la 
+Figura \ref{fig:nodos} se ha creado una clase específica por cada tipo de nodo ('Single Choice' y 'Multiple Choice'), también otra para los grupos que permiten agrupar distintos 
+diálogos. También ha sido necesario crear clases para las ventanas nuevas, la del editor de diálogo, el 'GraphView' y la ventana de búsqueda.
+
+El código de editor también se constituye de la lógica para convertir los nodos, grupos y conexiones (Figura \ref{fig:dialogueUml1}) a 'ScriptableObjects' que puedan guardarse en la memoria del dipositivo. Todo esto se gestiona mediante la clase
+DialogueSystemIO (Figura \ref{fig:dialogueUml2}), que con sus funciones permite guardar, cargar y eliminar assets de tipo 'DialogueGraph'.  
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{Node_Herencia.png}
+  \caption{Diagrama de Herencia de Nodos del Sistema de Dialogo}
+  \label{fig:nodos}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{dialogue.png}
+  \caption{Ejemplo del Editor del Sistema de Diálogo en uso}
+  \label{fig:dialogueEditorExample}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=500px,clip=true]{Dialogue_UML.png}
+  \caption{Diagrama de Clases del Editor de Diálogos}
+  \label{fig:dialogueUml1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{Dialogue_System_Utils.png}
+  \caption{Diagrama de Clases Utils del Sistema de Diálogo}
+  \label{fig:dialogueUml2}
+\end{figure}
+
+El sistema de dialogos de juego está compuesto por una clase de tipo Singleton que permite comenzar la reproducción del diálogo, elegir el diálogo concreto que se va a reproducir (El asset de tipo DialogueGraph que 
+se quiere usar y el diálogo en concreto por el que se quiere comenzar la conversación) y configurar la reproducción de diálogo seleccionando cosas como la velocidad del texto, si se reproduce automáticamente, si se 
+muesta todo el texto instantáneamente o se muestra en estilo 'Typewriter' etc. La gestión lógica de los diálogos se hace mediante un sencillo sistema de input en la que, mediante teclas, botones o el ratón, el el usuario
+puede indicar que desea pasar al siguiente diálogo o elegir una opción concreta en el caso de que sea un nodo que permite ramificaciones. En lógica se selecciona la respuesta (0 - N) asociada al input que el usuario ha 
+seleccionado. En el caso de los noos que no permiten elección múltiple, se selecciona por defecto siempre la opción cero, ya que siempre hay una sola. Esta parte del sistema también permite mostrar una imagen asociada 
+a un interlocutor en concreto, o reproducir un sonido, utilizando el Sistema de Audio, asociado al interlocutor. El formato de sonido puede ser uno de tres tipos, en formato 'Gibberish' en la que se reproduce un 
+sonido por cada letra mostrada en pantalla, en formato 'Unique Sound' en la que se reproduce un sonido por cada nueva caja de texto que se muestra, o en formato doblaje, en la que se reproducen las voces asociadas 
+al texto mostrado. El resultado del sistema en uso se puede observar en la Figura \ref{fig:dialogueExample}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{dialogueExample.png}
+  \caption{Ejemplo del Sistema de Diálogo en uso}
+  \label{fig:dialogueExample}
+\end{figure}
+
+El sistema de efectos de texto, que depende a su vez de la clase 'DialogueSystem', funciona con tags con formato '<>', el 'DialogueSystem' hace un pre-parsing del texto antes de mostrarlo al jugador para conseguir dos cosas:
+en primer lugar borra las etiquetas pertinentes al 'TextEffectSystem' para que el texto se muestre como el diseñador pretendía, y, además, almacena en un mapa en el que se indican los índices del texto relevantes para aplicar 
+el efecto, además de el efecto que se debe aplicar y sus modificadores. Cada efecto es gestionado por su propio tipo, dado que cada clase que hereda de TextEffect tiene sus propia implementación de 'UpdateEffect()',
+tal y como se puede observar en la Figura \ref{fig:dialogueUml3}, que se utiliza mediante la Figura \ref{fig:dialogueUml4}. Lo más interesante referente al sistema de efectos de texto es que, al haber construido un
+'template' la cual seguir para añadir efectos nuevos, y que el código interno y exclusivo de cada efecto es relativamente simple y pequeño, es muy sencillo escalar el sistem para añadir nuevos efectos. Una instancia
+ del código de scripting mediante le cual se puede añadir un efecto nuevo se puede encontrar en el Código \ref{alg:wobbleAnimation}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{Text_Effects.png}
+  \caption{Diagrama de Clases de Animaciones de Texto}
+  \label{fig:dialogueUml3}
+\end{figure}
+
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{Text_Effect_Utils.png}
+  \caption{Diagrama de Clases Utils del las Animaciones de Texto}
+  \label{fig:dialogueUml4}
+\end{figure}
 
 \begin{mypython}[caption={Ejemplo de código utilizado para definir la animación de 'Wobble' en el texto.},label={alg:wobbleAnimation}]
     foreach (EffectInstance effect in effects) 
@@ -89,14 +164,14 @@ El sistema de experiencia es un pequeño conjunto de clases que permite definir 
  parabólica, este sistema permite definir callbacks para eventos de subida de nivel, aumento de experiencia y llegada al nivel máximo. El sistema gestiona automáticamente las
  subidas y el aumento de experiencia y dispone de funciones de acceso para obtener los datos actualizados en cualquier momento dado.
 
-El sistema también cuenta con la posibilidad de crear ScriptableObjects de tipo 'ExperienceMobAsset', que permiten definir la cantidad de experiencia que proporciona un evento 
+El sistema también cuenta con la posibilidad de crear 'ScriptableObjects' de tipo 'ExperienceMobAsset', que permiten definir la cantidad de experiencia que proporciona un evento 
  concreto, para ejemplificarlo se puede asumir que se estaría hablando de derrotar un enemigo en un juego de rol tradicional. El sistema cuenta con un manager singleton que 
  permite calcular el valor de la experiencia que daría un evento o 'Mob' concreto, además cuenta con la funcionalidad para definir distintos tipos de contextos modificadores 
  de experiencia.
 
 
 \subsection{Sistema de Audio}
-El sistema de audio o Audio Manager en código es una clase de tipo Singleton que permite definir una serie de ScriptableObjects de tipo 'Sound'. Estos permiten a su vez que 
+El sistema de audio o Audio Manager en código es una clase de tipo Singleton que permite definir una serie de 'ScriptableObjects' de tipo 'Sound'. Estos permiten a su vez que 
 se les asigne un clip de audio y una serie de parámetros como si es un efecto de sonido o una canción, un modificador de volumen, de tono o si se desea que dicho sonido 
 se reproduzca en bucle. La clase Audio Manager contiene a su vez un array de 'Sounds' y es capaz de reproducir, pausar, parar o reanudar cualquier sonido o canción que contenga. 
 La clase tiene también la capacidad de gestionar una lista de música aleatoria de ambiente para ese tipo de juegos. El sistema tiene capacidad para separar los distintos tipos de 
@@ -323,7 +398,9 @@ exclusivamente rotatorio, ya que en caso contrario puede ocurrir clipping, adem�
  en un espacio tridimensional puede trasladarse instantáneamente de esa forma. Cabe destacar también que el componente es capaz de funcionar con Cinemachine y cámaras normales. 
 
 \subsection{Componentes de Movimiento}
-Los componentes de movimiento del paquete están todos basados en un componente del que heredan, el 'MovementComponent' (Figura \ref{fig:umlMovimiento}). 
+Los componentes de movimiento del paquete están todos basados en un componente del que heredan, el 'MovementComponent' (Figura \ref{fig:umlMovimiento}). Este 'MovementComponent' 
+es útil para gestionar funcionalidades base de todos los componentes de movimiento, como habilitar o deshabilitar los controles o contener la referencia al gestor y mapa de input, 
+también gestiona el cambio de mando a teclado y ratón y vice versa.
 
 \begin{figure}[H]
   \centering
@@ -331,6 +408,19 @@ Los componentes de movimiento del paquete están todos basados en un componente 
   \caption{Diagrama de clases de los componentes de movimiento.}
   \label{fig:umlMovimiento}
 \end{figure}
+
+Aparte de los componentes de movimiento propios de cada cámara y si usan físicas o no, hay una clase 'CameraFollower' que gestiona las cámaras tridimensionales de Tercera Persona 
+y Laterales. Esta clase gestiona sobre todo acompañar el movimiento del jugador, pudiendo configurarse para ajustar la suavidad con la que lo sigue, si alguno de los ejes 
+es fijo, la zona muerta o si hay algún offset.
+
+Otro dato relevante a nivel de arquitectura de software es que los componentes físicos se comportan como componentes auxiliares y externos, de forma que, por ejemplo,
+ el PhysicsBasedFirstPersonMovement3D puede funcionar sin el componente de 'Wallrun' o el 'Dash', pero estos pueden añadirse al jugador tan solo con añadir el componente sin
+ tener que hacer más ajustes.
+ 
+Todos los componentes de movimiento funcionan con una máquina de estados que opera sobre el sólido rígido que constituye el cuerpo del jugador/personaje, y aplica distintas 
+fuerzas a este dependiendo del input del jugador. El movimiento normal, por ejemplo, transforma el input de un joystick en dos ejes de \[-1,1\] a un vector director en el que 
+aplicar la fuerza del movimiento. Por otra parte, agacharse implica forzar el estado a 'Crouching', bajar la cámara para ajustarse a la bajada de la cabeza del personaje, además de una reducción de velocidad y
+un cambio en el FOV
 
 \section{Niveles de Prueba}
 
