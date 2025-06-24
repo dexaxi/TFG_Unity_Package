@@ -366,7 +366,14 @@ para tener un callback concreto que disparar tras un temporizador, ya que podrí
 El componente de interacción permite añadir una callback a un 'UnityEvent' que se dispara cuando se pulsa el botón definido en el mapa de input correspondiente. 
 Hay dos pares de clases 'Interactor', 2D y 3D, y dos pares de clases Interactable. Los interactors son las partes móviles, mientras que el interactable es el componente que 
 tiene la callback asociada. Los interactables pueden configurarse para que solo se puedan usar una vez, se les puede configurar un radio de uso y se pueden deshabilitar. 
-En el modo editor se puede pintar la esfera de radio que permite la interacción.
+En el modo editor se puede pintar la esfera de radio que permite la interacción (Figura \ref{interactor}).
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=200px,clip=true]{interactor.png}
+  \caption{Radio de uso de un Interactor.}
+  \label{fig:interactor}
+\end{figure}
 
 \subsection{LaunchRigidbody}
 LaunchRigidbody es una clase pública y estática que no es un componente, al utilizar composición para funcionar no necesita existir en la escena, ya que recibe por parámetro 
@@ -390,12 +397,28 @@ Es un componente muy sencillo que rota un objeto en dirección a la 'Main Camera
 \end{mypython}
 
 \subsection{Componente de Sacudida de Cámara}
-El componente de sacudida de cámara permite provocar un efecto de sacudida configurable de varias formas, aparte de definir la potencia y duración de la sacudida, se puede 
-estipular que la intensidad de la sacudida varíe en el tiempo utilizando una curva de animación. Es relevante mencionar que hay dos variantes del componente, para cámaras 2D y 
+El componente de sacudida de cámara permite provocar un efecto de sacudida configurable de varias formas, aparte de definir la potencia y duración de la sacudida (Figura \ref{fig:screenshake2}), se puede 
+estipular que la intensidad de la sacudida varíe en el tiempo utilizando una curva de animación (Figura \ref{fig:screenshake1}). Es relevante mencionar que hay dos variantes del componente, para cámaras 2D y 
 cámaras 3D, como se menciona en la sección del estado del arte\ref{sec:estadodelarte}, en el estudio de Jump Trajectory\cite{Screenshake} se explica que la sacudida en 2D puede 
 ser de traslación en los ejes XY ya que es como más se percibe el movimiento de la cámara en ese formato, pero que la sacudida en 3D debe ser por fuerza un movimiento 
 exclusivamente rotatorio, ya que en caso contrario puede ocurrir clipping, además de que el movimiento de la cámara en esos casos es mucho más antinatural, ya que ninguna cámara
  en un espacio tridimensional puede trasladarse instantáneamente de esa forma. Cabe destacar también que el componente es capaz de funcionar con Cinemachine y cámaras normales. 
+
+ 
+ \begin{figure}[H]
+    \centering
+    \includegraphics[width=350px,clip=true]{screenshakecurve.png}
+    \caption{Configuración de Curva de Animación de Sacudida de Cámara.}
+    \label{fig:screenshake1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{screenshake2.png}
+  \caption{Configuración de Sacudida de Cámara.}
+  \label{fig:screenshake2}
+\end{figure}
+
 
 \subsection{Componentes de Movimiento}
 Los componentes de movimiento del paquete están todos basados en un componente del que heredan, el 'MovementComponent' (Figura \ref{fig:umlMovimiento}). Este 'MovementComponent' 
@@ -420,9 +443,20 @@ Otro dato relevante a nivel de arquitectura de software es que los componentes f
 Todos los componentes de movimiento funcionan con una máquina de estados que opera sobre el sólido rígido que constituye el cuerpo del jugador/personaje, y aplica distintas 
 fuerzas a este dependiendo del input del jugador. El movimiento normal, por ejemplo, transforma el input de un joystick en dos ejes de \[-1,1\] a un vector director en el que 
 aplicar la fuerza del movimiento. Por otra parte, agacharse implica forzar el estado a 'Crouching', bajar la cámara para ajustarse a la bajada de la cabeza del personaje, además de una reducción de velocidad y
-un cambio en el FOV
+un cambio en el FOV.
 
 \section{Niveles de Prueba}
+De acuerdo con los requisitos funcionales del proyecto, se ha desarrollado una serie de niveles de prueba para mostrar las distintas facetas de la suite de herramientas. En el proyecto de Unity, estos se encuentran
+en la carpeta de Assets/TestScenes, y hay seis.
 
+\subsection{2D Side Scroller Test Scene}
+O y P para screen shake, WASD moverse, espacio saltar y wall jump. Collider 2D. Controller Side Scroll 2D, Camera Follower
+
+\subsection{2D Top Down Test Scene}
+Top Down Controller. Space Dash. E Interact. Camera Follow. Follow cursor rotation. Snap to Grid
+
+\subsection{3D SideScroller + Dialogue}
+Haz clic en 'Start Dialogue' para ver que tipo de cosas se pueden lograr con el sistema de diálogo. Hay un '3D Character Controller' que permite un scroll lateral tridimensional al acabar el diálogo. Hay 
+dos controladores, uno basado en físicas y otro discreto.
 
 \section{Documentación}
