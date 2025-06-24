@@ -43,13 +43,13 @@ namespace DUJAL.Debug.DrawColliders
 
         void Update()
         {
-            HilightCollider();
+            HighlightCollider();
         }
 
         /// <summary>
         //  Void Function  to represent a plolygon collider 2D as a line renderer while in game
         /// </summary>
-        void HilightCollider()
+        void HighlightCollider()
         {
             for (int i = 0; i < polycount; i++)
             {

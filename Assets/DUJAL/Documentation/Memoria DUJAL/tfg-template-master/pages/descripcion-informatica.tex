@@ -58,7 +58,31 @@ UniTask\cite{UniTask} es una librería que ofrece una implementación de async/a
 En la siguiente sección se detallan los detalles técnicos acerca del paquete, explicando los detalles de implementación de las distintas secciones, módulos y componentes.
 
 \subsection{Sistema de Diálogos}
-aaa
+Cosas de diálogos
+
+\begin{mypython}[caption={Ejemplo de código utilizado para definir la animación de 'Wobble' en el texto.},label={alg:wobbleAnimation}]
+    foreach (EffectInstance effect in effects) 
+    {
+        for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
+        {
+            var charInfo = animationHandler.TextInfo.characterInfo[i];
+            if (!charInfo.isVisible)
+            {
+                continue;
+            }
+            
+            var meshInfo = animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
+            var verts = meshInfo.vertices;
+            for (int j = 0; j < 4; ++j)
+            {
+                int vertexIdx = charInfo.vertexIndex + j;
+                float newOrigY = Mathf.Sin(Time.time * _speed[effectIdx] + verts[vertexIdx].x * 0.01f) * _amplitude[effectIdx];
+                verts[vertexIdx] = verts[vertexIdx] + new Vector3(0f, newOrigY, 0f);
+            }
+        }
+        effectIdx++;
+    }
+\end{mypython}
 
 \subsection{Sistema de Experiencia}
 El sistema de experiencia es un pequeño conjunto de clases que permite definir una lista de niveles de 'minLevel' a 'maxLevel' dada una función lineal, cuadrática, cúbica o 
@@ -90,7 +114,7 @@ partida guardada con una sencilla función de hash de XOR, de forma que no se al
 \begin{figure}[H]
   \centering
     \includegraphics[width=350px,clip=true]{Saving.png}
-  \caption{Diagrama de clases del Sistema de Guardado}
+  \caption{Diagrama de Clases del Sistema de Guardado}
   \label{fig:savinguml}
 \end{figure}
 
@@ -101,67 +125,212 @@ pantalla de carga que también esconde automáticamente una vez termina de carga
  permite operar con 'SceneIndex' intercambiablemente como objetos, enumerados o enteros.
 
 \subsection{Herramienta de Dibujado de Colisiones 2D}
-aaa
+La herramienta de dibujado de colisiones 2D (Figura \ref{fig:debug2d}), permite dibujar los colliders 2D de unity en builds empaquetadas del juego mediante el uso de
+ 'Line Renderers'. 
 
-\subsection{Herramienta de Cuadrícula}
-aaa
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{debug2d.png}
+  \caption{Herramienta de Dibujado de Colisiones 2D en el modo 'Play' de Unity}
+  \label{fig:debug2d}
+\end{figure}
 
-\subsection{Generador de Mazmorras}
-aaa
-
-\subsection{Floater}
-aaa
-
-\subsection{Componente de Vida}
-aaa
-
-\subsection{Componente de Interacción}
-aaa
-
-\subsection{LaunchRigidbody}
-aaa
-
-\subsection{Componente de Sacudida de Cámara}
-aaa
-
-\subsection{Componente de Movimiento 2D Lateral o 'Side Scroll'}
-aaa
-
-\subsection{Componente de Movimiento 2D Cenital o 'Top Down'}
-aaa
-
-\subsection{Componente de Movimiento 3D Primera Persona o ¡First Person'}
-aaa
-
-\subsection{Componente de Movimiento 3D Tercera Persona o 'Third Person'}
-aaa
-
-\subsection{Componente de Movimiento 3D Lateral o 'Side Scroll'}
-aaa
-
-\begin{mypython}[caption={Ejemplo de código utilizado para definir la animación de 'Wobble' en el texto.},label={alg:wobbleAnimation}]
-    foreach (EffectInstance effect in effects) 
+\begin{mypython}[caption={Algoritmo para pintar un box collider 2D.},label={alg:debugbox2d}]
+    void HighlightCollider()
     {
-        for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
-        {
-            var charInfo = animationHandler.TextInfo.characterInfo[i];
-            if (!charInfo.isVisible)
-            {
-                continue;
-            }
-            
-            var meshInfo = animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
-            var verts = meshInfo.vertices;
-            for (int j = 0; j < 4; ++j)
-            {
-                int vertexIdx = charInfo.vertexIndex + j;
-                float newOrigY = Mathf.Sin(Time.time * _speed[effectIdx] + verts[vertexIdx].x * 0.01f) * _amplitude[effectIdx];
-                verts[vertexIdx] = verts[vertexIdx] + new Vector3(0f, newOrigY, 0f);
-            }
-        }
-        effectIdx++;
+        Vector3[] pos = new Vector3[4];
+        pos[0] = transform.TransformPoint(new Vector3(_boxCol.size.x / 2.0f, _boxCol.size.y / 2.0f, 0));
+        pos[1] = transform.TransformPoint(new Vector3(-_boxCol.size.x / 2.0f, _boxCol.size.y / 2.0f, 0));
+        pos[2] = transform.TransformPoint(new Vector3(-_boxCol.size.x / 2.0f, -_boxCol.size.y / 2.0f, 0));
+        pos[3] = transform.TransformPoint(new Vector3(_boxCol.size.x / 2.0f, -_boxCol.size.y / 2.0f, 0));
+        _line.SetPositions(pos);
     }
 \end{mypython}
+
+\subsection{Herramienta de Cuadrícula}
+La herramienta de cuadrícula o 'SnapToGrid' es un componente de editor que se puede añadir a cualquier objeto con un componente transform. En la configuración del componente
+ se pueden definir el tamaño y altura de los elementos de la cuadrícula. Una vez añadido y configurado, el transform de dicho objeto quedará anclado a una cuadrícula como 
+ célula del tamaño configurado, como se puede ver en la Figura \ref{fig:snaptogrid}.
+
+ \begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{snaptogrid.png}
+  \caption{Cuadrícula formada utilizando SnapToGrid}
+  \label{fig:snaptogrid}
+\end{figure}
+
+\subsection{Generador de Mazmorras}
+El generador de mazmorras está compuesto por dos componentes  que funcionan en tándem, por un lado existe la definición de tipos y algoritmos que permiten la construcción 
+'teórica' de las mazmorras y laberintos, compuesto por clases y tipos como 'SquaredDungeon', 'Labyrinth' o 'Direction'. Estas clases (Figuras \ref{fig:dungen1} y \ref{fig:dungen2}) permiten generar una cuadrícula utilizando 
+un array doble que posteriormente es poblado utilizando o bien el algoritmo de Prim (Código \ref{alg:dungenprim}) o Depth First Search, en adelante DFS (Código \ref{alg:dungendfs}). El sistema tiene la capacidad de transformar las matrices en grafos si es necesario, y es capaz de aplicarle a dichos grafos 
+DFS o Breadth First Search para conseguir una lista de nodos en el orden indicado por el algoritmo.  
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=200px,clip=true]{Dungeon_Generator.png}
+  \caption{Diagrama Clases del Generador de Mazmorras}
+  \label{fig:dungen1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=450px,clip=true]{Dungeon_Generator_Utils.png}
+  \caption{Diagrama Clases del Generador de Mazmorras}
+  \label{fig:dungen2}
+\end{figure}
+
+\begin{mypython}[caption={Algoritmo de Generación de Mazmorras utilizando Prim.},label={alg:dungenprim}]
+    protected void GeneratePrim(Vector2Int startingPos, int rooms = int.MaxValue)
+    {
+        PriorityQueue<Edge> edges = new();
+        int num = 0;
+
+        bool[,] visited = new bool[Size, Size];
+        edges.Enqueue(new Edge(startingPos, startingPos + Direction.GetRandomPositiveDirection(), Random.Range(0, 10000)));
+        edges.Enqueue(new Edge(startingPos, startingPos + Direction.GetRandomPositiveDirection(), Random.Range(0, 10000)));
+
+        visited[startingPos.x, startingPos.y] = true;
+        while (edges.Count() > 0 && num < rooms - 1)
+        {
+
+            Edge edge = edges.Dequeue();
+            Vector2Int end = edge.end;
+            Vector2Int origin = edge.origin;
+
+            if (!visited[end.x, end.y])
+            {
+                visited[end.x, end.y] = true;
+                _dungeonMatrix[end].Add(origin);
+                _dungeonMatrix[origin].Add(end);
+                ++num;
+
+                for (Direction dir = 0; dir < Direction.Count; ++dir)
+                {
+                    Vector2Int newPos = end + dir.Vector;
+                    if (DungeonUtils.IsValidDungeonPosition(newPos, Size))
+                    {
+                        edges.Enqueue(new Edge(end, newPos, Random.Range(0, 10000)));
+                    }
+                }
+            }
+        }
+    }
+\end{mypython}
+
+\begin{mypython}[caption={Algoritmo de Generación de Mazmorras utilizando DFS.},label={alg:dungendfs}]
+    protected void GenerateDFS(Vector2Int startingPos, int rooms = int.MaxValue)
+    {
+        int roomIdx = 0;
+        Direction[,,] directionGrid = GenerateDFSDirectionGrid();
+
+        bool[,] visited = new bool[Size, Size];
+
+        Stack<int> roomStack = new();
+        roomStack.Push(DungeonUtils.Translate(startingPos, Size));
+
+        visited[startingPos.x, startingPos.y] = true;
+        while (roomStack.Count > 0 && roomIdx < rooms)
+        {
+            Vector2Int roomPos = DungeonUtils.Translate(roomStack.Pop(), Size);
+            for (Direction dir = 0; dir < Direction.Count; ++dir)
+            {
+                Vector2Int tentativePos = DungeonUtils.SumDir(directionGrid[roomPos.x, roomPos.y, dir], roomPos, Size);
+                if (tentativePos != DungeonUtils.InvalidVector && !visited[tentativePos.x, tentativePos.y] && roomIdx < rooms)
+                {
+                    visited[tentativePos.x, tentativePos.y] = true;
+                    roomStack.Push(DungeonUtils.Translate(tentativePos, Size));
+                    _dungeonMatrix[roomPos].Add(tentativePos);
+                    _dungeonMatrix[tentativePos].Add(roomPos);
+                    ++roomIdx;
+                }
+            }
+        }
+    }
+\end{mypython}
+
+Una vez generada la mazmorra de forma teórica en formato mapa, es el turno de la parte dependiente del motor, que se encarga de instanciar 'GameObjects' de tipo 'DungeonRoom' 
+basándose en la descripción de la matriz generada. Para ello la clase 'DungeonGenerator' tiene en si una lista de todas las permutaciones de sala posibles (Con puerta en cada 
+posible lado entre norte, sur, este u oeste) y de todas los tipos de sala posibles (dados los tipos relevantes) para un juego o nivel concreto. Se busca una lista de 
+'DungeonRooms' válidas para las coordenadas x, y que se quieran rellenar en un momento dado, y se selecciona una aleatoriamente para instanciar. Esto permite generar laberintos
+y mazmorras como en los ejemplos de las Figuras \ref{fig:labyrinthExample} y \ref{fig:dungeonExample}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{labyrinth_example.png}
+  \caption{Laberinto Generado}
+  \label{fig:labyrinthExample}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{DungeonExample.png}
+  \caption{Mazmorra Generada}
+  \label{fig:dungeonExample}
+\end{figure}
+
+\subsection{Floater}
+El componente de floater es una clase muy sencilla que permite darle a un objeto un movimiento de flotación sinuidal y de rotación constante dado un ángulo configurado. La 
+implementación es muy sencilla dado que solo es necesario aplicarle un desplazamiento sinuidal en el bucle 'Update()' utilizando la diferencia de tiempo entre un ciclo y otro.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=200px,clip=true]{floaterExample.png}
+  \caption{Ejemplo de uso de Floater, en el que el icono de 'Space' sube y baja para llamar la atención sobre el botón que debe presionar el jugador.}
+  \label{fig:floaterExample}
+\end{figure}
+
+
+\subsection{Componente de Vida}
+El componente de vida es un componente que se puede añadir a cualquier 'GameObject' y que permite atribuirle 'puntos de vida' a ese objeto. Aparte de métodos para acceder 
+o modificar a la vida actual, también es posible añadir eventos para cuando el componente pierda vida, gane vida, cambie de vida, se quede sin vida o se cure completamente. 
+Cabe destacar que el componente no es solamente útil para darle puntos de vida a un enemigo como se ha hecho tradicionalmente, sino que se podría utilizar, por ejemplo, 
+para tener un callback concreto que disparar tras un temporizador, ya que podría deducirse un punto de vida por segundo.
+
+
+\subsection{Componente de Interacción}
+El componente de interacción permite añadir una callback a un 'UnityEvent' que se dispara cuando se pulsa el botón definido en el mapa de input correspondiente. 
+Hay dos pares de clases 'Interactor', 2D y 3D, y dos pares de clases Interactable. Los interactors son las partes móviles, mientras que el interactable es el componente que 
+tiene la callback asociada. Los interactables pueden configurarse para que solo se puedan usar una vez, se les puede configurar un radio de uso y se pueden deshabilitar. 
+En el modo editor se puede pintar la esfera de radio que permite la interacción.
+
+\subsection{LaunchRigidbody}
+LaunchRigidbody es una clase pública y estática que no es un componente, al utilizar composición para funcionar no necesita existir en la escena, ya que recibe por parámetro 
+el componente de Rigidbody que va a utilizar. La función además permite recibir dos 'Vector3' para indicar tanto la dirección como la potencia a la que se va a disparar el 
+sólido rígido (Código \ref{alg:launchRigidbody}).
+
+\begin{mypython}[caption={Funcionamiento de LaunchRigidbody.},label={alg:launchRigidbody}]
+    public static void LaunchRigidBody3D(Rigidbody rigidbody, Vector3 launch, Vector3 power)
+    {
+        rigidbody.AddForce(new Vector3(launch.normalized.x * power.x, launch.normalized.y * power.y, launch.normalized.z * power.z), ForceMode.Impulse);
+    }
+\end{mypython}
+    
+\subsection{Componente de LookAtCamera}
+Es un componente muy sencillo que rota un objeto en dirección a la 'Main Camera' (Código \ref{alg:alg:lookAtCamera}).
+
+\begin{mypython}[caption={Funcionamiento de LookAtCamera.},label={alg:lookAtCamera}]
+    var camera = Camera.main;
+    transform.LookAt(transform.position + camera.transform.rotation * Vector3.forward, camera.transform.rotation * Vector3.up);
+    transform.Rotate(_rotOffset);
+\end{mypython}
+
+\subsection{Componente de Sacudida de Cámara}
+El componente de sacudida de cámara permite provocar un efecto de sacudida configurable de varias formas, aparte de definir la potencia y duración de la sacudida, se puede 
+estipular que la intensidad de la sacudida varíe en el tiempo utilizando una curva de animación. Es relevante mencionar que hay dos variantes del componente, para cámaras 2D y 
+cámaras 3D, como se menciona en la sección del estado del arte\ref{sec:estadodelarte}, en el estudio de Jump Trajectory\cite{Screenshake} se explica que la sacudida en 2D puede 
+ser de traslación en los ejes XY ya que es como más se percibe el movimiento de la cámara en ese formato, pero que la sacudida en 3D debe ser por fuerza un movimiento 
+exclusivamente rotatorio, ya que en caso contrario puede ocurrir clipping, además de que el movimiento de la cámara en esos casos es mucho más antinatural, ya que ninguna cámara
+ en un espacio tridimensional puede trasladarse instantáneamente de esa forma. Cabe destacar también que el componente es capaz de funcionar con Cinemachine y cámaras normales. 
+
+\subsection{Componentes de Movimiento}
+Los componentes de movimiento del paquete están todos basados en un componente del que heredan, el 'MovementComponent' (Figura \ref{fig:umlMovimiento}). 
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{Movement.png}
+  \caption{Diagrama de clases de los componentes de movimiento.}
+  \label{fig:umlMovimiento}
+\end{figure}
 
 \section{Niveles de Prueba}
 
