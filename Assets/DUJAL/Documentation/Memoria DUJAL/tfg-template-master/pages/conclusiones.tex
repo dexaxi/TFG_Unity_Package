@@ -3,65 +3,46 @@
 Al inicio de este documento se enumeraba un resumen de los objetivos generales y secundarios de este proyecto, que incluían.
 
 Principales:
+En resumen, el el proyecto pretende, como objetivo principal desarrollar un paquete de herramientas completo y funcional que permita a los usuarios prototipar y 
+ desarrollar videojuegos. Dicho paquete debe contener diversos sistemas y componentes 'prefabricados' que agilicen el desarrollo. 
+
 \begin{compactitem}
-    \item Desarrollar un prototipo funcional del videojuego EcoRescue.
-    \item Dicho videojuego debe informar y concienciar acerca de la restauración de ecosistemas.
+    \item Desarrollar un paquete de herramientas completo y funcional.
+    \item Dicho paquete debe permitir a los usuarios prototipar y desarrollar videojuegos.
+    \item Tambén debe contener una serie de módulos divididos en: Sistemas Atómicos, Herramientas de Debug, Generador de Mazmorras, Componentes Independientes y Componentes de Movimiento de Personajes.
 \end{compactitem}
 
 Secundarios:
 \begin{compactitem}
-    \item EL videojuego debe servir para desarrollar el PC en alumnos de Primaria y la ESO. 
-    \item Los niveles del videojuego deben generarse procedimentalmente.
-    \item Deben desarrollarse herramientas de generación de contenido para los niveles del videojuego.
-    \item El prototipo debe validarse frente a una clase de alumnos de Educación Secundaria.  
+  \item Que los componentes del paquete sean escalables.
+  \item Desarrollar niveles de prueba para servir a modo de tutorial para los usuarios.
+  \item Documentar el modo de uso y funcionamiento de los componentes del proyecto.
+  \item Validar el paquete con usuarios reales.
+  \item Construir varios prototipos utilizando el paquete.
+  \item Ajustar el paquete en base a los resultados de una encuesta de satisfacción.
 \end{compactitem}
 
 A continuación se discute el grado de consecución de cada objetivo:
 \begin{enumerate}[itemsep=0mm]
 
-\item Finalmente se ha desarrollado un prototipo con un nivel que permite aprender sobre distintas alteraciones a los varios ecosistemas
- y proceder a restaurarlos en base a la información adquirida. El juego tiene toda la funcionalidad base que se propuso en un princpio,
-  por lo tanto este objetivo ha sido cumplido.
+\item Conclusion objetivo 1.
   
-\item Si se observan los resultados del cuestionario, el 100\% de los alumnos opina que ha aprendido algo nuevo acerca de la restauración de ecosistemas
-(Figura \ref{fig:questionario_12}) de modo que este objetivo se ha cumplido satisfactoriamente.
+\item Conclusion objetivo 2.
 
-\item Aunque los resultados de la validación con los estudiantes han sido positivos y los alumnos afirman haber practicado habilidades que pueden tener relación con el PC, 
-para poder verificar que ha habido un desarrollo sustancial de este en los alumnos habría que haber preparado una experiencia pre-post test,
-además de preparar un grupo de control para cerciorar que los resultados de dicha experiencia realmente demuestran algo. 
+\item Conclusion objetivo 3.
 
-\item La respuesta de los alumnos al videojuego ha sido excelente, el juego le ha gustado a la totalidad del alumnado (Figura \ref{fig:questionario_8}) 
-además de que el 92\% de estos opina que el juego es divertido (Figura \ref{fig:questionario_9}). Por lo que este objetivo también ha sido cumplido.
-
-\item Mientras que es verdad que el nivel que se ha incluído en la demo está generado procedimentalmente, finalmente por restricciones no se ha podido
- crear más contenido para otros niveles, no obstante, dado que sí que se han creado herramientas para que añadir más contenido sea tan sencillo como 
- meter valores en un documento de excel, añadir más niveles es trivial. Por lo tanto, se podría considerar que este objetivo ha sido parcialmente cumplido. 
-
-\item Pese a que no se pudo recabar informacón de todos los alumnos debido a los problemas con el firewall del instituto, la funcionalidad está desarrollada y
- ha servido para obtener datos muy interesantes acerca de las partidas individuales de cada alumno. Además, la encuesta ha sido un éxito, y se ha podido
-  observar cómo los alumnos replicaban comportamientos típcos del desarrollo del PC, además de recibir 'feedback' muy positivo acerca del juego.
-   Por tanto se puede concluir que este objetivo ha sido cumplido en su mayor parte.
 \end{enumerate}
 
 \section{Trabajo Futuro}
 
-De cara a futuras actualizaciones EcoRescue habría que añadir algunas funcionalidades básicas que faltan en el prototipo. 
+De cara a futuras actualizaciones de DUJAL y teniendo en cuenta el feedback, habría que añadir una serie de mejoras: 
 \begin{itemize}
-    \item Menú de ajustes para poder cambiar de idioma, cambiar el volumen de los efectos de sonido o de la música.
-    \item Opciones de accesibilidad (tamaño del texto, filtros para el daltonismo, narrador de texto...).
-    \item Selector de niveles.
-\end{itemize}
-
-Además, viendo el impacto positivo y las buenas opiniones acerca del juego, el añadido más evidente sería generar más contenido para poder añadir más niveles con distintos biomas a los que ya hay, como por ejemplo: tundras, desiertos o ríos.
-
-Además de las adiciones evidentes, durante el desarrollo se han discutido una serie de añadidos que podrían elevar la experiencia de juego aún más:
-\begin{itemize}
-    \item Añadir objetivos secundarios a cada alteración o nivel, de forma que priorizar algunas restauraciones o intentar conseguir un mayor percentil en una restauración pueda servir para obtener una bonificación de presupuesto de energía. Esto sería ideal para potenciar aún más las estrategias de análisis de datos y algoritmia, dado que el alumno estaría aprendiendo a evaluar la situación dados unos datos presentados por el juego y a priorizar unas acciones frente a otras dentro de una lista de protocolos a seguir.
-    \item Otro añadido planteado ha sido añadir funcionalidades multijugador colaborativas dentro del aula, de forma que alumnos puedan compartir el presupuesto que les haya sobrado de una restauración con otros alumnos que se hayan quedado cortos, de modo que se fomente el compañerismo y la camaradería.
-    \item También se ha planteado añadir mininjuegos relacionados con la colocación de algunas máquinas para implicar a los jugdores aún más en el efecto que estas tienen en los ecosistemas, por ejemeplo se discutió un minijuego en el que el jugador debería colocar semillas en un bioma siguiendo un patrón concreto para poder maximizar el efecto de la máquina. 
-    \item El añadido final que se planteó inicialmente sería añadir indicadores visuales del estado del a restauración al tablero de juego, de forma que según se vayan superando fases de suelo, agua, fauna o flora, vayan apareciendo nuevas plantas, animales o efectos visuales que demuestren que el ecosistema está en efecto siendo restaurado. 
+    \item Mejora 1.
+    \item Mejora 2.
+    \item Mejora 3.
 \end{itemize}
 
 \section{Conclusiones Personales}
-
-Personalmente opino que el proyecto ha sido un rotundo éxito, se ha desarrollado un prototipo de un videojuego que ha resultado ser bastante divertido, donde los resultados han demostrado que ayuda a desarrollar el PC y donde los alumnos que lo han validado agradecen haber jugado y haber aprendido cosas nuevas acerca del medioambiente. Además, a un nivel personal he aprendido mucho acerca de las tecnologías acerca que las que quería aprender, y ha resultado muy satisfactorio realizar un proyecto colaborativo con marta vidal. 
+Personalmente opino que el proyecto ha sido un rotundo éxito, se ha desarrollado un paquete que a todas luces ha resultado verdaderamente útil de cara al prototipado de
+ videojuegos con componentes que además de ser usables e intuitivos, el feedback ha demostrado que también son escalables. Además, a un nivel personal he aprendido mucho acerca
+  de las tecnologías acerca que las que quería aprender, y estoy orgulloso del resultado tanto a nivel de usuario como con la complejidad técnica de la que se compone el proyecto. 

@@ -58,3 +58,27 @@ UniTask\cite{UniTask} es una librería que ofrece una implementación de async/a
 aaaa
 \subsection{Clases pues las que toquen aqui}
 aaa
+
+\begin{mypython}[caption={Ejemplo de código utilizado para definir la animación de "Wobble" en el texto.},label={alg:wobbleAnimation}]
+    foreach (EffectInstance effect in effects) 
+    {
+        for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
+        {
+            var charInfo = animationHandler.TextInfo.characterInfo[i];
+            if (!charInfo.isVisible)
+            {
+                continue;
+            }
+            
+            var meshInfo = animationHandler.TextInfo.meshInfo[charInfo.materialReferenceIndex];
+            var verts = meshInfo.vertices;
+            for (int j = 0; j < 4; ++j)
+            {
+                int vertexIdx = charInfo.vertexIndex + j;
+                float newOrigY = Mathf.Sin(Time.time * _speed[effectIdx] + verts[vertexIdx].x * 0.01f) * _amplitude[effectIdx];
+                verts[vertexIdx] = verts[vertexIdx] + new Vector3(0f, newOrigY, 0f);
+            }
+        }
+        effectIdx++;
+    }
+\end{mypython}
