@@ -267,12 +267,12 @@ namespace DUJAL.Systems.Loading
 
         private AsyncOperation LoadAsync(SceneIndex index, LoadSceneMode sceneMode)
         {
-            return SceneManager.LoadSceneAsync((int)index, sceneMode);
+            return SceneManager.LoadSceneAsync(index, sceneMode);
         }
 
         private AsyncOperation UnloadAsync(SceneIndex index)
         {
-            return SceneManager.UnloadSceneAsync((int)index);
+            return SceneManager.UnloadSceneAsync(index);
         }
 
         private void PrintLoadingScene(SceneIndex index)

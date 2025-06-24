@@ -40,12 +40,12 @@ namespace DUJAL.Systems.Saving
             //Make Singleton
             if (Instance != null && Instance != this)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(this.gameObject);
+                DontDestroyOnLoad(gameObject);
             }
 
             _saveDataInstances = FindAllSaveDataInstances();

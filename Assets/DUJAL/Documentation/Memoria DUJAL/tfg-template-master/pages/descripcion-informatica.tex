@@ -55,11 +55,91 @@ Github\cite{github} es un entorno de desarrollo colaborativo y control de versio
 UniTask\cite{UniTask} es una librería que ofrece una implementación de async/await sin necesidad de alocataciones de memoria basada en estructuras. Se ha aprovechado esta librería para la implementación del sistema de carga de escenas, ya que permite un funcionamiento asíncrono.
 
 \section{Arquitectura y Análisis}
-aaaa
-\subsection{Clases pues las que toquen aqui}
+En la siguiente sección se detallan los detalles técnicos acerca del paquete, explicando los detalles de implementación de las distintas secciones, módulos y componentes.
+
+\subsection{Sistema de Diálogos}
 aaa
 
-\begin{mypython}[caption={Ejemplo de código utilizado para definir la animación de "Wobble" en el texto.},label={alg:wobbleAnimation}]
+\subsection{Sistema de Experiencia}
+El sistema de experiencia es un pequeño conjunto de clases que permite definir una lista de niveles de 'minLevel' a 'maxLevel' dada una función lineal, cuadrática, cúbica o 
+ parabólica, este sistema permite definir callbacks para eventos de subida de nivel, aumento de experiencia y llegada al nivel máximo. El sistema gestiona automáticamente las
+ subidas y el aumento de experiencia y dispone de funciones de acceso para obtener los datos actualizados en cualquier momento dado.
+
+El sistema también cuenta con la posibilidad de crear ScriptableObjects de tipo 'ExperienceMobAsset', que permiten definir la cantidad de experiencia que proporciona un evento 
+ concreto, para ejemplificarlo se puede asumir que se estaría hablando de derrotar un enemigo en un juego de rol tradicional. El sistema cuenta con un manager singleton que 
+ permite calcular el valor de la experiencia que daría un evento o 'Mob' concreto, además cuenta con la funcionalidad para definir distintos tipos de contextos modificadores 
+ de experiencia.
+
+
+\subsection{Sistema de Audio}
+El sistema de audio o Audio Manager en código es una clase de tipo Singleton que permite definir una serie de ScriptableObjects de tipo 'Sound'. Estos permiten a su vez que 
+se les asigne un clip de audio y una serie de parámetros como si es un efecto de sonido o una canción, un modificador de volumen, de tono o si se desea que dicho sonido 
+se reproduzca en bucle. La clase Audio Manager contiene a su vez un array de 'Sounds' y es capaz de reproducir, pausar, parar o reanudar cualquier sonido o canción que contenga. 
+La clase tiene también la capacidad de gestionar una lista de música aleatoria de ambiente para ese tipo de juegos. El sistema tiene capacidad para separar los distintos tipos de 
+sonido, música o efecto, en distintas pistas de audio con el fin de poder ajustar los dsitintos volúmenes por separado.    
+
+\subsection{Sistema de Guardado}
+El sistema de guardado está compuesto por tres clases llamadas: 'SaveDataHandler', 'SaveDataFileHandler' y 'SaveData'. 'SaveDataHandler' es una clase de tipo Singleton que 
+sirve como API para gestionar las llamadas al guardado, creación de nuevos archivos de guardado u operaciones de borrado y copia de estos. El 'SaveDataFileHandler' es por 
+otra parte el encargado de gestionar la conversión de datos en memoria dinámica a archivos .json almacenados en memoria estática del dispositivo. La clase 'SaveData' por últimos
+es la clase en la que se almacenan los datos que se quieran guardar. El sistema soporta guardar tipos de datos alfanuméricos, listas y diccionarios de tipo 
+'SerializableDictionary', dado que los diccionarios de C\# estándar no se pueden serializar a formato JSON. La implementación del 'SerializableDictionary' es muy sencilla, 
+simplemente funciona como una lista de listas de tipo 'KeyValuePair', que a su vez contienen su respectiva clave y valor. Adicionalmente el sistema permite encriptar la 
+partida guardada con una sencilla función de hash de XOR, de forma que no se almacene como texto en claro en el dispositivo.  
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=350px,clip=true]{Saving.png}
+  \caption{Diagrama de clases del Sistema de Guardado}
+  \label{fig:savinguml}
+\end{figure}
+
+\subsection{Sistema de Gestión Carga de Escenas}
+El sistema de gestión de carga de escenas permite cargar de forma asíncrona y sustitutiva distntas escenas de un proyecto. El sistema automáticamente muestra una 
+pantalla de carga que también esconde automáticamente una vez termina de cargar. La pantalla de carga puede mostrar opcionalmente el progreso de la carga. Añadir una nueva
+ escena pasa, aparte de por añadir una nueva escena a las dependencias del proyecto en unity, por añadir un nuevo valor al enumerado de la clase 'SceneIndex'. Dicha clase 
+ permite operar con 'SceneIndex' intercambiablemente como objetos, enumerados o enteros.
+
+\subsection{Herramienta de Dibujado de Colisiones 2D}
+aaa
+
+\subsection{Herramienta de Cuadrícula}
+aaa
+
+\subsection{Generador de Mazmorras}
+aaa
+
+\subsection{Floater}
+aaa
+
+\subsection{Componente de Vida}
+aaa
+
+\subsection{Componente de Interacción}
+aaa
+
+\subsection{LaunchRigidbody}
+aaa
+
+\subsection{Componente de Sacudida de Cámara}
+aaa
+
+\subsection{Componente de Movimiento 2D Lateral o 'Side Scroll'}
+aaa
+
+\subsection{Componente de Movimiento 2D Cenital o 'Top Down'}
+aaa
+
+\subsection{Componente de Movimiento 3D Primera Persona o ¡First Person'}
+aaa
+
+\subsection{Componente de Movimiento 3D Tercera Persona o 'Third Person'}
+aaa
+
+\subsection{Componente de Movimiento 3D Lateral o 'Side Scroll'}
+aaa
+
+\begin{mypython}[caption={Ejemplo de código utilizado para definir la animación de 'Wobble' en el texto.},label={alg:wobbleAnimation}]
     foreach (EffectInstance effect in effects) 
     {
         for (int i = effect.TextStartIdx; i < effect.GetTextEndIndex(); ++i)
@@ -82,3 +162,8 @@ aaa
         effectIdx++;
     }
 \end{mypython}
+
+\section{Niveles de Prueba}
+
+
+\section{Documentación}

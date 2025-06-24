@@ -15,9 +15,9 @@ namespace DUJAL.Systems.Saving
         public SaveSlot()
         {
             //Default constructor for Save Data (assign default values at the start of the game FOR ALL THE VARIABLES YOU WANT TO SAVE). 
-            this.TestSavedInt = 0;
-            this.TestDictionary = new SerializableDictionary<int, string>();
-            this.TestList = new List<string>();
+            TestSavedInt = 0;
+            TestDictionary = new SerializableDictionary<int, string>();
+            TestList = new List<string>();
         }
     }
 
