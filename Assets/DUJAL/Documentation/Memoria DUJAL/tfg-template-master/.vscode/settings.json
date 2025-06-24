@@ -1,0 +1,27 @@
+{
+    // The following will hide the js and map files in the editor
+    "files.exclude": {
+        "*.aux": true,
+        "*.bbl": true,
+        "*.blg": true,
+        "*.log": true,
+        "*.out": true,
+        "*.spl": true,
+        "*.synctex.gz": true,
+        "*.fls": true,
+        "*.fdb_latexmk": true,
+        "*.bst": true,
+        "*.lof": true,
+        "*.lol": true,
+        "*.lot": true,
+        "*.toc": true,
+    },
+    "cSpell.words": [
+        "author",
+        "Escalabilidad",
+        "play",
+        "Scriptable",
+        "scripts",
+        "sinuidal"
+    ]
+}
