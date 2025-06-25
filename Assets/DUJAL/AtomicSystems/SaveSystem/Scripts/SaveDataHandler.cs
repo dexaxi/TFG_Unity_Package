@@ -88,7 +88,7 @@ namespace DUJAL.Systems.Saving
 
             if (_saveData == null)
             {
-                this._saveData = new SaveData();
+                _saveData = new SaveData();
             }
 
             if (_saveDataInstances != null)

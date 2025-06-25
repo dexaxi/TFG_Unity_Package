@@ -542,7 +542,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9208759557276383396}
   m_Layer: 0
-  m_Name: PhysicsBased3DThirdPersonCharacterController
+  m_Name: PhysicsBased3DSideScrollCharacterController
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Test Scenes/SceneLoader.unity
     guid: 8d82d00dfdb6b2b408e41682a666f9b5
   - enabled: 1
-    path: Assets/Test Scenes/3D FPS Controller + Save System.unity
+    path: Assets/Test Scenes/3D FPS & TPS Controller + Save System.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Test Scenes/2D Top Down Controller.unity

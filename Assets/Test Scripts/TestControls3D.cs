@@ -96,15 +96,15 @@ public class TestControls3D : MonoBehaviour, ISaveData
         }
         if (Input.GetKeyUp(KeyCode.Alpha0))
         {
-            SaveDataHandler.Instance.DeleteSlot(0);
+            SaveDataHandler.Instance?.DeleteSlot(0);
         }
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
-            SaveDataHandler.Instance.DeleteSlot(1);
+            SaveDataHandler.Instance?.DeleteSlot(1);
         }
         if (Input.GetKeyUp(KeyCode.Alpha2))
         {
-            SaveDataHandler.Instance.DeleteSlot(2);
+            SaveDataHandler.Instance?.DeleteSlot(2);
         }
     }
 
