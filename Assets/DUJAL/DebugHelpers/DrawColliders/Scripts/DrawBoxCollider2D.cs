@@ -34,13 +34,13 @@ namespace DUJAL.Debug.DrawColliders
 
         void Update()
         {
-            HilightCollider();
+            HighlightCollider();
         }
 
         /// <summary>
         //  Void Function to print a Box Collider 2D as a Line Renderer while in game.
         /// </summary>
-        void HilightCollider()
+        void HighlightCollider()
         {
             Vector3[] pos = new Vector3[4];
             pos[0] = transform.TransformPoint(new Vector3(_boxCol.size.x / 2.0f, _boxCol.size.y / 2.0f, 0));

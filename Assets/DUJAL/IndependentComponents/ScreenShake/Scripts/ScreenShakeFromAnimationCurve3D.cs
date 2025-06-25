@@ -36,7 +36,7 @@ namespace DUJAL.IndependentComponents.ScreenShake
 			if (Instance == null)
 				Instance = this;
 			else
-				Destroy(this.gameObject);
+				Destroy(gameObject);
 		}
 
 		/// <summary>

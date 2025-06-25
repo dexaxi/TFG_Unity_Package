@@ -81,9 +81,9 @@
             int node = 0;
 
             List<int> nodesToVisit = new()
-        {
-            source
-        };
+            {
+                source
+            };
 
             if (leveled)
             {

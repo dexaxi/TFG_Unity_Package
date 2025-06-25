@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DialogueName2
   m_EditorClassIdentifier: 
   <DialogueName>k__BackingField: DialogueName2
-  <Text>k__BackingField: <b><wobble speed="6",amplitude="5>Fast Wobble!</></b> No
+  <Text>k__BackingField: <b><wobble speed="6",amplitude="5">Fast Wobble!</></b> No
     wobble :( <i><wobble speed="2",amplitude="50">Biggest Wobble.</></i>
   <Choices>k__BackingField:
   - <Text>k__BackingField: Next Dialogue

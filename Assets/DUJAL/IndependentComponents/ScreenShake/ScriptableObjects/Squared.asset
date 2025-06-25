@@ -12,37 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b45c6b4a1293e0459cbf9b418c58f25, type: 3}
   m_Name: Squared
   m_EditorClassIdentifier: 
-  name: Squared
-  curve:
+  Curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      time: 0.0066184998
+      value: 0.026763916
+      inSlope: 1.9869204
+      outSlope: 1.9869204
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
+      time: 0.49643987
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      inSlope: 0.0043256283
+      outSlope: 0.0043256283
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      time: 0.9884033
+      value: 0.026763916
+      inSlope: -1.9782691
+      outSlope: -1.9782691
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

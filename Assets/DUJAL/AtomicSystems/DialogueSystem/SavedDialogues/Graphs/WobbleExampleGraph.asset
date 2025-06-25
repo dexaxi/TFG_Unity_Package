@@ -30,7 +30,7 @@ MonoBehaviour:
     <SpeakerSprite>k__BackingField: {fileID: 0}
   - <ID>k__BackingField: 6cc7713d-a45a-496f-b8d4-8179bb13ef64
     <Name>k__BackingField: DialogueName2
-    <Text>k__BackingField: <b><wobble speed="6",amplitude="5>Fast Wobble!</></b>
+    <Text>k__BackingField: <b><wobble speed="6",amplitude="5">Fast Wobble!</></b>
       No wobble :( <i><wobble speed="2",amplitude="50">Biggest Wobble.</></i>
     <Choices>k__BackingField:
     - <Text>k__BackingField: Next Dialogue
