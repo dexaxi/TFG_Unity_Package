@@ -162,3 +162,157 @@ Además de los objetivos secundarios:
   \item Construir varios prototipos utilizando el paquete.
   \item Ajustar el paquete en base a los resultados de una encuesta de satisfacción.
 \end{compactitem}
+
+\section{Metodología}
+Para el desarrollo de la librería se ha utilizado una metodología de trabajo en cascada, dado que el desarrollo lo ha llevado a cabo una única persona, lo cual
+impide la paralelización de tareas que ofrece una metodología ágil. Sin embargo si que se han tenido en cuenta ciertos elementos de la metodología Agile, como 
+por ejemplo utilizar un tablón de tareas con estados de 'To Do', 'Doing' y 'Done' con algunas modificaciones (Figura \ref{fig:trello}).
+
+\begin{figure}[H]
+  \centering
+	\includegraphics[width=350px,clip=true]{trello2.png}
+  \caption{Tablero de Trello en imitación a la metodología Agile, con pasos extra para identificar el proceso de documentación,}
+  \label{fig:trello}
+\end{figure}
+
+El desarrollo se puede dividir en tres fases: 
+\begin{itemize}
+	\item Fase 1: Pre-Producción y Análisis de Requisitos, Junio 2024 - Diciembre 2024
+	\item Fase 2: Producción, Enero 2025 - Mayo 2025
+	\item Fase 3: Polish, Desarrollo de Niveles de Prueba, Documentación y Validación, Junio 2025
+\end{itemize}
+
+La primera fase se utilizó como una ventana de tiempo en la que prototipar los componentes más completos, como el sistema de diálogo o la generación de
+ mazmorras. También se dedicó a desarrollar un análisis de requisitos en los que definir que herramientas y componentes se iban a desarrollar. 
+ 
+Durante la segunda fase se realizó el groso de la producción de la librería, con un análisis de requisitos sólido, esta fase consistió en la implementación y testeo 
+finales de los componentes más complejos, así como la totalidad del desarrollo de los componentes más sencillos de la librería. Durante esta fase también se comenzó el 
+desarrollo de los dos proyectos formales, Co-Fi Space\cite{CoFiSpace} y EcoRescue\cite{EcoRescue}. 
+
+La tercera y última fase consistió en pulir los detalles restantes de los distintos componentes, ejemplos destacables son desarrollar dos animaciones de texto adicionales 
+(previo a este punto solo se contaba con 'wobble' y 'rainbow') y arreglar algunos bugs visuales en la herramienta de generación de diálogo. También se desarrollaron los niveles 
+de prueba con el fin de servir como tutoriales de acompañamiento a la documentación, que también se redactó en esta fase. Finalmente también se llevó a cabo la validación 
+con los agentes independientes encargados de crear prototipos simples que posteriormente fueron encuestados. 
+
+En adelante se detalla el plan de producción.
+
+\subsection{Fase 1: Pre-Producción y Análisis de Requisitos (Junio 2024 - Diciembre 2024)}
+
+En la figura \ref{fig:fase1gantt} se detalla esta primera fase del desarrollo.
+
+\subsubsection{Primer Hito (25 de junio)}
+\begin{compactitem}
+\item F1P1T1: Análisis de requisitos (1 de junio - 7 de junio)
+\item F1P1T2: Propuesta de concepto inicial (8 de junio - 21 de junio)
+\end{compactitem}
+Iteraciones de Prototipos (4 ciclos de 4 semanas cada uno)
+
+\subsubsection{Segundo Hito (9 de julio) Prototipado Parte 1}
+
+\begin{compactitem}
+  \item F1P2T1: Planificación del sistema de diálogo (22 de junio - 28 de junio)
+  \item F1P2T2: Desarrollo de programación del prototipo del sistema de diálogo (29 de junio - 19 de julio)
+\end{compactitem}
+
+\subsubsection{Tercer Hito (6 de agosto) Prototipado Parte 2}
+
+\begin{compactitem}
+  \item F1P3T1: Planificación del generador de mazmorras (20 de julio - 26 de julio)
+  \item F1P3T2: Desarrollo de programación del generador de mazmorras (27 de julio - 16 de agosto)
+\end{compactitem}
+
+\subsubsection{Cuarto Hito (3 de septiembre) Prototipado Parte 3}
+
+\begin{compactitem}
+\item F1P4T1: Finalización de los prototipos del sistema de diálogo y generador de mazmorras (17 de agosto - 23 de agosto)
+\item F1P4T2: Finalización de programación de los prototipos de dichos sistemas (24 de agosto - 13 de septiembre)
+\end{compactitem}
+
+\subsubsection{Quinto Hito (1 de octubre) Prototipado Parte 4}
+
+\begin{compactitem}
+\item F1P5T1: Planificación del prototipo de sistemas de guardado, sacudida de cámara, experiencia y audio (14 de septiembre - 20 de septiembre)
+\item F1P5T2: Desarrollo de programación de prototipado sistemas de guardado, sacudida de cámara, experiencia y audio (21 de septiembre - 11 de octubre)
+\end{compactitem}
+
+\subsubsection{Sexto Hito (10 de diciembre) Final del Prototipado}
+
+\begin{compactitem}
+\item F1P6T1: Finalización de prototipado de sistemas de guardado, sacudida de cámara, experiencia y audio (12 de octubre - 10 de diciembre)
+\end{compactitem}
+
+\begin{figure}[H]
+  \centering
+	\includegraphics[width=350px,clip=true]{gantt1.png}
+  \caption{Diagrama de Gantt de la fase 1 de producción}
+  \label{fig:fase1gantt}
+\end{figure}
+
+\subsection{Fase 2: Producción (Enero 2025 - Mayo 2025)}
+
+Esta fase se detalla en el diagrama de la figura \ref{fig:fase2gantt}, donde se puede observar la planificación para el desarrollo de una librería 
+'feature complete' pero sin pulido, ni el contenido final.
+
+\subsubsection{Primer Hito (17 de marzo)}
+
+\begin{compactitem}
+\item F2P1T1: Implementación final de sistemas prototipados, diálogo, mazmorras, experiencia, guardado, sacudida de cámara y audio. (21 de enero - 10 de marzo)
+\item F2P1T2: Implementación prototipo del sistema de animaciones de texto y componentes de movimiento (11 de marzo - 17 de marzo)
+\end{compactitem}
+
+\subsubsection{Segundo Hito (21 de abril)}
+
+\begin{compactitem}
+\item F2P2T1: Implementación final del sistema de animaciones de texto y componentes de movimiento (18 de marzo - 11 de abril)
+\item F2P2T2: Implementación inicial de componentes Floater, LookAtCamera, LaunchRigidbody, vida e interacción (11 de abril - 21 de abril)
+\end{compactitem}
+
+\subsubsection{Tercer Hito (26 de mayo)}
+
+\begin{compactitem}
+\item F2P3T1: Implementación final de componentes Floater, LookAtCamera, LaunchRigidbody, vida e interacción. (22 de abril - 26 de abril)
+\item F2P3T2: Implementación de componentes de debug (27 de abril - 19 de mayo)
+\item F2P3T3: Pulido y testing de herramientas (20 de mayo - 26 de mayo)
+\end{compactitem}
+
+\begin{figure}[H]
+  \centering
+	\includegraphics[width=350px,clip=true]{gantt2.png}
+  \caption{Diagrama de Gantt de la fase 2 de producción}
+  \label{fig:fase2gantt}
+\end{figure}
+
+\subsection{Fase 3: Polish, Desarrollo de Niveles de Prueba, Documentación y Validación (Junio 2025)}
+
+En el diagrama de la figura \ref{fig:fase3gantt} se puede ver el desarrollo de la fase final, donde se ha terminado de pulir y completar la librería, 
+así como se ha desarrollado la documentación y niveles de prueba para ayudar a los usuarios, culminando así con la propia validación con dichos usuarios.
+
+\subsubsection{Primer Hito (2 de junio)}
+
+\begin{compactitem}
+\item F3P1T1: Pulido de bugs visuales en sistema de diálogo, desarrollo de animaciones de texto adicionales. (27 de mayo - 2 de junio)
+\item F3P1T2: Redacción de documentación y niveles de prueba (27 de mayo - 2 de junio)
+\end{compactitem}
+
+\subsubsection{Segundo Hito (9 de junio)}
+
+\begin{compactitem}
+\item F3P2T1: Validación con agentes independientes (2 de junio - 9 de junio)
+\end{compactitem}
+
+\subsubsection{Tercer Hito (13 de junio)}
+
+\begin{compactitem}
+  \item F3P3T1: Procesado de los resultados de las encuestas de validación y últimos retoques (10 de junio - 13 de junio)
+\end{compactitem}
+
+\begin{figure}[H]
+  \centering
+	\includegraphics[width=350px,clip=true]{gantt3.png}
+  \caption{Diagrama de Gantt de la fase 3 de producción}
+  \label{fig:fase3gantt}
+\end{figure}
+
+Lo más destacable tras haber seguido esta metodología es haber hecho un esfuerzo inicial en prototipado y un firme análisis de requisitos 
+previo, esto ha permitido tener una base muy sólida sobre la que trabajar, y tener muy claro en todo momento el objetivo, lo cual ha resultado indispensable 
+para poder lograr la consecución de los objetivos a la larga.
