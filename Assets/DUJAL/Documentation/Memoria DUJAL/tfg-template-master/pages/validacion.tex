@@ -5,7 +5,7 @@ Para la validación del proyecto se ha distribuido el paquete de herramientas a 
 \section{Encuestas}
 
 De cara a validar el proyecto, la primera fuente de datos planteada fue preparar una encuesta (Disponible en el Anexo \ref{sec:apendice}) con la que obtener sensaciones e impresiones de primera mano de los equipos
- de desarrollo y agentes individuales. El objetivo de estas preguntas es tanto obtener una idea general de si la 'suite' de herramientas es verdaderamente útil e intuitivo como si realmente es escalable como
+ de desarrollo y agentes individuales. El objetivo de estas preguntas es tanto obtener una idea general de si la 'suite' de herramientas es verdaderamente útil e intuitiva como si realmente es escalable como
  se pretendía en un principio.
 
 \section{Experiencia de Validación}
@@ -15,7 +15,9 @@ proporcionando feedback significativo en todo momento. Finalmente se han encuest
 
 \section{Resultados Cuantitativos}
 En cuanto a la discusión de resultados, se pueden observar varios patrones muy evidentes, el primero y el más importante es que, en su grandísima mayoría (ver figuras en Apéndice \ref{sec:apendice}) los encuestados
-se han mostrado positivos al ser preguntados acerca de la facilidad de uso e implementación de cada uno de los componentes o sistemas de la librería. Una notable excepción es la del generador de mazmorras, donde
+se han mostrado positivos al ser preguntados acerca de la facilidad de uso e implementación de cada uno de los componentes o sistemas de la librería. 
+
+Una notable excepción es la del generador de mazmorras, donde
  casi un 30\% (Figura \ref{fig:CUESTIONARIO_14trucado}) de los encuestados se han mostrado parcialmente o completamente en desacuerdo con que sea un sistema sencillo de utilizar, cabe destacar que esto es algo que 
  también se ha mencionado como feedback adicional (Figura \ref{fig:tablaFeedback}).
 
@@ -40,10 +42,14 @@ los encuestados están como mínimo parcialmente de acuerdo en que los 'Componen
 
 La estadística puede parecer menos favorable en las preguntas que suelen hacer mención a la escalabilidad o sencillez del código de la librería, donde un 30\% de los encuestados opina que tanto el sistema de
  diálogo como el de audio son difíciles de escalar (Figuras \ref{fig:CUESTIONARIO_3trucado} y \ref{fig:CUESTIONARIO_6trucado}), o que un 60\% de los encuestados opina que la API del sistema de mazmorras es
-  difícil de utilizar (Figura \ref{fig:CUESTIONARIO_15trucado}). Si bien es verdad que esta estadística cobra más sentido al tener en cuenta que el 30\% de los encuestados no tienen un perfil orientado a
-   la programación (Figura \ref{fig:CUESTIONARIO_32trucado}), queda otro 30\% de programadores que aún así no opina que la API sea sencilla de utilizar. Una posible explicación al respecto, aparte de que quizás la
-   documentación haya sido deficiente al respecto, como se menciona en la figura \ref{fig:tablaFeedback}, es que parte de la API del generador de mazmorras este exige al usuario un cierto
-    conocimiento de algoritmos de recorrido de grafos y estructuras de datos complejas, que no todo el mundo, aun teniendo un perfil tecnológico, tiene necesariamente. 
+  difícil de utilizar (Figura \ref{fig:CUESTIONARIO_15trucado}). 
+  
+  Si bien es verdad que esta estadística cobra más sentido al tener en cuenta que el 30\% de los encuestados no tienen un perfil orientado a
+   la programación (Figura \ref{fig:CUESTIONARIO_32trucado}), queda otro 30\% de programadores que aún así no opina que la API sea sencilla de utilizar. 
+   
+   Una posible explicación al respecto, aparte de que quizás la
+   documentación haya sido deficiente como se menciona en la figura \ref{fig:tablaFeedback}, es que parte de la API del generador de mazmorras exige al usuario un cierto
+    conocimiento de algoritmos de recorrido de grafos y estructuras de datos complejas que no todo el mundo pueda tener pese a poseer un perfil orientado a la programación. 
 
 \begin{figure}[H]
   \centering
@@ -97,11 +103,19 @@ los distintos componentes de la libería, por enumerar ejemplos en los dos proye
 \end{compactitem}
 
 En cuanto al feedback proporcionado en la encuesta (Figura \ref{fig:tablaFeedback}), ya se ha mencionado que uno de los encuestados opinaba que la documentación es 'mejorable' y que otro de los encuestados opinaba 
-que 'el generador de mazmorras es ligeramente complejo de usar sin un trasfondo ténico'. En esta útlima opinión parece estar de acuerdo otro encuestado, que mencionaba que 'algunas de las funcionalidades de la
+que 'el generador de mazmorras es ligeramente complejo de usar sin un trasfondo ténico'. 
+
+En esta útlima opinión parece estar de acuerdo otro encuestado, que mencionaba que 'algunas de las funcionalidades de la
  librería está muy orientadas a programadores, cosas como ampliar las animaciones de texto no son viables para alguien sin (o con pocos) conocimientos técnicos', sin embargo, tanto ese mismo encuestado como otros 
  cuantos más, coinciden en que 'en cuanto a las funcionalidades que no requieren programar, la librería resulta muy útil y dinámica para prototipar', que es una 'gran librería' y que 'lo demás (lo que no requiere
- implicación técnica) está muy guay'. Uno de los programadores añade incluso que desde el punto de vista técnico 'el código está muy bien comentado y es, por lo general, fácil de leer. Cabe destacar que el sistema de diálogo ha recibido buen feedback, este último programador opina que 'es sorprendente lo cómodo que se hace utilizar el sistema de diálogo', cosa que queda reflejada también
-  en los resultados de las encuestas (Figuras \ref{fig:CUESTIONARIO_1} y \ref{fig:CUESTIONARIO_2}). El último punto de feedback indica que sería interesante que 'el componente SnapToGrid fuese aplicable al gameplay'
+ implicación técnica) está muy guay'. 
+ 
+ Uno de los programadores añade incluso que desde el punto de vista técnico 'el código está muy bien comentado y es, por lo general, fácil de leer. 
+ 
+ Cabe destacar que el sistema de diálogo ha recibido buen feedback, este último programador opina que 'es sorprendente lo cómodo que se hace utilizar el sistema de diálogo', cosa que queda reflejada también
+  en los resultados de las encuestas (Figuras \ref{fig:CUESTIONARIO_1} y \ref{fig:CUESTIONARIO_2}).
+  
+  El último punto de feedback indica que sería interesante que 'el componente SnapToGrid fuese aplicable al gameplay'
   esto es algo que, como se ha dicho en la lista anterior, ya se implementó para el videojuego EcoRescue, con lo cual la solución sería tan sencila como implementar los cambios que se ejecutaron para ese proyecto.
 
 En cuanto a resultados tangibles del proyecto, es relevante mencionar que los dos proyectos formales que han sido desarrollados con esta librería han resultado rotundos éxitos. Co-Fi Space obtuvo una sexta posición en 

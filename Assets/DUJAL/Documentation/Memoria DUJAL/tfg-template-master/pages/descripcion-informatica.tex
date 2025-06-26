@@ -14,7 +14,7 @@ En esta sección se abordarán los requisitos planteados en el paquete, tanto lo
     \item RF8. Como usuario puedo añadir un sistema de niveles a mi juego mediante el sistema de experiencia.
     \item RF9. Como usuario puedo insertar un personaje jugable con cámara en cualquier perspectiva.
     \item RF10. Como usuario puedo insertar un personaje jugable con movimiento basado en físicas o discreto.
-    \item RF11. Como usuario puedo insertar un personaje jugable ya sea en 2D o 3D.
+    \item RF11. Como usuario puedo insertar un personaje jugable, ya sea en 2D o 3D.
     \item RF12. Como usuario puedo depurar las herramientas del paquete.
     \item RF13. Como usuario puedo generar una mazmorra o un laberinto usando el generador de mazmorras.
     \item RF14. Como usuario puedo utilizar algoritmos para encontrar el camino mínimo para salir de un laberinto o llegar a la hora de una mazmorra.
@@ -33,14 +33,14 @@ En esta sección se abordarán los requisitos planteados en el paquete, tanto lo
     \item RNF1. Los módulos del paquete deben ser escalables.
     \item RNF2. Los módulos del paquete deben estar documentados.
     \item RNF3. El código del paquete debe ser legible y estar bien estructurado.
-    \item RNF4. El paquete debe ser usable y recibir buenos resultados en las encestas de satisfacción.
+    \item RNF4. El paquete debe ser usable y recibir buenos resultados en las encuestas de satisfacción.
 \end{itemize}
 
 \section{Herramientas y Tecnologías}
 
 \subsection{C\# \& Unity}
 
-Se ha utilizado Unity\cite{unity} como motor para el que está diseñado el paquete y C\#\cite{csharp} como lenguaje de programación, se ha elegido este motor dado que era el motor público más utilizado por estudiantes y equipos pequeños y medianos.
+Se ha utilizado Unity\cite{unity} como motor para el que está diseñado el paquete y C\#\cite{csharp} como lenguaje de programación, se ha elegido este motor dado que era el motor público más utilizado por estudiantes, además de por equipos pequeños y medianos.
 
 \subsection{Visual Studio}
 
@@ -48,7 +48,8 @@ Visual Studio\cite{visualstudio} es un IDE y editor de código para C++ y .Net y
 
 \subsection{Git \& Github}
 
-Github\cite{github} es un entorno de desarrollo colaborativo y control de versiones web basado en la tecnología Git. Para mantener el proyecto y poder trabajar en el desde distintos equipos, se ha alojado el proyecto de del paquete\cite{Repo} en él.
+Github\cite{github} es un entorno de desarrollo colaborativo y control de versiones web basado en la tecnología Git. Para mantener el proyecto y poder trabajar en 
+el desde distintos equipos se ha alojado el proyecto del paquete\cite{Repo} en él.
 
 \subsection{UniTask}
 
@@ -64,7 +65,7 @@ el sistema de editor de diálogos (Figura \ref{fig:dialogueEditorExample}) (incl
 diálogo en el juego y el sistema que gestiona las animaciones del texto.
 
 El código del editor es en parte el más complejo, ya que hace uso de la herramienta de Grafos de Unity para poder definir clases para los nodos del editor. Como muestra la 
-Figura \ref{fig:nodos} se ha creado una clase específica por cada tipo de nodo ('Single Choice' y 'Multiple Choice'), también otra para los grupos que permiten agrupar distintos 
+Figura \ref{fig:nodos} se ha creado una clase específica por cada tipo de nodo ('Single Choice' y 'Multiple Choice'), además de otra para los grupos que permiten agrupar distintos 
 diálogos. También ha sido necesario crear clases para las ventanas nuevas, la del editor de diálogo, el 'GraphView' y la ventana de búsqueda.
 
 El código de editor también se constituye de la lógica para convertir los nodos, grupos y conexiones (Figura \ref{fig:dialogueUml1}) a 'ScriptableObjects' que puedan guardarse en la memoria del dipositivo. Todo esto se gestiona mediante la clase
@@ -98,13 +99,19 @@ DialogueSystemIO (Figura \ref{fig:dialogueUml2}), que con sus funciones permite 
   \label{fig:dialogueUml2}
 \end{figure}
 
-El sistema de dialogos de juego está compuesto por una clase 'DialogueSystem' que permite comenzar la reproducción del diálogo, elegir el diálogo concreto que se va a reproducir (El asset de tipo DialogueGraph que 
-se quiere usar y el diálogo en concreto por el que se quiere comenzar la conversación) y configurar la reproducción de diálogo seleccionando cosas como la velocidad del texto, si se reproduce automáticamente, si se 
-muesta todo el texto instantáneamente o se muestra en estilo 'Typewriter' etc. La gestión lógica de los diálogos se hace mediante un sencillo sistema de input en la que, mediante teclas, botones o el ratón, el el usuario
-puede indicar que desea pasar al siguiente diálogo o elegir una opción concreta en el caso de que sea un nodo que permite ramificaciones. En lógica se selecciona la respuesta (0 - N) asociada al input que el usuario ha 
-seleccionado. En el caso de los noos que no permiten elección múltiple, se selecciona por defecto siempre la opción cero, ya que siempre hay una sola. Esta parte del sistema también permite mostrar una imagen asociada 
-a un interlocutor en concreto, o reproducir un sonido, utilizando el Sistema de Audio, asociado al interlocutor. El formato de sonido puede ser uno de tres tipos, en formato 'Gibberish' en la que se reproduce un 
-sonido por cada letra mostrada en pantalla, en formato 'Unique Sound' en la que se reproduce un sonido por cada nueva caja de texto que se muestra, o en formato doblaje, en la que se reproducen las voces asociadas 
+El sistema de dialogos de juego está compuesto por una clase 'DialogueSystem' que permite comenzar y configurar la reproducción del diálogo. Esto se puede conseguir mediante 
+el ajuste de cosas como la velocidad del texto, si se reproduce automáticamente, si se muesta todo el texto instantáneamente o se muestra en estilo 'Typewriter', etc. 
+La configuración también permite seleccionar el diálogo por el que se comienza seleccionando asset de tipo DialogueGraph que se quiere usar y el diálogo concreto dentro de este.
+
+La gestión lógica de los diálogos se hace mediante un sencillo sistema de input en la que, mediante teclas, botones o el ratón, el usuario
+puede indicar que desea pasar al siguiente diálogo o elegir una opción concreta en el caso de que sea un nodo que permite ramificaciones.
+
+En lógica se selecciona la respuesta (0 - N) asociada al input que el usuario ha 
+seleccionado. En el caso de los noos que no permiten elección múltiple, se selecciona por defecto siempre la opción cero, ya que siempre hay una sola.
+
+Esta parte del sistema también permite mostrar una imagen asociada a un interlocutor en concreto, o reproducir un sonido, utilizando el Sistema de Audio, asociado al
+interlocutor. El formato de sonido puede ser uno de tres tipos: en formato 'Gibberish' en el que se reproduce un sonido por cada letra mostrada en pantalla; en formato
+'Unique Sound' en el que se reproduce un sonido por cada nueva caja de texto que se muestra; o en formato doblaje, en el que se reproducen las voces asociadas 
 al texto mostrado. El resultado del sistema en uso se puede observar en la Figura \ref{fig:dialogueExample}.
 
 \begin{figure}[H]
@@ -114,12 +121,18 @@ al texto mostrado. El resultado del sistema en uso se puede observar en la Figur
   \label{fig:dialogueExample}
 \end{figure}
 
-El sistema de efectos de texto, que depende a su vez de la clase 'DialogueSystem', funciona con tags con formato Rich Text (usando los símbolos mayor y menor que), el 'DialogueSystem' hace un pre-parsing del texto antes de mostrarlo al jugador para conseguir dos cosas:
-en primer lugar borra las etiquetas pertinentes al 'TextEffectSystem' para que el texto se muestre como el diseñador pretendía, y, además, almacena en un mapa en los datos referentes a los índices del texto para aplicar 
-el efecto, además de el efecto que se debe aplicar y sus modificadores. Cada efecto es gestionado por su propio tipo, dado que cada clase que hereda de TextEffect tiene sus propia implementación de 'UpdateEffect()',
-tal y como se puede observar en la Figura \ref{fig:dialogueUml3}, que se utiliza mediante la Figura \ref{fig:dialogueUml4}. Lo más interesante referente al sistema de efectos de texto es que, al haber construido un
-'template' la cual seguir para añadir efectos nuevos, y que el código interno y exclusivo de cada efecto es relativamente simple y pequeño, es muy sencillo escalar el sistem para añadir nuevos efectos. Una instancia
- del código de scripting mediante le cual se puede añadir un efecto nuevo se puede encontrar en el Código \ref{alg:wobbleAnimation}.
+El sistema de efectos de texto, que depende a su vez de la clase 'DialogueSystem', funciona con tags con formato Rich Text (usando los símbolos mayor y menor que). 
+El 'DialogueSystem' hace un pre-parsing del texto antes de mostrarlo al jugador para conseguir dos cosas: 
+\begin{compactitem}
+  \item En primer lugar borra las etiquetas pertinentes al 'TextEffectSystem' para que el texto se muestre como el diseñador pretendía.
+  \item Almacena en un mapa en los datos referentes a los índices del texto para aplicar el efecto, además del que se debe aplicar y sus modificadores.
+\end{compactitem}
+Cada efecto es gestionado por su propio tipo, dado que cada clase que hereda de TextEffect tiene sus propia implementación de 'UpdateEffect()', tal y como se puede
+observar en la Figura \ref{fig:dialogueUml3}, que se utiliza mediante la Figura \ref{fig:dialogueUml4}. 
+
+Lo más interesante referente al sistema de efectos de texto es que al haber construido una 'template' la cual seguir para añadir efectos nuevos cada efecto es relativamente 
+simple y es muy sencillo escalar el sistema para añadir más. Una instancia del código de scripting mediante le cual se puede añadir un efecto nuevo se puede encontrar en
+el Código \ref{alg:wobbleAnimation}.
 
 \begin{figure}[H]
   \centering
@@ -166,26 +179,38 @@ El sistema de experiencia es un pequeño conjunto de clases que permite definir 
  subidas y el aumento de experiencia y dispone de funciones de acceso para obtener los datos actualizados en cualquier momento dado.
 
 El sistema también cuenta con la posibilidad de crear 'ScriptableObjects' de tipo 'ExperienceMobAsset', que permiten definir la cantidad de experiencia que proporciona un evento 
- concreto, para ejemplificarlo se puede asumir que se estaría hablando de derrotar un enemigo en un juego de rol tradicional. El sistema cuenta con un manager singleton que 
- permite calcular el valor de la experiencia que daría un evento o 'Mob' concreto, además cuenta con la funcionalidad para definir distintos tipos de contextos modificadores 
- de experiencia.
+ concreto. Para ejemplificarlo se puede asumir que se estaría hablando de derrotar un enemigo en un juego de rol tradicional. 
+ 
+ El sistema cuenta con un manager singleton que permite calcular el valor de la experiencia que daría un evento o 'Mob' concreto. Además, cuenta con la
+  funcionalidad para definir distintos tipos de contextos modificadores de experiencia.
 
 
 \subsection{Sistema de Audio}
-El sistema de audio o Audio Manager en código es una clase de tipo Singleton que permite definir una serie de 'ScriptableObjects' de tipo 'Sound'. Estos permiten a su vez que 
-se les asigne un clip de audio y una serie de parámetros como si es un efecto de sonido o una canción, un modificador de volumen, de tono o si se desea que dicho sonido 
-se reproduzca en bucle. La clase Audio Manager contiene a su vez un array de 'Sounds' y es capaz de reproducir, pausar, parar o reanudar cualquier sonido o canción que contenga. 
+El sistema de audio o Audio Manager en código es una clase de tipo Singleton que permite definir una serie de 'ScriptableObjects' de tipo 'Sound'.
+Estos permiten a su vez que se les asigne un clip de audio y una serie de parámetros: 
+\begin{compactitem}
+  \item Si es un efecto de sonido o una canción
+  \item Mofificación de volumen
+  \item Modificación de tono 
+  \item Si se desea que dicho sonido se reproduzca en bucle 
+\end{compactitem} 
+
+La clase Audio Manager contiene a su vez un array de 'Sounds' y es capaz de reproducir, pausar, parar o reanudar cualquier sonido o canción que contenga. 
 La clase tiene también la capacidad de gestionar una lista de música aleatoria de ambiente para ese tipo de juegos. El sistema tiene capacidad para separar los distintos tipos de 
 sonido, música o efecto, en distintas pistas de audio con el fin de poder ajustar los dsitintos volúmenes por separado.    
 
 \subsection{Sistema de Guardado}
 El sistema de guardado está compuesto por tres clases llamadas: 'SaveDataHandler', 'SaveDataFileHandler' y 'SaveData'. 'SaveDataHandler' es una clase de tipo Singleton que 
-sirve como API para gestionar las llamadas al guardado, creación de nuevos archivos de guardado u operaciones de borrado y copia de estos. El 'SaveDataFileHandler' es por 
-otra parte el encargado de gestionar la conversión de datos en memoria dinámica a archivos .json almacenados en memoria estática del dispositivo. La clase 'SaveData' por últimos
-es la clase en la que se almacenan los datos que se quieran guardar. El sistema soporta guardar tipos de datos alfanuméricos, listas y diccionarios de tipo 
-'SerializableDictionary', dado que los diccionarios de C\# estándar no se pueden serializar a formato JSON. La implementación del 'SerializableDictionary' es muy sencilla, 
-simplemente funciona como una lista de listas de tipo 'KeyValuePair', que a su vez contienen su respectiva clave y valor. Adicionalmente el sistema permite encriptar la 
-partida guardada con una sencilla función de hash de XOR, de forma que no se almacene como texto en claro en el dispositivo.  
+sirve como API para gestionar las llamadas al guardado, creación de nuevos archivos de guardado u operaciones de borrado y copia de estos. 
+
+El 'SaveDataFileHandler' es por otra parte el encargado de gestionar la conversión de datos en memoria dinámica a archivos .json almacenados en memoria estática del dispositivo. La clase 'SaveData' por últimos
+es la clase en la que se almacenan los datos que se quieran guardar. 
+
+El sistema soporta guardar tipos de datos alfanuméricos, listas y diccionarios de tipo 'SerializableDictionary', dado que los diccionarios de C\# estándar no 
+se pueden serializar a formato JSON. La implementación del 'SerializableDictionary' es muy sencilla, simplemente funciona como una lista de listas de tipo 'KeyValuePair', 
+que a su vez contienen su respectiva clave y valor.
+
+Adicionalmente el sistema permite encriptar la partida guardada con una sencilla función de hash de XOR, de forma que no se almacene como texto en claro en el dispositivo.  
 
 \begin{figure}[H]
   \centering
@@ -196,9 +221,10 @@ partida guardada con una sencilla función de hash de XOR, de forma que no se al
 
 \subsection{Sistema de Gestión Carga de Escenas}
 El sistema de gestión de carga de escenas permite cargar de forma asíncrona y sustitutiva distntas escenas de un proyecto. El sistema automáticamente muestra una 
-pantalla de carga que también esconde automáticamente una vez termina de cargar. La pantalla de carga puede mostrar opcionalmente el progreso de la carga. Añadir una nueva
- escena pasa, aparte de por añadir una nueva escena a las dependencias del proyecto en unity, por añadir un nuevo valor al enumerado de la clase 'SceneIndex'. Dicha clase 
- permite operar con 'SceneIndex' intercambiablemente como objetos, enumerados o enteros.
+pantalla de carga que también esconde automáticamente una vez termina de cargar. 
+
+La pantalla de carga puede mostrar opcionalmente el progreso de la carga. Añadir una nueva escena pasa, aparte de por añadir una nueva escena a las dependencias del
+ proyecto en unity, por añadir un nuevo valor al enumerado de la clase 'SceneIndex'. Dicha clase permite operar con 'SceneIndex' intercambiablemente como objetos, enumerados o enteros.
 
 \subsection{Herramienta de Dibujado de Colisiones 2D}
 La herramienta de dibujado de colisiones 2D (Figura \ref{fig:debug2d}), permite dibujar los colliders 2D de unity en builds empaquetadas del juego mediante el uso de
@@ -236,10 +262,14 @@ La herramienta de cuadrícula o 'SnapToGrid' es un componente de editor que se p
 \end{figure}
 
 \subsection{Generador de Mazmorras}
-El generador de mazmorras está compuesto por dos componentes  que funcionan en tándem, por un lado existe la definición de tipos y algoritmos que permiten la construcción 
-'teórica' de las mazmorras y laberintos, compuesto por clases y tipos como 'SquaredDungeon', 'Labyrinth' o 'Direction'. Estas clases (Figuras \ref{fig:dungen1} y \ref{fig:dungen2}) permiten generar una cuadrícula utilizando 
-un array doble que posteriormente es poblado utilizando o bien el algoritmo de Prim (Código \ref{alg:dungenprim}) o Depth First Search, en adelante DFS (Código \ref{alg:dungendfs}). El sistema tiene la capacidad de transformar las matrices en grafos si es necesario, y es capaz de aplicarle a dichos grafos 
-DFS o Breadth First Search para conseguir una lista de nodos en el orden indicado por el algoritmo.  
+El generador de mazmorras está compuesto por dos componentes que funcionan en tándem, por un lado está la definición de tipos y algoritmos que permiten la construcción 
+'teórica' de las mazmorras y laberintos, compuesto por clases y tipos como 'SquaredDungeon', 'Labyrinth' o 'Direction', y por otro los componentes dependientes del motor 
+utilizados para generar dichas mazmorras.
+
+Dichas clases teóricas (Figuras \ref{fig:dungen1} y \ref{fig:dungen2}) permiten generar una cuadrícula utilizando un array doble que posteriormente es poblado utilizando, o 
+bien el algoritmo de Prim (Código \ref{alg:dungenprim}), o bien Depth First Search, en adelante DFS (Código \ref{alg:dungendfs}). El sistema tiene la capacidad de transformar 
+las matrices en grafos si es necesario, y es capaz de aplicarle a dichos grafos DFS o Breadth First Search para conseguir una lista de nodos en el orden indicado
+ por el algoritmo.  
 
 \begin{figure}[H]
   \centering
@@ -325,10 +355,13 @@ DFS o Breadth First Search para conseguir una lista de nodos en el orden indicad
 \end{mypython}
 
 Una vez generada la mazmorra de forma teórica en formato mapa, es el turno de la parte dependiente del motor, que se encarga de instanciar 'GameObjects' de tipo 'DungeonRoom' 
-basándose en la descripción de la matriz generada. Para ello la clase 'DungeonGenerator' tiene en si una lista de todas las permutaciones de sala posibles (Con puerta en cada 
-posible lado entre norte, sur, este u oeste) y de todas los tipos de sala posibles (dados los tipos relevantes) para un juego o nivel concreto. Se busca una lista de 
-'DungeonRooms' válidas para las coordenadas x, y que se quieran rellenar en un momento dado, y se selecciona una aleatoriamente para instanciar. Esto permite generar laberintos
-y mazmorras como en los ejemplos de las Figuras \ref{fig:labyrinthExample} y \ref{fig:dungeonExample}.
+basándose en la descripción de la matriz generada. 
+
+Para ello la clase 'DungeonGenerator' tiene en si una lista de todas las permutaciones de sala posibles (con puerta en cada posible lado entre norte, sur, este u oeste) 
+y de todos los tipos de sala posibles dados los tipos relevantes. 
+
+Para un juego o nivel concreto se busca una lista de 'DungeonRooms' válidas para las coordenadas x, y que se quieran rellenar en un momento dado, y se selecciona una
+ aleatoriamente para instanciar. Esto permite generar laberintos y mazmorras como en los ejemplos de las Figuras \ref{fig:labyrinthExample} y \ref{fig:dungeonExample}.
 
 \begin{figure}[H]
   \centering
@@ -359,15 +392,19 @@ implementación es muy sencilla dado que solo es necesario aplicarle un desplaza
 \subsection{Componente de Vida}
 El componente de vida es un componente que se puede añadir a cualquier 'GameObject' y que permite atribuirle 'puntos de vida' a ese objeto. Aparte de métodos para acceder 
 o modificar a la vida actual, también es posible añadir eventos para cuando el componente pierda vida, gane vida, cambie de vida, se quede sin vida o se cure completamente. 
+
 Cabe destacar que el componente no es solamente útil para darle puntos de vida a un enemigo como se ha hecho tradicionalmente, sino que se podría utilizar, por ejemplo, 
 para tener un callback concreto que disparar tras un temporizador, ya que podría deducirse un punto de vida por segundo.
 
 
 \subsection{Componente de Interacción}
 El componente de interacción permite añadir una callback a un 'UnityEvent' que se dispara cuando se pulsa el botón definido en el mapa de input correspondiente. 
-Hay dos pares de clases 'Interactor', 2D y 3D, y dos pares de clases Interactable. Los interactors son las partes móviles, mientras que el interactable es el componente que 
-tiene la callback asociada. Los interactables pueden configurarse para que solo se puedan usar una vez, se les puede configurar un radio de uso y se pueden deshabilitar. 
-En el modo editor se puede pintar la esfera de radio que permite la interacción (Figura \ref{interactor}).
+Hay dos pares de clases 'Interactor', y dos pares de clases 'Interactable', 2D y 3D para ambas. 
+
+Los interactors son las partes móviles, mientras que el interactable es el componente que tiene la callback asociada. Los interactables pueden configurarse para que solo 
+se puedan usar una vez. También se les puede configurar un radio de uso y se pueden deshabilitar. 
+
+En el modo editor se puede pintar la esfera de radio que permite la interacción (Figura \ref{fig:interactor}).
 
 \begin{figure}[H]
   \centering
@@ -389,7 +426,7 @@ sólido rígido (Código \ref{alg:launchRigidbody}).
 \end{mypython}
     
 \subsection{Componente de LookAtCamera}
-Es un componente muy sencillo que rota un objeto en dirección a la 'Main Camera' (Código \ref{alg:alg:lookAtCamera}).
+Es un componente muy sencillo que rota un objeto en dirección a la 'Main Camera' (Código \ref{alg:lookAtCamera}).
 
 \begin{mypython}[caption={Funcionamiento de LookAtCamera.},label={alg:lookAtCamera}]
     var camera = Camera.main;
@@ -399,11 +436,14 @@ Es un componente muy sencillo que rota un objeto en dirección a la 'Main Camera
 
 \subsection{Componente de Sacudida de Cámara}
 El componente de sacudida de cámara permite provocar un efecto de sacudida configurable de varias formas, aparte de definir la potencia y duración de la sacudida (Figura \ref{fig:screenshake2}), se puede 
-estipular que la intensidad de la sacudida varíe en el tiempo utilizando una curva de animación (Figura \ref{fig:screenshake1}). Es relevante mencionar que hay dos variantes del componente, para cámaras 2D y 
-cámaras 3D, como se menciona en la sección del estado del arte \ref{sec:estadodelarte}, en el estudio de Jump Trajectory\cite{Screenshake} se explica que la sacudida en 2D puede 
-ser de traslación en los ejes XY ya que es como más se percibe el movimiento de la cámara en ese formato, pero que la sacudida en 3D debe ser por fuerza un movimiento 
-exclusivamente rotatorio, ya que en caso contrario puede ocurrir clipping, además de que el movimiento de la cámara en esos casos es mucho más antinatural, ya que ninguna cámara
- en un espacio tridimensional puede trasladarse instantáneamente de esa forma. Cabe destacar también que el componente es capaz de funcionar con Cinemachine y cámaras normales. 
+estipular que la intensidad de la sacudida varíe en el tiempo utilizando una curva de animación (Figura \ref{fig:screenshake1}). 
+
+Es relevante mencionar que hay dos variantes del componente para cámaras 2D y cámaras 3D. Como se menciona en la sección del estado del arte \ref{sec:estadodelarte}, 
+en el estudio de Jump Trajectory\cite{Screenshake} se explica que la sacudida en 2D puede ser de traslación en los ejes XY ya que es como más se percibe el movimiento de 
+la cámara en ese formato, pero que la sacudida en 3D debe ser por fuerza un movimiento exclusivamente rotatorio, ya que en caso contrario puede ocurrir clipping. Además,
+el movimiento de la cámara en esos casos es mucho más antinatural dado que ninguna cámara en un espacio tridimensional puede trasladarse instantáneamente de esa forma.
+ 
+Cabe destacar también que el componente es capaz de funcionar con Cinemachine y cámaras normales. 
 
  
  \begin{figure}[H]
@@ -438,12 +478,12 @@ y Laterales. Esta clase gestiona sobre todo acompañar el movimiento del jugador
 es fijo, la zona muerta o si hay algún offset.
 
 Otro dato relevante a nivel de arquitectura de software es que los componentes físicos se comportan como componentes auxiliares y externos, de forma que, por ejemplo,
- el PhysicsBasedFirstPersonMovement3D puede funcionar sin el componente de 'Wallrun' o el 'Dash', pero estos pueden añadirse al jugador tan solo con añadir el componente sin
+ el PhysicsBasedFirstPersonMovement3D puede funcionar sin el componente de 'wallrun' o el 'dash', pero estos pueden añadirse al jugador tan solo con añadir el componente sin
  tener que hacer más ajustes.
  
 Todos los componentes de movimiento funcionan con una máquina de estados que opera sobre el sólido rígido que constituye el cuerpo del jugador/personaje, y aplica distintas 
 fuerzas a este dependiendo del input del jugador. El movimiento normal, por ejemplo, transforma el input de un joystick en dos ejes de (-1,1) a un vector director en el que 
-aplicar la fuerza del movimiento. Por otra parte, agacharse implica forzar el estado a 'Crouching', bajar la cámara para ajustarse a la bajada de la cabeza del personaje, además de una reducción de velocidad y
+aplicar la fuerza del movimiento. Por otra parte, agacharse implica forzar el estado a 'crouching', bajar la cámara para ajustarse a la bajada de la cabeza del personaje, además de una reducción de velocidad y
 un cambio en el FOV.
 
 \section{Niveles de Prueba}
@@ -465,7 +505,9 @@ enlazado a la cámara de la escena. También se puede encontrar varios 'sprites'
 \subsection{2D Top Down Test Scene}
 Esta escena contiene un controlador de movimiento con cámara cenital, al igual que la anterior, también tiene un componente 'CameraFollower' y se puede
 controlar mediante 'WASD'. Este controlador también permite presionar espacio para hacer un 'dash'. También tiene un ejemplo de 'Interactor', que se puede
- probar presionando 'E' con la casa que se encuentra en la escena \ref{fig:2dtopDown}. También se puede ver un pequeño sprite con forma de diamante que sigue 
+ probar presionando 'E' con la casa que se encuentra en la escena \ref{fig:2dtopDown}. 
+ 
+ También se puede ver un pequeño sprite con forma de diamante que sigue 
  al ratón o se puede apuntar usando un 'joystick' de mando, este tipo de componentes se puede utilizar como guía para disparar en cierto tipo de juegos. La 
  escena también contiene una cuadrícula de sprites que utilizan el componente 'Snap to Grid' para ajustarse a esta.
 
@@ -479,9 +521,11 @@ controlar mediante 'WASD'. Este controlador también permite presionar espacio p
 \subsection{3D SideScroller + Dialogue}
 Esta escena, que permite controlar un personaje con cámara lateral en 3D, la escena cuenta con dos controladores distintos, uno basado en físicas habilitado por 
 defecto y otro que utiliza movimiento discreto que está deshabilitado (Figura \ref{fig:3dSideControllers}). Ambos controladores utilizan 'A' y 'D' para moverse a los 
-lados, espacio para saltar y 'C' para agacharse (Figura \ref{fig:3dSideMovement}). Para comenzar a moverse uno debe terminar de leer el diálogo, para 
+lados, espacio para saltar y 'C' para agacharse (Figura \ref{fig:3dSideMovement}). 
+
+Para comenzar a moverse uno debe terminar de leer el diálogo, para 
 comenzarlo el usuario debe hacer clic en 'Start Dialogue' para ver que tipo de cosas se pueden lograr con el sistema de diálogo (efectos, varias opciones, 
-etc.) (Figuras \ref{fig:3dSideEffects} \ref{fig:3dSideDialogue}). 
+etc.) (Figuras \ref{fig:3dSideEffects} y \ref{fig:3dSideDialogue}). 
 
  \begin{figure}[H]
    \centering
@@ -513,10 +557,13 @@ etc.) (Figuras \ref{fig:3dSideEffects} \ref{fig:3dSideDialogue}).
 
 \subsection{3D FPS \& TPS Controller + Save System}
 En esta escena se puede habilitar una cámara en concreto para probar el sistema de partidas guardadas mediante la pulsación de botones en pantalla (Figura 
-\ref{fig:savingUI}). Hay varios controladores de movimiento que se pueden habilitar para ver como funcionan (Figura \ref{fig:fpscontrollers}), tanto en
- primera persona (Figura \ref{fig:fpsGame}) como tercera (Figuras \ref{fig:tpsGame} y \ref{fig:isoGame}), y tanto basado en físicas como no. La primera 
- persona permite movimiento con 'WASD', salto con espacio, 'wallrun' y 'walljump', agacharse con 'control' y dash con 'C'. La tercera persona permite movimiento con 'WASD' y agacharse con 'C'. También puede ver un ejemplo de sacudida de
-  cámara y del sistema de audio funcionando al presionar el botón 'P'. 
+\ref{fig:savingUI}). 
+
+Hay varios controladores de movimiento que se pueden habilitar para ver como funcionan (Figura \ref{fig:fpscontrollers}), tanto en
+ primera persona (Figura \ref{fig:fpsGame}) como tercera (Figuras \ref{fig:tpsGame} y \ref{fig:isoGame}), y tanto basado en físicas como no. 
+ 
+ La primera persona permite movimiento con 'WASD', salto con espacio, 'wallrun' y 'walljump', agacharse con 'control' y dash con 'C'. La tercera persona permite movimiento
+  con 'WASD' y agacharse con 'C'. También puede ver un ejemplo de sacudida de cámara y del sistema de audio funcionando al presionar el botón 'P'. 
 
 \begin{figure}[H]
    \centering
